@@ -76,7 +76,7 @@ return [
 							<span style="color:var(--wp--preset--color--gold);font-size:1rem" aria-label="5 stars">★★★★★</span>
 						</div>
 					</div>
-					<p style="margin:0;font-size:0.9375rem;color:var(--wp--preset--color--muted);line-height:1.6">"Waterproofing Integrity's independence is what sets them apart. As a developer, having an advisor who has no relationship with our contractors gives us genuine peace of mind. Highly recommend."</p>
+					<p style="margin:0;font-size:0.9375rem;color:var(--wp--preset--color--muted);line-height:1.6">"Waterproofing Integrity\'s independence is what sets them apart. As a developer, having an advisor who has no relationship with our contractors gives us genuine peace of mind. Highly recommend."</p>
 					<!-- /wp:html -->
 				</div>
 				<!-- /wp:group -->
