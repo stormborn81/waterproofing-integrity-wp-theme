@@ -322,6 +322,11 @@ function wi_theme_setup(): void {
 	// Editor styles.
 	add_theme_support('editor-styles');
 
+	// Load Raleway and theme stylesheet inside the Gutenberg editor iframe.
+	// Required because wp_enqueue_scripts does not fire in the editor.
+	add_editor_style('https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700;800&display=swap');
+	add_editor_style(get_stylesheet_uri());
+
 	// Register navigation menus.
 	register_nav_menus([
 		'primary' => __('Primary Navigation', 'waterproofing-integrity'),

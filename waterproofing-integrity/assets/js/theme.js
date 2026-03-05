@@ -67,7 +67,7 @@ const initCtaClickTracking = () => {
 			event: 'cta_click',
 			event_category: 'CTA',
 			event_label: btn.textContent.trim(),
-			event_destination: btn.href || '',
+			event_destination: (e.target.closest('a') || btn.querySelector('a'))?.href || '',
 		});
 	});
 };
