@@ -47,26 +47,22 @@ body, .wp-site-blocks {
 }
 
 /* The FSE template-part renders an outer <header class="wp-block-template-part"> wrapper
-   around the inner wi-site-header group. position:sticky on the inner element is constrained
-   to its parent's height (identical height = zero sticky range). Apply sticky to the outer
-   wrapper so it sticks against the viewport scroll container.
+   around the inner wi-site-header group. Sticky and box-shadow belong on .wi-site-header
+   which is the element the browser renders and the JS targets directly.
    !important overrides any WordPress-generated position rules at higher specificity. */
-header.wp-block-template-part {
+.wi-site-header {
 	position: sticky !important;
 	top: 0 !important;
 	z-index: 100;
-	transition: box-shadow 0.25s ease;
-}
-
-header.wp-block-template-part.is-scrolled {
-	box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35) !important;
-}
-
-.wi-site-header {
 	background-color: var(--wp--preset--color--navy);
+	transition: box-shadow 0.25s ease;
 	min-height: 64px;
 	display: flex;
 	align-items: center;
+}
+
+.wi-site-header.is-scrolled {
+	box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35) !important;
 }
 
 .wi-site-header .wi-nav-inner {

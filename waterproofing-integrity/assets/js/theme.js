@@ -37,12 +37,7 @@ const pushDataLayer = (eventData) => {
 // ---------------------------------------------------------------------------
 
 const initStickyNav = () => {
-	// On the frontend the FSE renderer wraps the template part in an outer
-	// <header class="wp-block-template-part">. That outer element is the actual
-	// scroll-container ancestor we need to make sticky; the inner .wi-site-header
-	// is constrained to its parent height and can't stick on its own.
-	const header = document.querySelector('header.wp-block-template-part')
-		?? document.querySelector('.wi-site-header');
+	const header = document.querySelector('.wi-site-header');
 	if (!header) return;
 
 	const handleScroll = () => {
