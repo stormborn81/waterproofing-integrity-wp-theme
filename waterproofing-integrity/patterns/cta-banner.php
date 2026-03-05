@@ -32,7 +32,7 @@ return [
 		<div class="wp-block-buttons is-layout-flex is-content-justification-center">
 
 			<!-- wp:button {"className":"cta-button","style":{"border":{"radius":"8px"},"spacing":{"padding":{"top":"14px","bottom":"14px","left":"32px","right":"32px"}},"typography":{"fontWeight":"700","fontSize":"1rem"}},"backgroundColor":"gold","textColor":"navy"} -->
-			<div class="wp-block-button cta-button"><a class="wp-block-button__link has-navy-color has-gold-background-color has-text-color has-background wp-element-button" href="/contact/" style="border-radius:8px;padding-top:14px;padding-right:32px;padding-bottom:14px;padding-left:32px;font-weight:700;font-size:1rem">Get Expert Advice</a></div>
+			<div class="wp-block-button cta-button"><a class="wp-block-button__link cta-button has-navy-color has-gold-background-color has-text-color has-background wp-element-button" href="/contact/" style="border-radius:8px;padding-top:14px;padding-right:32px;padding-bottom:14px;padding-left:32px;font-weight:700;font-size:1rem">Get Expert Advice</a></div>
 			<!-- /wp:button -->
 
 			<!-- wp:button {"className":"","style":{"border":{"radius":"8px","width":"2px","color":"rgba(255,255,255,0.5)"},"spacing":{"padding":{"top":"12px","bottom":"12px","left":"30px","right":"30px"}},"typography":{"fontWeight":"600","fontSize":"1rem"}}} -->

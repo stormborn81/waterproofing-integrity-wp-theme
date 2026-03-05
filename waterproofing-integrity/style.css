@@ -38,9 +38,21 @@ video {
    Mobile-first: full styles apply from mobile upward.
    ========================================================================== */
 
+/* WordPress FSE sometimes sets overflow-x:hidden on body or .wp-site-blocks to prevent
+   horizontal scrollbars. overflow:hidden creates a new scroll container which breaks
+   position:sticky on all descendants. overflow-x:clip prevents the horizontal overflow
+   WITHOUT creating a new scroll container, preserving sticky behaviour. */
+body, .wp-site-blocks {
+	overflow-x: clip;
+}
+
+/* The FSE template-part renders an outer <header class="wp-block-template-part"> wrapper
+   around the inner wi-site-header group. Sticky and box-shadow belong on .wi-site-header
+   which is the element the browser renders and the JS targets directly.
+   !important overrides any WordPress-generated position rules at higher specificity. */
 .wi-site-header {
-	position: sticky;
-	top: 0;
+	position: sticky !important;
+	top: 0 !important;
 	z-index: 100;
 	background-color: var(--wp--preset--color--navy);
 	transition: box-shadow 0.25s ease;
@@ -50,7 +62,7 @@ video {
 }
 
 .wi-site-header.is-scrolled {
-	box-shadow: var(--wp--preset--shadow--nav);
+	box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35) !important;
 }
 
 .wi-site-header .wi-nav-inner {
