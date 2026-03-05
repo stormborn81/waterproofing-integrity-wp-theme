@@ -58,6 +58,17 @@ video {
 	align-items: center;
 }
 
+/* WordPress core :where(.wp-block-group.wp-block-group-is-layout-constrained) sets
+   position:relative via a zero-specificity :where() selector. A single-class rule
+   beats :where(), but position:sticky must also win over position:relative from the
+   same origin — !important is the one legitimate use here, overriding a WP core
+   layout constraint that cannot be targeted by specificity alone at this layer. */
+.wi-site-header.wp-block-group {
+	position: sticky !important;
+	top: 0 !important;
+	z-index: 100;
+}
+
 .wi-site-header.is-scrolled {
 	box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
 }
