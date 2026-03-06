@@ -58,7 +58,7 @@ add_action('wp_enqueue_scripts', 'wi_enqueue_assets');
  * Enqueue scorecard JS only on the risk scorecard page template.
  */
 function wi_enqueue_scorecard_assets(): void {
-	if ( ! is_page_template('page-risk-scorecard.html') ) {
+	if ( ! is_page_template('page-risk-scorecard') ) {
 		return;
 	}
 
