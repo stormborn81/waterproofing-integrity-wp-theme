@@ -1,0 +1,22 @@
+<!-- wp:template-part {"slug":"header","tagName":"header","theme":"waterproofing-integrity"} /-->
+
+<!-- wp:group {"tagName":"main","className":"wi-scorecard-main","layout":{"type":"default"}} -->
+<main class="wp-block-group wi-scorecard-main">
+
+	<!-- Scorecard app mount point.
+	     scorecard.js is enqueued only on this template via wi_enqueue_scorecard_assets().
+	     The app renders all four stages (Landing, Questions, Lead Gate, Results) into this div.
+	     min-height prevents layout collapse before JS initialises. -->
+	<!-- wp:html -->
+	<div id="scorecard-app" style="min-height:100vh;background:var(--wp--preset--color--navy)" aria-live="polite">
+		<!-- JS loading fallback — replaced on DOMContentLoaded -->
+		<div style="display:flex;align-items:center;justify-content:center;min-height:100vh">
+			<p style="font-family:var(--wp--preset--font-family--raleway);font-size:1rem;color:rgba(255,255,255,0.5)">Loading&#8230;</p>
+		</div>
+	</div>
+	<!-- /wp:html -->
+
+</main>
+<!-- /wp:group -->
+
+<!-- wp:template-part {"slug":"footer","tagName":"footer","theme":"waterproofing-integrity"} /-->
