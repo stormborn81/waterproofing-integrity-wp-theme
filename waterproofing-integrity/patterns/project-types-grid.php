@@ -1,7 +1,7 @@
 <?php
 /**
- * Pattern: Sector Flip Cards
- * Slug: waterproofing-integrity/sector-flip-cards
+ * Pattern: Project Types Grid — Flip Cards
+ * Slug: waterproofing-integrity/project-types-grid
  *
  * 8 CSS 3D flip cards on Navy gradient background.
  * Front: Gold icon + title + "Hover to learn more".
@@ -10,13 +10,15 @@
  * CSS classes: .wi-flip-card, .wi-flip-card__inner, .wi-flip-card__front, .wi-flip-card__back
  * (defined in style.css).
  *
+ * SESSION 3 PATTERN — included here but front-page.html will reference it in Session 3.
+ *
  * @package WaterproofingIntegrity
  */
 
 return [
-	'title'       => __( 'Sector Flip Cards', 'waterproofing-integrity' ),
+	'title'       => __( 'Project Types Grid — Flip Cards', 'waterproofing-integrity' ),
 	'description' => __( '8 CSS 3D flip cards on navy gradient — sectors served by Waterproofing Integrity.', 'waterproofing-integrity' ),
-	'keywords'    => [ 'sectors', 'flip cards', 'who we work with' ],
+	'keywords'    => [ 'sectors', 'flip cards', 'who we work with', 'project types' ],
 	'content'     => '
 <!-- wp:group {"tagName":"section","className":"wi-sectors","style":{"color":{"gradient":"linear-gradient(135deg,var(--wp--preset--color--navy) 0%,#152d4a 100%)"},"spacing":{"padding":{"top":"var(--wp--preset--spacing--2xl)","bottom":"var(--wp--preset--spacing--2xl)","left":"var(--wp--preset--spacing--md)","right":"var(--wp--preset--spacing--md)"}}}} -->
 <section class="wp-block-group wi-sectors" style="background:linear-gradient(135deg,var(--wp--preset--color--navy) 0%,#152d4a 100%);padding-top:var(--wp--preset--spacing--2xl);padding-right:var(--wp--preset--spacing--md);padding-bottom:var(--wp--preset--spacing--2xl);padding-left:var(--wp--preset--spacing--md)">

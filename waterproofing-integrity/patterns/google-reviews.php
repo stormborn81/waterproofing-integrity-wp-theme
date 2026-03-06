@@ -1,7 +1,7 @@
 <?php
 /**
- * Pattern: Testimonials — Google Reviews
- * Slug: waterproofing-integrity/testimonials
+ * Pattern: Google Reviews
+ * Slug: waterproofing-integrity/google-reviews
  *
  * White bg — 3 hardcoded Google review cards.
  * Google Reviews header with 5.0 rating and star icons.
@@ -11,7 +11,7 @@
  */
 
 return [
-	'title'       => __( 'Testimonials — Google Reviews', 'waterproofing-integrity' ),
+	'title'       => __( 'Google Reviews', 'waterproofing-integrity' ),
 	'description' => __( '3 hardcoded Google review cards with 5-star rating header and AggregateRating JSON-LD.', 'waterproofing-integrity' ),
 	'keywords'    => [ 'reviews', 'testimonials', 'google', 'social proof' ],
 	'content'     => '
@@ -33,7 +33,7 @@ return [
 					<path fill="#EA4335" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
 				</svg>
 				<span style="font-family:var(--wp--preset--font-family--raleway);font-size:2.5rem;font-weight:800;color:var(--wp--preset--color--navy)">5.0</span>
-				<span style="display:flex;gap:2px;color:var(--wp--preset--color--gold);font-size:1.5rem" aria-label="5 stars">★★★★★</span>
+				<span style="display:flex;gap:2px;color:var(--wp--preset--color--gold);font-size:1.5rem" aria-label="5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
 			</div>
 			<p style="font-size:1rem;color:var(--wp--preset--color--muted);margin:0">Rated 5 Stars on Google</p>
 		</div>
@@ -53,7 +53,7 @@ return [
 						<div style="width:44px;height:44px;border-radius:50%;background:var(--wp--preset--color--navy);display:flex;align-items:center;justify-content:center;font-family:var(--wp--preset--font-family--raleway);font-weight:700;font-size:1rem;color:#fff;flex-shrink:0">DA</div>
 						<div>
 							<p style="margin:0;font-weight:700;color:var(--wp--preset--color--navy);font-size:0.9375rem">D A</p>
-							<span style="color:var(--wp--preset--color--gold);font-size:1rem" aria-label="5 stars">★★★★★</span>
+							<span style="color:var(--wp--preset--color--gold);font-size:1rem" aria-label="5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
 						</div>
 					</div>
 					<p style="margin:0;font-size:0.9375rem;color:var(--wp--preset--color--muted);line-height:1.6">"Outstanding service from start to finish. The team at Waterproofing Integrity provided thorough independent inspections that gave us complete confidence in our project. Their detailed reports were invaluable."</p>
@@ -73,7 +73,7 @@ return [
 						<div style="width:44px;height:44px;border-radius:50%;background:var(--wp--preset--color--blue);display:flex;align-items:center;justify-content:center;font-family:var(--wp--preset--font-family--raleway);font-weight:700;font-size:1rem;color:#fff;flex-shrink:0">SM</div>
 						<div>
 							<p style="margin:0;font-weight:700;color:var(--wp--preset--color--navy);font-size:0.9375rem">Salar Mohseni</p>
-							<span style="color:var(--wp--preset--color--gold);font-size:1rem" aria-label="5 stars">★★★★★</span>
+							<span style="color:var(--wp--preset--color--gold);font-size:1rem" aria-label="5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
 						</div>
 					</div>
 					<p style="margin:0;font-size:0.9375rem;color:var(--wp--preset--color--muted);line-height:1.6">"Waterproofing Integrity\'s independence is what sets them apart. As a developer, having an advisor who has no relationship with our contractors gives us genuine peace of mind. Highly recommend."</p>
@@ -93,7 +93,7 @@ return [
 						<div style="width:44px;height:44px;border-radius:50%;background:var(--wp--preset--color--navy);display:flex;align-items:center;justify-content:center;font-family:var(--wp--preset--font-family--raleway);font-weight:700;font-size:1rem;color:#fff;flex-shrink:0">JY</div>
 						<div>
 							<p style="margin:0;font-weight:700;color:var(--wp--preset--color--navy);font-size:0.9375rem">Jamie Yiw</p>
-							<span style="color:var(--wp--preset--color--gold);font-size:1rem" aria-label="5 stars">★★★★★</span>
+							<span style="color:var(--wp--preset--color--gold);font-size:1rem" aria-label="5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
 						</div>
 					</div>
 					<p style="margin:0;font-size:0.9375rem;color:var(--wp--preset--color--muted);line-height:1.6">"Their NATA-accredited testing service identified membrane failures that would have cost hundreds of thousands to fix post-completion. Worth every dollar. The team is professional, prompt, and thorough."</p>
