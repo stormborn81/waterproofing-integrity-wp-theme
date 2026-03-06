@@ -1,0 +1,176 @@
+<!-- wp:template-part {"slug":"header","tagName":"header","theme":"waterproofing-integrity"} /-->
+
+<!-- wp:group {"tagName":"main","className":"wi-single-case-study","layout":{"type":"default"}} -->
+<main class="wp-block-group wi-single-case-study">
+
+	<!-- =====================================================================
+	     HERO — Navy gradient, dynamic post title + sector badge
+	     ===================================================================== -->
+	<!-- wp:group {"tagName":"section","className":"wi-page-hero wi-case-study-hero","style":{"color":{"gradient":"linear-gradient(135deg,hsla(218,47%,16%,0.97) 0%,hsla(218,47%,22%,0.95) 100%)"},"spacing":{"padding":{"top":"96px","bottom":"72px","left":"var(--wp--preset--spacing--md)","right":"var(--wp--preset--spacing--md)"}}},"layout":{"type":"default"}} -->
+	<section class="wp-block-group wi-page-hero wi-case-study-hero" style="background:linear-gradient(135deg,hsla(218,47%,16%,0.97) 0%,hsla(218,47%,22%,0.95) 100%);padding-top:96px;padding-right:var(--wp--preset--spacing--md);padding-bottom:72px;padding-left:var(--wp--preset--spacing--md)">
+
+		<!-- wp:group {"layout":{"type":"constrained","contentSize":"900px"}} -->
+		<div class="wp-block-group">
+
+			<!-- Sector taxonomy badge -->
+			<!-- wp:post-terms {"term":"sector","style":{"typography":{"fontWeight":"700","fontSize":"0.75rem","letterSpacing":"0.08em","textTransform":"uppercase"},"spacing":{"margin":{"bottom":"16px","top":"0"}}},"textColor":"gold"} /-->
+
+			<!-- Dynamic post title -->
+			<!-- wp:post-title {"textAlign":"center","level":1,"style":{"typography":{"fontWeight":"800","lineHeight":"1.15","fontSize":"clamp(24px,3.5vw,44px)"},"color":{"text":"#ffffff"},"spacing":{"margin":{"bottom":"0","top":"0"}}}} /-->
+
+		</div>
+		<!-- /wp:group -->
+
+	</section>
+	<!-- /wp:group -->
+
+	<!-- =====================================================================
+	     2-COLUMN CONTENT AREA — 8/12 article + 4/12 ACF sidebar
+	     ===================================================================== -->
+	<!-- wp:group {"tagName":"div","className":"wi-case-study-content-area","style":{"color":{"background":"#f9fafb"},"spacing":{"padding":{"top":"var(--wp--preset--spacing--2xl)","bottom":"var(--wp--preset--spacing--2xl)","left":"var(--wp--preset--spacing--md)","right":"var(--wp--preset--spacing--md)"}}},"layout":{"type":"default"}} -->
+	<div class="wp-block-group wi-case-study-content-area" style="background:#f9fafb;padding-top:var(--wp--preset--spacing--2xl);padding-right:var(--wp--preset--spacing--md);padding-bottom:var(--wp--preset--spacing--2xl);padding-left:var(--wp--preset--spacing--md)">
+
+		<!-- wp:group {"layout":{"type":"constrained","contentSize":"1200px"}} -->
+		<div class="wp-block-group">
+
+			<!-- wp:columns {"isStackedOnMobile":true,"style":{"spacing":{"blockGap":"var(--wp--preset--spacing--xl)"}}} -->
+			<div class="wp-block-columns is-layout-flex">
+
+				<!-- MAIN CONTENT — 8/12 -->
+				<!-- wp:column {"width":"66.66%"} -->
+				<div class="wp-block-column" style="flex-basis:66.66%">
+
+					<!-- wp:group {"className":"wi-case-study-body","style":{"color":{"background":"#ffffff"},"border":{"radius":"8px","width":"1px","color":"var(--wp--preset--color--border)"},"spacing":{"padding":{"top":"var(--wp--preset--spacing--xl)","bottom":"var(--wp--preset--spacing--xl)","left":"var(--wp--preset--spacing--xl)","right":"var(--wp--preset--spacing--xl)"}}}} -->
+					<div class="wp-block-group wi-case-study-body" style="background:#ffffff;border-radius:8px;border:1px solid var(--wp--preset--color--border);padding:var(--wp--preset--spacing--xl)">
+
+						<!-- wp:post-featured-image {"style":{"border":{"radius":"8px"}},"aspectRatio":"16/9","loading":"lazy"} /-->
+
+						<!-- wp:spacer {"height":"var(--wp--preset--spacing--lg)"} -->
+						<div style="height:var(--wp--preset--spacing--lg)" aria-hidden="true" class="wp-block-spacer"></div>
+						<!-- /wp:spacer -->
+
+						<!-- wp:post-content {"layout":{"type":"constrained"}} /-->
+
+					</div>
+					<!-- /wp:group -->
+
+				</div>
+				<!-- /wp:column -->
+
+				<!-- SIDEBAR — 4/12
+				     ACF fields: register the following in ACF Pro then replace the
+				     placeholder dl items with ACF field blocks:
+				       wi_project_type, wi_project_location, wi_completion_year,
+				       wi_project_value (optional), wi_scope_summary -->
+				<!-- wp:column {"width":"33.33%"} -->
+				<div class="wp-block-column" style="flex-basis:33.33%">
+
+					<!-- wp:html -->
+					<div class="wi-case-study-sidebar" style="background:#ffffff;border:1px solid var(--wp--preset--color--border);border-radius:8px;padding:28px 24px;position:sticky;top:100px">
+
+						<h3 style="font-family:var(--wp--preset--font-family--raleway);font-weight:700;font-size:0.75rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--wp--preset--color--navy);margin:0 0 20px 0;padding-bottom:16px;border-bottom:1px solid var(--wp--preset--color--border)">Project Details</h3>
+
+						<dl style="margin:0;display:flex;flex-direction:column;gap:16px">
+
+							<div>
+								<dt style="font-family:var(--wp--preset--font-family--raleway);font-weight:700;font-size:0.6875rem;letter-spacing:0.06em;text-transform:uppercase;color:var(--wp--preset--color--muted);margin-bottom:4px">Project Type</dt>
+								<dd style="font-size:0.9375rem;color:var(--wp--preset--color--navy);margin:0;font-weight:500"><!-- ACF: wi_project_type --></dd>
+							</div>
+
+							<div>
+								<dt style="font-family:var(--wp--preset--font-family--raleway);font-weight:700;font-size:0.6875rem;letter-spacing:0.06em;text-transform:uppercase;color:var(--wp--preset--color--muted);margin-bottom:4px">Location</dt>
+								<dd style="font-size:0.9375rem;color:var(--wp--preset--color--navy);margin:0;font-weight:500"><!-- ACF: wi_project_location --></dd>
+							</div>
+
+							<div>
+								<dt style="font-family:var(--wp--preset--font-family--raleway);font-weight:700;font-size:0.6875rem;letter-spacing:0.06em;text-transform:uppercase;color:var(--wp--preset--color--muted);margin-bottom:4px">Completion</dt>
+								<dd style="font-size:0.9375rem;color:var(--wp--preset--color--navy);margin:0;font-weight:500"><!-- ACF: wi_completion_year --></dd>
+							</div>
+
+							<div>
+								<dt style="font-family:var(--wp--preset--font-family--raleway);font-weight:700;font-size:0.6875rem;letter-spacing:0.06em;text-transform:uppercase;color:var(--wp--preset--color--muted);margin-bottom:4px">Scope</dt>
+								<dd style="font-size:0.9375rem;color:var(--wp--preset--color--navy);margin:0;line-height:1.6;font-weight:500"><!-- ACF: wi_scope_summary --></dd>
+							</div>
+
+						</dl>
+
+						<div style="margin-top:28px;padding-top:24px;border-top:1px solid var(--wp--preset--color--border)">
+							<p style="font-family:var(--wp--preset--font-family--raleway);font-weight:600;font-size:0.875rem;color:var(--wp--preset--color--muted);margin:0 0 12px 0">Need a similar outcome?</p>
+							<a href="/contact/" class="cta-button" style="display:flex;align-items:center;justify-content:center;gap:8px;background:var(--wp--preset--color--navy);color:#ffffff;font-family:var(--wp--preset--font-family--raleway);font-weight:700;font-size:0.875rem;padding:11px 20px;border-radius:4px;text-decoration:none;box-sizing:border-box">Get Expert Advice &#8594;</a>
+							<p style="font-size:0.8125rem;color:var(--wp--preset--color--muted);text-align:center;margin:10px 0 0 0">or call <a href="tel:1300025944" class="tel-link" style="color:var(--wp--preset--color--navy);font-weight:600;text-decoration:none">1300 025 944</a></p>
+						</div>
+
+					</div>
+					<!-- /wp:html -->
+
+				</div>
+				<!-- /wp:column -->
+
+			</div>
+			<!-- /wp:columns -->
+
+		</div>
+		<!-- /wp:group -->
+
+	</div>
+	<!-- /wp:group -->
+
+	<!-- =====================================================================
+	     CTA BANNER
+	     ===================================================================== -->
+	<!-- wp:pattern {"slug":"waterproofing-integrity/cta-banner"} /-->
+
+	<!-- =====================================================================
+	     RELATED CASE STUDIES — 3-col grid, latest 3 case studies
+	     TODO: extend with PHP to filter by same sector taxonomy term.
+	     ===================================================================== -->
+	<!-- wp:group {"tagName":"section","className":"wi-related-cases","style":{"color":{"background":"var(--wp--preset--color--light-grey)"},"spacing":{"padding":{"top":"var(--wp--preset--spacing--2xl)","bottom":"var(--wp--preset--spacing--2xl)","left":"var(--wp--preset--spacing--md)","right":"var(--wp--preset--spacing--md)"}}},"layout":{"type":"default"}} -->
+	<section class="wp-block-group wi-related-cases" style="background:var(--wp--preset--color--light-grey);padding-top:var(--wp--preset--spacing--2xl);padding-right:var(--wp--preset--spacing--md);padding-bottom:var(--wp--preset--spacing--2xl);padding-left:var(--wp--preset--spacing--md)">
+
+		<!-- wp:group {"layout":{"type":"constrained","contentSize":"1200px"}} -->
+		<div class="wp-block-group">
+
+			<!-- wp:heading {"level":2,"textColor":"navy","style":{"typography":{"fontWeight":"700","fontSize":"1.5rem"},"spacing":{"margin":{"top":"0","bottom":"var(--wp--preset--spacing--xl)"}}}} -->
+			<h2 class="wp-block-heading has-navy-color has-text-color" style="font-weight:700;font-size:1.5rem;margin-top:0;margin-bottom:var(--wp--preset--spacing--xl)">Related Case Studies</h2>
+			<!-- /wp:heading -->
+
+			<!-- wp:query {"queryId":1,"query":{"postType":"case-study","perPage":3,"inherit":false,"orderBy":"date","order":"desc"},"namespace":"core/query"} -->
+			<div class="wp-block-query">
+
+				<!-- wp:post-template {"layout":{"type":"grid","columnCount":3}} -->
+
+					<!-- wp:group {"className":"wi-case-study-card","style":{"border":{"radius":"8px","width":"1px","color":"var(--wp--preset--color--border)"},"color":{"background":"#ffffff"},"spacing":{"padding":{"top":"0","bottom":"0","left":"0","right":"0"}}},"layout":{"type":"default"}} -->
+					<div class="wp-block-group wi-case-study-card" style="border-radius:8px;border:1px solid var(--wp--preset--color--border);background:#ffffff">
+
+						<!-- wp:post-featured-image {"isLink":true,"aspectRatio":"16/9","width":"100%","loading":"lazy"} /-->
+
+						<!-- wp:group {"style":{"spacing":{"padding":{"top":"20px","bottom":"24px","left":"20px","right":"20px"}}}} -->
+						<div class="wp-block-group" style="padding:20px 20px 24px">
+
+							<!-- wp:post-terms {"term":"sector","style":{"typography":{"fontWeight":"700","fontSize":"0.6875rem","letterSpacing":"0.08em","textTransform":"uppercase"},"spacing":{"margin":{"bottom":"8px","top":"0"}}},"textColor":"blue"} /-->
+
+							<!-- wp:post-title {"isLink":true,"level":3,"style":{"typography":{"fontWeight":"700","fontSize":"1.0625rem","lineHeight":"1.35"},"spacing":{"margin":{"top":"0","bottom":"10px"}}},"textColor":"navy"} /-->
+
+							<!-- wp:read-more {"content":"Read Case Study \u2192","style":{"typography":{"fontWeight":"700","fontSize":"0.9375rem"}},"textColor":"blue"} /-->
+
+						</div>
+						<!-- /wp:group -->
+
+					</div>
+					<!-- /wp:group -->
+
+				<!-- /wp:post-template -->
+
+			</div>
+			<!-- /wp:query -->
+
+		</div>
+		<!-- /wp:group -->
+
+	</section>
+	<!-- /wp:group -->
+
+</main>
+<!-- /wp:group -->
+
+<!-- wp:template-part {"slug":"footer","tagName":"footer","theme":"waterproofing-integrity"} /-->

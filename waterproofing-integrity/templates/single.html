@@ -1,0 +1,88 @@
+<!-- wp:template-part {"slug":"header","tagName":"header","theme":"waterproofing-integrity"} /-->
+
+<!-- wp:group {"tagName":"main","className":"wi-single-post","layout":{"type":"default"}} -->
+<main class="wp-block-group wi-single-post">
+
+	<!-- =====================================================================
+	     FEATURED IMAGE HERO — wp:cover with useFeaturedImage.
+	     Falls back to navy overlay when no featured image is set.
+	     dimRatio:60 gives enough contrast for white text on any image.
+	     ===================================================================== -->
+	<!-- wp:cover {"useFeaturedImage":true,"dimRatio":60,"overlayColor":"navy","minHeight":460,"contentPosition":"bottom center","className":"wi-post-hero","style":{"spacing":{"padding":{"top":"96px","bottom":"56px","left":"var(--wp--preset--spacing--md)","right":"var(--wp--preset--spacing--md)"}}}} -->
+	<div class="wp-block-cover wi-post-hero is-position-bottom-center has-navy-background-color" style="min-height:460px;padding-top:96px;padding-right:var(--wp--preset--spacing--md);padding-bottom:56px;padding-left:var(--wp--preset--spacing--md)">
+		<span aria-hidden="true" class="wp-block-cover__background has-navy-background-color has-background-dim-60 has-background-dim"></span>
+		<div class="wp-block-cover__image-background" role="img" style="object-fit:cover" data-object-fit="cover"></div>
+		<div class="wp-block-cover__inner-container is-layout-flow">
+
+			<!-- wp:group {"layout":{"type":"constrained","contentSize":"760px"}} -->
+			<div class="wp-block-group">
+
+				<!-- Category badge -->
+				<!-- wp:post-terms {"term":"category","style":{"typography":{"fontWeight":"700","fontSize":"0.75rem","letterSpacing":"0.08em","textTransform":"uppercase"},"spacing":{"margin":{"bottom":"12px","top":"0"}}},"textColor":"gold"} /-->
+
+				<!-- Dynamic post title -->
+				<!-- wp:post-title {"textAlign":"center","level":1,"style":{"typography":{"fontWeight":"800","lineHeight":"1.2","fontSize":"clamp(22px,3.5vw,40px)"},"color":{"text":"#ffffff"},"spacing":{"margin":{"bottom":"16px","top":"0"}}}} /-->
+
+				<!-- Post date + category meta row -->
+				<!-- wp:group {"layout":{"type":"flex","flexWrap":"nowrap","justifyContent":"center","verticalAlignment":"center"},"style":{"spacing":{"blockGap":"12px"}}} -->
+				<div class="wp-block-group is-layout-flex is-content-justification-center is-vertical-alignment-center" style="gap:12px">
+
+					<!-- wp:post-date {"style":{"typography":{"fontSize":"0.875rem"},"color":{"text":"rgba(255,255,255,0.7)"}}} /-->
+
+					<!-- wp:html --><span aria-hidden="true" style="color:rgba(255,255,255,0.35);font-size:0.875rem">&#124;</span><!-- /wp:html -->
+
+					<!-- wp:post-terms {"term":"category","style":{"typography":{"fontSize":"0.875rem"},"color":{"text":"rgba(255,255,255,0.7)"}}} /-->
+
+				</div>
+				<!-- /wp:group -->
+
+			</div>
+			<!-- /wp:group -->
+
+		</div>
+	</div>
+	<!-- /wp:cover -->
+
+	<!-- =====================================================================
+	     POST CONTENT — max 760px, centred, white bg
+	     ===================================================================== -->
+	<!-- wp:group {"tagName":"section","className":"wi-post-content-area","style":{"color":{"background":"#ffffff"},"spacing":{"padding":{"top":"var(--wp--preset--spacing--2xl)","bottom":"var(--wp--preset--spacing--2xl)","left":"var(--wp--preset--spacing--md)","right":"var(--wp--preset--spacing--md)"}}},"layout":{"type":"default"}} -->
+	<section class="wp-block-group wi-post-content-area" style="background:#ffffff;padding-top:var(--wp--preset--spacing--2xl);padding-right:var(--wp--preset--spacing--md);padding-bottom:var(--wp--preset--spacing--2xl);padding-left:var(--wp--preset--spacing--md)">
+
+		<!-- wp:group {"layout":{"type":"constrained","contentSize":"760px"}} -->
+		<div class="wp-block-group">
+
+			<!-- wp:post-content {"layout":{"type":"constrained","contentSize":"760px"}} /-->
+
+			<!-- wp:spacer {"height":"var(--wp--preset--spacing--lg)"} -->
+			<div style="height:var(--wp--preset--spacing--lg)" aria-hidden="true" class="wp-block-spacer"></div>
+			<!-- /wp:spacer -->
+
+			<!-- Post footer: tags + back link -->
+			<!-- wp:group {"layout":{"type":"flex","flexWrap":"wrap","justifyContent":"space-between","verticalAlignment":"center"},"style":{"border":{"top":{"color":"var(--wp--preset--color--border)","width":"1px"}},"spacing":{"padding":{"top":"var(--wp--preset--spacing--md)"}}}} -->
+			<div class="wp-block-group is-layout-flex is-content-justification-space-between" style="border-top:1px solid var(--wp--preset--color--border);padding-top:var(--wp--preset--spacing--md)">
+
+				<!-- wp:post-terms {"term":"post_tag","prefix":"Tagged: ","style":{"typography":{"fontSize":"0.875rem"}},"textColor":"muted"} /-->
+
+				<!-- wp:html -->
+				<a href="/insights/" style="font-family:var(--wp--preset--font-family--raleway);font-weight:600;font-size:0.875rem;color:var(--wp--preset--color--navy);text-decoration:none">&#8592; Back to Insights</a>
+				<!-- /wp:html -->
+
+			</div>
+			<!-- /wp:group -->
+
+		</div>
+		<!-- /wp:group -->
+
+	</section>
+	<!-- /wp:group -->
+
+	<!-- =====================================================================
+	     CTA BANNER
+	     ===================================================================== -->
+	<!-- wp:pattern {"slug":"waterproofing-integrity/cta-banner"} /-->
+
+</main>
+<!-- /wp:group -->
+
+<!-- wp:template-part {"slug":"footer","tagName":"footer","theme":"waterproofing-integrity"} /-->

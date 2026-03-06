@@ -1,0 +1,87 @@
+<!-- wp:template-part {"slug":"header","tagName":"header","theme":"waterproofing-integrity"} /-->
+
+<!-- wp:group {"tagName":"main","className":"wi-single-team-member","layout":{"type":"default"}} -->
+<main class="wp-block-group wi-single-team-member">
+
+	<!-- =====================================================================
+	     TEAM MEMBER PROFILE — 2-col: headshot (5/12) + bio details (7/12)
+	     ACF fields: wi_member_role, wi_member_qualifications, wi_member_linkedin
+	     ===================================================================== -->
+	<!-- wp:group {"tagName":"section","className":"wi-team-member-profile","style":{"color":{"background":"#f9fafb"},"spacing":{"padding":{"top":"var(--wp--preset--spacing--2xl)","bottom":"var(--wp--preset--spacing--2xl)","left":"var(--wp--preset--spacing--md)","right":"var(--wp--preset--spacing--md)"}}},"layout":{"type":"default"}} -->
+	<section class="wp-block-group wi-team-member-profile" style="background:#f9fafb;padding-top:var(--wp--preset--spacing--2xl);padding-right:var(--wp--preset--spacing--md);padding-bottom:var(--wp--preset--spacing--2xl);padding-left:var(--wp--preset--spacing--md)">
+
+		<!-- wp:group {"layout":{"type":"constrained","contentSize":"1000px"}} -->
+		<div class="wp-block-group">
+
+			<!-- wp:columns {"isStackedOnMobile":true,"style":{"spacing":{"blockGap":"var(--wp--preset--spacing--2xl)"}}} -->
+			<div class="wp-block-columns is-layout-flex">
+
+				<!-- HEADSHOT — 5/12 -->
+				<!-- wp:column {"width":"41.66%"} -->
+				<div class="wp-block-column" style="flex-basis:41.66%">
+
+					<!-- wp:post-featured-image {"style":{"border":{"radius":"8px"}},"aspectRatio":"3/4","width":"100%","loading":"lazy"} /-->
+
+				</div>
+				<!-- /wp:column -->
+
+				<!-- BIO + DETAILS — 7/12 -->
+				<!-- wp:column {"width":"58.33%"} -->
+				<div class="wp-block-column" style="flex-basis:58.33%">
+
+					<!-- wp:post-title {"level":1,"style":{"typography":{"fontWeight":"800","fontSize":"clamp(22px,3vw,36px)","lineHeight":"1.2"},"spacing":{"margin":{"top":"0","bottom":"8px"}}},"textColor":"navy"} /-->
+
+					<!-- wp:html -->
+					<!--
+					 * ACF FIELDS — replace placeholder elements with ACF field blocks
+					 * once ACF Pro is configured with:
+					 *   wi_member_role, wi_member_qualifications (comma-separated),
+					 *   wi_member_linkedin
+					 -->
+					<p style="font-family:var(--wp--preset--font-family--raleway);font-weight:600;font-size:1rem;color:var(--wp--preset--color--gold);margin:0 0 16px 0">
+						<!-- ACF: wi_member_role -->
+					</p>
+
+					<!-- Qualification pills: ACF wi_member_qualifications as comma-separated list.
+					     Render each as a pill via PHP/ACF once configured. -->
+					<div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:24px">
+						<!-- ACF: wi_member_qualifications (each item rendered as a pill below) -->
+						<span style="display:inline-block;font-family:var(--wp--preset--font-family--raleway);font-weight:600;font-size:0.75rem;letter-spacing:0.06em;text-transform:uppercase;color:var(--wp--preset--color--navy);background:#ffffff;border:1.5px solid var(--wp--preset--color--border);border-radius:100px;padding:5px 14px">BSc (Hons)</span>
+					</div>
+
+					<hr style="border:none;border-top:1px solid var(--wp--preset--color--border);margin:0 0 24px 0">
+					<!-- /wp:html -->
+
+					<!-- wp:post-content {"layout":{"type":"constrained","contentSize":"560px"},"style":{"typography":{"fontSize":"0.9375rem"}}} /-->
+
+					<!-- wp:html -->
+					<div style="margin-top:28px;padding-top:24px;border-top:1px solid var(--wp--preset--color--border)">
+						<!-- LinkedIn — replace href with ACF wi_member_linkedin field value -->
+						<a href="#" style="display:inline-flex;align-items:center;gap:8px;font-family:var(--wp--preset--font-family--raleway);font-weight:600;font-size:0.9375rem;color:var(--wp--preset--color--navy);text-decoration:none;transition:opacity 0.15s">
+							<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+							Connect on LinkedIn
+						</a>
+					</div>
+					<!-- /wp:html -->
+
+				</div>
+				<!-- /wp:column -->
+
+			</div>
+			<!-- /wp:columns -->
+
+		</div>
+		<!-- /wp:group -->
+
+	</section>
+	<!-- /wp:group -->
+
+	<!-- =====================================================================
+	     CTA BANNER
+	     ===================================================================== -->
+	<!-- wp:pattern {"slug":"waterproofing-integrity/cta-banner"} /-->
+
+</main>
+<!-- /wp:group -->
+
+<!-- wp:template-part {"slug":"footer","tagName":"footer","theme":"waterproofing-integrity"} /-->
