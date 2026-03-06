@@ -198,6 +198,70 @@ const initFlipCardTouch = () => {
 };
 
 // ---------------------------------------------------------------------------
+// Anchor scroll: handle /?scroll=section-id query param
+// Smoothly scrolls to the element with id matching the scroll param value.
+// Usage: link to /?scroll=design to scroll to <section id="design">
+// ---------------------------------------------------------------------------
+
+const initAnchorScroll = () => {
+	const params = new URLSearchParams(window.location.search);
+	const target = params.get('scroll');
+	if (!target) return;
+
+	const el = document.getElementById(target);
+	if (!el) return;
+
+	// Wait one frame so layout is complete before scrolling
+	requestAnimationFrame(() => {
+		el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+	});
+};
+
+// ---------------------------------------------------------------------------
+// Flip card: remove focus on outside tap (enables :focus-within CSS flip)
+// Desktop hover handled entirely in CSS.
+// ---------------------------------------------------------------------------
+
+const initFlipCardFocusAway = () => {
+	document.addEventListener('click', (e) => {
+		const cards = document.querySelectorAll('.wi-flip-card');
+		cards.forEach((card) => {
+			if (!card.contains(e.target) && document.activeElement === card) {
+				card.blur();
+			}
+		});
+	});
+};
+
+// ---------------------------------------------------------------------------
+// GTM: Zoho form submission via postMessage
+// Zoho iframes fire a postMessage when a form is submitted.
+// ---------------------------------------------------------------------------
+
+const initZohoFormTracking = () => {
+	window.addEventListener('message', (e) => {
+		// Zoho Forms postMessage payload contains 'zoho' in the origin or data
+		if (!e.data || typeof e.data !== 'string') return;
+
+		let payload;
+		try {
+			payload = JSON.parse(e.data);
+		} catch {
+			return;
+		}
+
+		// Zoho sends { action: 'formSubmit', formName: '...' } or similar
+		if (payload.action === 'formSubmit' || payload.event === 'formSubmit') {
+			pushDataLayer({
+				event: 'zoho_form_submitted',
+				event_category: 'Form',
+				event_label: payload.formName || payload.form_name || 'zoho-form',
+			});
+		}
+	});
+};
+
+// ---------------------------------------------------------------------------
 // Mobile navigation: close overlay on outside click
 // ---------------------------------------------------------------------------
 
@@ -227,7 +291,10 @@ const init = () => {
 	initOutboundLinkTracking();
 	initScrollDepthTracking();
 	initFlipCardTouch();
+	initFlipCardFocusAway();
 	initNavOverlayClose();
+	initAnchorScroll();
+	initZohoFormTracking();
 };
 
 if (document.readyState === 'loading') {
