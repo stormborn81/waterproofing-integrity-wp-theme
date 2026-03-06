@@ -5,20 +5,32 @@
  * Enqueued only on page-risk-scorecard.html template.
  *
  * Stages:
- *   1. Landing   — Navy hero, headline, Start button
- *   2. Questions — 10 questions, one at a time, gold progress bar, sessionStorage
- *   3. Lead Gate — Form with client-side validation, POST to Zoho CRM API
- *   4. Results   — Category score bars, risk badge, recommended services, CTA
+ *   1. Landing     — Navy hero, headline, Start button
+ *   2. Questions   — 10 questions one at a time, gold progress bar, sessionStorage
+ *   3. Calculating — 2-second spinner transition
+ *   4. Lead Gate   — Form with client-side validation, POST to Zoho function
+ *   5. Results     — Category score bars, risk badge, recommended services, CTA
  *
- * GTM events fired:
- *   scorecard_started        — Stage 1 → 2
- *   scorecard_question_answered — each answer selected
- *   scorecard_lead_submitted — Stage 3 form POST success
- *   scorecard_completed      — Stage 4 rendered (includes risk_level)
- *   scorecard_cta_clicked    — Results CTA clicked
+ * Question data ported exactly from:
+ *   src/components/scorecard/scorecardData.ts (stormborn81/water-tight-resolve)
  *
- * TODO: Replace PLACEHOLDER_ZOHO_API_ENDPOINT and PLACEHOLDER_API_KEY
- *       with your Zoho CRM API endpoint and OAuth access token.
+ * Scoring logic ported exactly from scorecardData.ts:
+ *   - Each scored answer: 0, 8, 17, or 25 points
+ *   - 8 scored questions across 4 categories, max raw = 200
+ *   - getTotalScore: Math.round( raw / 200 * 100 ) → 0–100
+ *   - getRiskLevel: >= 75 = low, >= 40 = moderate, < 40 = high
+ *   - getRecommendedServices: category < 38 triggers service recommendation
+ *   - Q9 (role) and Q10 (project stage) are qualifying — no score, CRM only
+ *
+ * GTM events fired (matching source event names):
+ *   scorecard_started
+ *   scorecard_question_answered  { question_number, category, answer }
+ *   scorecard_form_viewed        { total_time_in_assessment }
+ *   scorecard_form_submitted     { role_segment, project_stage }
+ *   scorecard_results_viewed     { total_score, risk_level }
+ *   scorecard_cta_clicked        { risk_level, total_score }
+ *
+ * Zoho endpoint: replace PLACEHOLDER in ZOHO_API_URL with real zapikey.
  */
 
 ( function () {
@@ -28,217 +40,243 @@
 	// CONFIG
 	// =========================================================================
 
-	/** @type {string} Replace with Zoho CRM Leads endpoint */
-	var ZOHO_API_ENDPOINT = 'PLACEHOLDER_ZOHO_API_ENDPOINT';
+	var ZOHO_API_URL = 'https://www.zohoapis.com.au/crm/v2/functions/wi_scorecard_lead/actions/execute?auth_type=apikey&zapikey=PLACEHOLDER';
 
-	/** @type {string} Replace with Zoho OAuth access token */
-	var ZOHO_API_KEY = 'PLACEHOLDER_API_KEY';
-
-	var SESSION_KEY = 'wi_scorecard';
+	var SESSION_KEY = 'wi_scorecard_state';
 
 	// =========================================================================
-	// QUESTION DATA
-	// TODO: Replace all questions and options below with data ported from
-	//       src/components/scorecard/scorecardData.ts
-	//
-	// Data shape expected:
-	//   { id, category, question, options: [{ text, score }] }
-	//
-	// CATEGORIES must match the unique category strings used in QUESTIONS.
+	// QUESTION DATA — ported verbatim from scorecardData.ts
 	// =========================================================================
-
-	var CATEGORIES = [
-		'Project Scope',
-		'Design & Specification',
-		'Construction & Oversight',
-		'Risk Factors',
-	];
 
 	var QUESTIONS = [
-		// ---- Category: Project Scope ----------------------------------------
 		{
 			id: 1,
-			category: 'Project Scope',
-			question: 'What type of project are you assessing?',
-			options: [
-				{ text: 'New construction', score: 1 },
-				{ text: 'Major renovation or fitout', score: 2 },
-				{ text: 'Existing building with known issues', score: 3 },
-				{ text: 'Post-handover defect dispute', score: 4 },
+			category: 'DESIGN RISK',
+			categoryKey: 'design',
+			question: 'Who designed the waterproofing for your current or upcoming project?',
+			context: '68% of waterproofing failures originate in design, not installation.',
+			answers: [
+				{ label: 'An independent waterproofing consultant (separate from the installer)', score: 25 },
+				{ label: 'The project architect or hydraulic engineer included it in their scope', score: 17 },
+				{ label: 'The waterproofing installer will design and install', score: 8 },
+				{ label: "I'm not sure / No one has specifically designed it", score: 0 },
 			],
 		},
 		{
 			id: 2,
-			category: 'Project Scope',
-			question: 'What is the approximate construction value?',
-			options: [
-				{ text: 'Under $1 million', score: 1 },
-				{ text: '$1 million – $10 million', score: 2 },
-				{ text: '$10 million – $50 million', score: 3 },
-				{ text: 'Over $50 million', score: 4 },
+			category: 'DESIGN RISK',
+			categoryKey: 'design',
+			question: 'Has your waterproofing design been reviewed against AS 3740 and AS 4654?',
+			context: 'Non-compliant designs can void insurance, delay approvals, and trigger rectification orders.',
+			answers: [
+				{ label: 'Yes \u2014 independently reviewed and certified compliant', score: 25 },
+				{ label: "The designer says it complies but it hasn't been independently checked", score: 17 },
+				{ label: "I'm not sure which standards apply to my project", score: 8 },
+				{ label: 'No formal design review has been done', score: 0 },
 			],
 		},
 		{
 			id: 3,
-			category: 'Project Scope',
-			question: 'How many separate waterproofing zones does the project contain?',
-			options: [
-				{ text: '1 – 5 zones', score: 1 },
-				{ text: '6 – 20 zones', score: 2 },
-				{ text: '21 – 50 zones', score: 3 },
-				{ text: 'Over 50 zones', score: 4 },
+			category: 'CONSTRUCTION RISK',
+			categoryKey: 'construction',
+			question: 'Who inspects waterproofing at critical hold points during construction?',
+			context: 'A single missed hold point can result in defects costing $50K\u2013$500K+ to rectify.',
+			answers: [
+				{ label: 'An independent waterproofing inspector (not the installer or builder)', score: 25 },
+				{ label: 'The site supervisor or project manager checks it', score: 17 },
+				{ label: 'The waterproofing installer self-certifies their own work', score: 8 },
+				{ label: 'No formal inspection process is in place', score: 0 },
 			],
 		},
-		// ---- Category: Design & Specification --------------------------------
 		{
 			id: 4,
-			category: 'Design & Specification',
-			question: 'Has an independent waterproofing specification been prepared for this project?',
-			options: [
-				{ text: 'Yes, prepared and reviewed independently', score: 1 },
-				{ text: 'Yes, but prepared by the waterproofing contractor', score: 3 },
-				{ text: 'No — only product data sheets are referenced', score: 4 },
-				{ text: 'Unsure', score: 3 },
+			category: 'CONSTRUCTION RISK',
+			categoryKey: 'construction',
+			question: 'How many independent inspections occur per waterproofing stage?',
+			context: 'Projects with 3+ independent inspections per stage have 94% fewer post-completion defects.',
+			answers: [
+				{ label: '3 or more \u2014 pre-application, during application, and post-cure', score: 25 },
+				{ label: '1\u20132 inspections at key milestones', score: 17 },
+				{ label: 'One final sign-off at completion only', score: 8 },
+				{ label: "None \u2014 or I don't know", score: 0 },
 			],
 		},
 		{
 			id: 5,
-			category: 'Design & Specification',
-			question: 'Are waterproofing details shown at all penetrations, upstands, and transitions in the drawings?',
-			options: [
-				{ text: 'Yes, fully detailed at every interface', score: 1 },
-				{ text: 'Partially — some details are missing', score: 2 },
-				{ text: 'No detailed drawings for waterproofing', score: 4 },
-				{ text: 'Unsure', score: 3 },
+			category: 'COMPLIANCE RISK',
+			categoryKey: 'compliance',
+			question: 'Has your waterproofing been independently tested (e.g. flood test, electronic leak detection)?',
+			context: 'Visual inspection alone misses up to 40% of membrane failures. Testing gives you evidence, not opinion.',
+			answers: [
+				{ label: 'Yes \u2014 NATA-accredited independent testing has been completed', score: 25 },
+				{ label: 'Testing was done by the installer or builder', score: 17 },
+				{ label: "Testing is planned but hasn't happened yet", score: 8 },
+				{ label: 'No testing has been done or is planned', score: 0 },
 			],
 		},
 		{
 			id: 6,
-			category: 'Design & Specification',
-			question: 'Which Australian Standards are referenced in the waterproofing specification?',
-			options: [
-				{ text: 'AS 4654 and AS 3740 both referenced', score: 1 },
-				{ text: 'One standard referenced only', score: 2 },
-				{ text: 'No Australian Standard referenced', score: 4 },
-				{ text: 'Unsure', score: 3 },
+			category: 'COMPLIANCE RISK',
+			categoryKey: 'compliance',
+			question: 'Do you have documented evidence of waterproofing compliance for every wet area and external membrane?',
+			context: 'Without documentation, warranty claims fail, insurance claims are rejected, and rectification liability falls on you.',
+			answers: [
+				{ label: 'Yes \u2014 full compliance documentation, independently verified', score: 25 },
+				{ label: "Some documentation exists but it's incomplete or unverified", score: 17 },
+				{ label: 'The installer provided product warranties only', score: 8 },
+				{ label: 'No formal compliance documentation exists', score: 0 },
 			],
 		},
-		// ---- Category: Construction & Oversight ------------------------------
 		{
 			id: 7,
-			category: 'Construction & Oversight',
-			question: 'Is independent inspection planned at each waterproofing installation stage?',
-			options: [
-				{ text: 'Yes, by a NATA-accredited independent inspector', score: 1 },
-				{ text: 'Yes, by the project manager or superintendent only', score: 2 },
-				{ text: 'No formal independent inspection is planned', score: 4 },
-				{ text: 'Unsure', score: 3 },
+			category: 'DEFECT EXPOSURE',
+			categoryKey: 'defect',
+			question: 'Have you experienced water ingress, leaks, or moisture issues on any current or recent project?',
+			context: 'Early detection reduces average rectification costs by 72%. Unresolved defects compound.',
+			answers: [
+				{ label: "No \u2014 and we've had independent verification confirming this", score: 25 },
+				{ label: "No visible issues, but we haven't had an independent assessment", score: 17 },
+				{ label: 'Minor issues that have been patched or are being monitored', score: 8 },
+				{ label: 'Yes \u2014 active leaks, moisture damage, or unresolved defects', score: 0 },
 			],
 		},
 		{
 			id: 8,
-			category: 'Construction & Oversight',
-			question: 'What is the waterproofing contractor\'s level of experience and licensing?',
-			options: [
-				{ text: 'Licensed specialist with 10+ years waterproofing experience', score: 1 },
-				{ text: 'Licensed general builder performing waterproofing works', score: 2 },
-				{ text: 'Unlicensed contractor or owner-builder', score: 4 },
-				{ text: 'Unsure', score: 3 },
+			category: 'DEFECT EXPOSURE',
+			categoryKey: 'defect',
+			question: 'If a waterproofing defect was found tomorrow, do you have a clear remediation pathway?',
+			context: 'The average waterproofing defect costs $283K to resolve. Without a pathway, costs escalate and timelines blow out.',
+			answers: [
+				{ label: 'Yes \u2014 independent defect assessment, costed remediation plan, and specialist oversight', score: 25 },
+				{ label: "We'd get the original installer back to assess and fix it", score: 17 },
+				{ label: "We'd figure it out when the time comes", score: 8 },
+				{ label: "No plan \u2014 and I'm not sure who would manage it", score: 0 },
 			],
 		},
-		// ---- Category: Risk Factors ------------------------------------------
 		{
 			id: 9,
-			category: 'Risk Factors',
-			question: 'Has this building or project site experienced waterproofing defects previously?',
-			options: [
-				{ text: 'No known waterproofing history issues', score: 1 },
-				{ text: 'Minor issues that have been resolved', score: 2 },
-				{ text: 'Significant defects, partially or unresolved', score: 4 },
-				{ text: 'Unsure', score: 3 },
+			category: 'YOUR ROLE',
+			categoryKey: 'qualifying',
+			question: 'What best describes your role?',
+			context: 'This helps us tailor your scorecard results.',
+			answers: [
+				{ label: 'Builder / Head Contractor',             crmValue: 'builder' },
+				{ label: 'Developer / Asset Owner',               crmValue: 'developer' },
+				{ label: 'Architect / Engineer / Consultant',     crmValue: 'consultant' },
+				{ label: 'Strata Manager / Facility Manager',     crmValue: 'strata_fm' },
 			],
 		},
 		{
 			id: 10,
-			category: 'Risk Factors',
-			question: 'Is the project subject to an occupation certificate, strata scheme, or statutory warranty?',
-			options: [
-				{ text: 'OC required and independent certifier is engaged', score: 1 },
-				{ text: 'OC required but no independent inspector appointed', score: 3 },
-				{ text: 'Strata or owners corporation is involved', score: 3 },
-				{ text: 'Not applicable / no statutory requirement', score: 1 },
+			category: 'PROJECT STAGE',
+			categoryKey: 'qualifying',
+			question: 'Where are you in your project timeline?',
+			context: 'This helps us prioritise your results.',
+			answers: [
+				{ label: 'Pre-construction / Design phase',              crmValue: 'pre_construction' },
+				{ label: 'Currently under construction',                 crmValue: 'under_construction' },
+				{ label: 'Post-construction / Defect liability period',  crmValue: 'post_construction' },
+				{ label: 'Existing building / Ongoing maintenance',      crmValue: 'existing_asset' },
 			],
 		},
 	];
 
+	// Category display labels
+	var CATEGORY_DISPLAY = {
+		design:       'Design Risk',
+		construction: 'Construction Risk',
+		compliance:   'Compliance Risk',
+		defect:       'Defect Exposure',
+	};
+
+	// Service details — ported verbatim from scorecardData.ts SERVICE_DETAILS
+	var SERVICE_DETAILS = {
+		design_review: {
+			name:        'Independent Design Review',
+			description: "Your waterproofing design hasn't been independently verified against Australian Standards. A design review before works commence is the most cost-effective intervention available.",
+			link:        '/services/#design',
+		},
+		inspection: {
+			name:        'Independent Inspection',
+			description: 'Critical hold points are not being independently checked. Our inspectors verify compliance at every stage \u2014 not just the final sign-off.',
+			link:        '/services/#inspect',
+		},
+		testing: {
+			name:        'Independent Testing (NATA Accredited)',
+			description: "Without independent testing, you have no evidence base for warranty, insurance, or compliance claims. NATA-accredited testing closes that gap.",
+			link:        '/services/#test',
+		},
+		remediation: {
+			name:        'Remediation Advisory',
+			description: 'Your project has unmanaged defect exposure. We diagnose the root cause, design the fix, and oversee the remediation \u2014 without any conflict of interest.',
+			link:        '/services/#remediate',
+		},
+	};
+
+	// Risk level display data (scoring thresholds from scorecardData.ts getRiskLevel)
+	var RISK_CONFIG = {
+		low: {
+			label:   'Low Risk',
+			colour:  '#166534',
+			bg:      '#f0fdf4',
+			border:  '#86efac',
+			summary: 'Your project is well-positioned. Independent verification is in place across the key risk categories. Maintaining this standard through to completion will protect your programme and your liability position.',
+		},
+		moderate: {
+			label:   'Moderate Risk',
+			colour:  '#92400e',
+			bg:      '#fffbeb',
+			border:  '#fcd34d',
+			summary: 'Risk factors are present in one or more categories. Independent review before works proceed is the most cost-effective step you can take now.',
+		},
+		high: {
+			label:   'High Risk',
+			colour:  '#991b1b',
+			bg:      '#fef2f2',
+			border:  '#fca5a5',
+			summary: 'Significant exposure identified across multiple categories. We recommend an independent assessment before any further works are undertaken.',
+		},
+	};
+
+	// Role / stage maps for CRM payload (from Scorecard.tsx)
+	var ROLE_MAP   = [ 'builder', 'developer', 'consultant', 'strata_fm' ];
+	var STAGE_MAP  = [ 'pre_construction', 'under_construction', 'post_construction', 'existing_asset' ];
+
 	// =========================================================================
-	// SCORING THRESHOLDS
-	// Min total: 10 — Max total: 40
+	// SCORING — ported exactly from scorecardData.ts
 	// =========================================================================
 
-	var RISK_LEVELS = [
-		{
-			id: 'low',
-			label: 'Low Risk',
-			min: 10,
-			max: 17,
-			colour: '#22863a',
-			bg: '#f0fff4',
-			border: '#22863a',
-			summary: 'Your project appears well-managed from a waterproofing risk perspective. Maintaining independent oversight at key construction stages will protect this position.',
-			services: [
-				'NATA-Accredited Testing',
-				'Stage Inspection Programme',
-			],
-		},
-		{
-			id: 'medium',
-			label: 'Medium Risk',
-			min: 18,
-			max: 25,
-			colour: '#b36a00',
-			bg: '#fffbf0',
-			border: '#e6a817',
-			summary: 'Several risk factors are present. Independent review of your specification and inspection programme is strongly recommended before works proceed.',
-			services: [
-				'Waterproofing Design Review',
-				'Inspection During Construction',
-				'NATA-Accredited Testing',
-			],
-		},
-		{
-			id: 'high',
-			label: 'High Risk',
-			min: 26,
-			max: 33,
-			colour: '#c0392b',
-			bg: '#fff5f5',
-			border: '#c0392b',
-			summary: 'Significant risk exposure identified. We recommend an immediate independent review of your waterproofing arrangements before further works are undertaken.',
-			services: [
-				'Waterproofing Design Review',
-				'Full Inspection Programme',
-				'NATA-Accredited Testing',
-				'Defect Assessment & Remediation Advisory',
-			],
-		},
-		{
-			id: 'critical',
-			label: 'Critical Risk',
-			min: 34,
-			max: 40,
-			colour: '#7b0000',
-			bg: '#fff0f0',
-			border: '#7b0000',
-			summary: 'Critical risk level. Immediate independent intervention is recommended. Proceeding without independent oversight significantly increases your liability exposure.',
-			services: [
-				'Defect Assessment & Remediation',
-				'Expert Witness & Dispute Advisory',
-				'Independent Specification Review',
-				'Full Programme Oversight',
-			],
-		},
-	];
+	function calculateScores( answers ) {
+		var scores = { design: 0, construction: 0, compliance: 0, defect: 0 };
+		QUESTIONS.forEach( function ( q ) {
+			if ( q.categoryKey === 'qualifying' ) return;
+			var idx = answers[ q.id ];
+			if ( idx === undefined ) return;
+			var score = ( q.answers[ idx ] && q.answers[ idx ].score ) || 0;
+			scores[ q.categoryKey ] += score;
+		} );
+		return scores;
+	}
+
+	function getTotalScore( categoryScores ) {
+		var raw = categoryScores.design + categoryScores.construction + categoryScores.compliance + categoryScores.defect;
+		return Math.round( ( raw / 200 ) * 100 );
+	}
+
+	function getRiskLevel( score ) {
+		if ( score >= 75 ) return 'low';
+		if ( score >= 40 ) return 'moderate';
+		return 'high';
+	}
+
+	function getRecommendedServices( scores ) {
+		var services = [];
+		if ( scores.design       < 38 ) services.push( 'design_review' );
+		if ( scores.construction < 38 ) services.push( 'inspection' );
+		if ( scores.compliance   < 38 ) services.push( 'testing' );
+		if ( scores.defect       < 38 ) services.push( 'remediation' );
+		return services;
+	}
 
 	// =========================================================================
 	// STATE — sessionStorage
@@ -247,80 +285,57 @@
 	function getState() {
 		try {
 			var raw = sessionStorage.getItem( SESSION_KEY );
-			return raw ? JSON.parse( raw ) : { stage: 'landing', currentQuestion: 0, answers: {} };
+			return raw ? JSON.parse( raw ) : { stage: 'landing', currentQuestion: 1, answers: {} };
 		} catch ( e ) {
-			return { stage: 'landing', currentQuestion: 0, answers: {} };
+			return { stage: 'landing', currentQuestion: 1, answers: {} };
 		}
 	}
 
 	function setState( updates ) {
 		try {
-			var current = getState();
-			var next = Object.assign( {}, current, updates );
+			var next = Object.assign( {}, getState(), updates );
 			sessionStorage.setItem( SESSION_KEY, JSON.stringify( next ) );
-		} catch ( e ) { /* sessionStorage unavailable */ }
-	}
-
-	function clearState() {
-		try {
-			sessionStorage.removeItem( SESSION_KEY );
 		} catch ( e ) { /* noop */ }
 	}
 
-	// =========================================================================
-	// GTM
-	// =========================================================================
-
-	function pushGTM( eventName, data ) {
-		window.dataLayer = window.dataLayer || [];
-		var payload = Object.assign( { event: eventName }, data || {} );
-		window.dataLayer.push( payload );
+	function clearState() {
+		try { sessionStorage.removeItem( SESSION_KEY ); } catch ( e ) { /* noop */ }
 	}
 
 	// =========================================================================
-	// SHARED STYLES (CSS custom properties from theme.json available)
+	// GTM — fires both dataLayer (GTM) and gtag if present
 	// =========================================================================
 
-	var COLOR = {
+	var startTime = Date.now();
+
+	function pushGTM( eventName, data ) {
+		var payload = Object.assign( { event: eventName }, data || {} );
+		window.dataLayer = window.dataLayer || [];
+		window.dataLayer.push( payload );
+		if ( typeof window.gtag === 'function' ) {
+			window.gtag( 'event', eventName, data || {} );
+		}
+	}
+
+	// =========================================================================
+	// SHARED STYLES
+	// =========================================================================
+
+	var C = {
 		navy:      'hsla(218,47%,16%,1)',
 		navyLight: 'hsla(218,47%,22%,1)',
-		blue:      '#2563eb',
+		blue:      '#1d4ed8',
 		gold:      '#c9a84c',
 		white:     '#ffffff',
 		muted:     '#6b7280',
 		border:    '#e5e7eb',
-		lightGrey: '#f5f5f5',
+		light:     '#f9fafb',
 	};
 
-	var FONT_RALEWAY = 'Raleway, sans-serif';
+	var RALEWAY = 'Raleway, sans-serif';
 
-	function css( obj ) {
-		return Object.entries( obj ).map( function ( pair ) {
-			return pair[0] + ':' + pair[1];
-		} ).join( ';' );
-	}
-
-	// Outer wrapper used by all stages
-	function outerWrap( content, extraStyle ) {
-		var base = {
-			'min-height': '100vh',
-			'display':    'flex',
-			'flex-direction': 'column',
-		};
-		var merged = Object.assign( {}, base, extraStyle || {} );
-		return '<div style="' + css( merged ) + '">' + content + '</div>';
-	}
-
-	// Constrained content column
-	function container( content, maxWidth ) {
-		return (
-			'<div style="' + css( {
-				width:     '100%',
-				'max-width': ( maxWidth || '760px' ),
-				margin:    '0 auto',
-				padding:   '0 24px',
-			} ) + '">' + content + '</div>'
-		);
+	function s( obj ) {
+		return Object.entries( obj ).map( function ( kv ) { return kv[0] + ':' + kv[1]; } ).join( ';' );
 	}
 
 	// =========================================================================
@@ -328,128 +343,47 @@
 	// =========================================================================
 
 	function renderLanding( app ) {
-		var html = outerWrap(
-			'<div style="' + css( {
-				background:   'linear-gradient(135deg,' + COLOR.navy + ' 0%,' + COLOR.navyLight + ' 100%)',
-				flex:         '1',
-				display:      'flex',
-				'align-items': 'center',
-				'padding':    '80px 0',
-			} ) + '">' +
-			container(
-				'<div style="text-align:center">' +
+		app.innerHTML =
+			'<div style="' + s( { 'min-height': '100vh', background: 'linear-gradient(135deg,' + C.navy + ' 0%,' + C.navyLight + ' 100%)', display: 'flex', 'align-items': 'center', 'justify-content': 'center', padding: '80px 24px' } ) + '">' +
+			'<div style="text-align:center;max-width:760px;width:100%">' +
 
-				// Badge
-				'<span style="' + css( {
-					display:         'inline-block',
-					background:      'rgba(201,168,76,0.15)',
-					border:          '1px solid rgba(201,168,76,0.4)',
-					color:           COLOR.gold,
-					'font-family':   FONT_RALEWAY,
-					'font-weight':   '600',
-					'font-size':     '0.75rem',
-					'letter-spacing':'0.08em',
-					'text-transform':'uppercase',
-					padding:         '6px 16px',
-					'border-radius': '100px',
-					'margin-bottom': '28px',
-				} ) + '">' +
-				'Free 2-Minute Assessment' +
-				'</span>' +
+			// Badge
+			'<span style="' + s( { display: 'inline-block', background: 'rgba(201,168,76,0.12)', border: '1px solid rgba(201,168,76,0.35)', color: C.gold, 'font-family': RALEWAY, 'font-weight': '600', 'font-size': '0.75rem', 'letter-spacing': '0.08em', 'text-transform': 'uppercase', padding: '6px 18px', 'border-radius': '100px', 'margin-bottom': '28px' } ) + '">' +
+			'Free 2-Minute Assessment' +
+			'</span>' +
 
-				// Headline
-				'<h1 style="' + css( {
-					'font-family':  FONT_RALEWAY,
-					'font-weight':  '800',
-					'font-size':    'clamp(28px,4vw,52px)',
-					color:          COLOR.white,
-					'line-height':  '1.15',
-					margin:         '0 0 20px 0',
-				} ) + '">' +
-				'How exposed is your project<br>to waterproofing risk?' +
-				'</h1>' +
+			// H1
+			'<h1 style="' + s( { 'font-family': RALEWAY, 'font-weight': '800', 'font-size': 'clamp(28px,4.5vw,54px)', color: C.white, 'line-height': '1.12', margin: '0 0 20px 0' } ) + '">' +
+			'How exposed is your project<br>to waterproofing risk?' +
+			'</h1>' +
 
-				// Sub
-				'<p style="' + css( {
-					'font-size':    'clamp(1rem,2vw,1.1875rem)',
-					color:          'rgba(255,255,255,0.75)',
-					'line-height':  '1.65',
-					margin:         '0 0 40px 0',
-					'max-width':    '600px',
-					'margin-left':  'auto',
-					'margin-right': 'auto',
-				} ) + '">' +
-				'Answer 10 questions and receive a personalised risk report with a risk level rating, category breakdown, and recommended services &#8212; free and instant.' +
-				'</p>' +
+			// Sub
+			'<p style="' + s( { 'font-size': 'clamp(1rem,1.8vw,1.1875rem)', color: 'rgba(255,255,255,0.72)', 'line-height': '1.65', margin: '0 auto 44px', 'max-width': '580px' } ) + '">' +
+			'Answer 10 questions and get your personalised Waterproofing Risk Scorecard \u2014 free, independent, and backed by Australia\u2019s leading waterproofing consultancy.' +
+			'</p>' +
 
-				// Benefits strip
-				'<div style="' + css( {
-					display:         'flex',
-					'flex-wrap':     'wrap',
-					'justify-content': 'center',
-					gap:             '12px',
-					'margin-bottom': '48px',
-				} ) + '">' +
-				[ '10 questions', 'Instant results', 'No cost' ].map( function ( b ) {
-					return '<span style="' + css( {
-						display:         'inline-flex',
-						'align-items':   'center',
-						gap:             '6px',
-						background:      'rgba(255,255,255,0.07)',
-						border:          '1px solid rgba(255,255,255,0.15)',
-						color:           'rgba(255,255,255,0.85)',
-						'font-family':   FONT_RALEWAY,
-						'font-weight':   '600',
-						'font-size':     '0.875rem',
-						padding:         '8px 18px',
-						'border-radius': '100px',
-					} ) + '">' +
-					'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="' + COLOR.gold + '" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>' +
-					b +
-					'</span>';
-				} ).join( '' ) +
-				'</div>' +
+			// Pills
+			'<div style="display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-bottom:48px">' +
+			[ '10 questions', '2 minutes', 'Instant results', 'No cost' ].map( function ( t ) {
+				return '<span style="' + s( { display: 'inline-flex', 'align-items': 'center', gap: '6px', background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.14)', color: 'rgba(255,255,255,0.82)', 'font-family': RALEWAY, 'font-weight': '600', 'font-size': '0.875rem', padding: '8px 18px', 'border-radius': '100px' } ) + '">' +
+				'<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="' + C.gold + '" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>' +
+				t + '</span>';
+			} ).join( '' ) +
+			'</div>' +
 
-				// CTA button
-				'<button id="scorecard-start" style="' + css( {
-					display:         'inline-flex',
-					'align-items':   'center',
-					gap:             '10px',
-					background:      COLOR.gold,
-					color:           COLOR.navy,
-					'font-family':   FONT_RALEWAY,
-					'font-weight':   '700',
-					'font-size':     '1.125rem',
-					padding:         '18px 44px',
-					'border-radius': '4px',
-					border:          'none',
-					cursor:          'pointer',
-					transition:      'opacity 0.2s',
-				} ) + '" type="button">' +
-				'Start My Risk Assessment' +
-				'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>' +
-				'</button>' +
+			// CTA
+			'<button id="sc-start" type="button" style="' + s( { display: 'inline-flex', 'align-items': 'center', gap: '10px', background: C.gold, color: C.navy, 'font-family': RALEWAY, 'font-weight': '700', 'font-size': '1.125rem', padding: '18px 48px', 'border-radius': '4px', border: 'none', cursor: 'pointer' } ) + '">' +
+			'Start My Risk Assessment' +
+			'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>' +
+			'</button>' +
 
-				// Trust line
-				'<p style="' + css( {
-					'font-size':    '0.8125rem',
-					color:          'rgba(255,255,255,0.45)',
-					margin:         '20px 0 0 0',
-				} ) + '">' +
-				'NATA-accredited &#183; 2,500+ projects assessed &#183; No obligation' +
-				'</p>' +
+			'<p style="font-size:0.8125rem;color:rgba(255,255,255,0.38);margin:20px 0 0 0">NATA-accredited \u00b7 2,500+ projects assessed \u00b7 No obligation</p>' +
+			'</div></div>';
 
-				'</div>',
-				'860px'
-			) +
-			'</div>'
-		);
-
-		app.innerHTML = html;
-
-		document.getElementById( 'scorecard-start' ).addEventListener( 'click', function () {
+		document.getElementById( 'sc-start' ).addEventListener( 'click', function () {
+			startTime = Date.now();
 			pushGTM( 'scorecard_started' );
-			setState( { stage: 'questions', currentQuestion: 0, answers: {} } );
+			setState( { stage: 'questions', currentQuestion: 1, answers: {} } );
 			renderQuestion( app );
 		} );
 	}
@@ -459,629 +393,420 @@
 	// =========================================================================
 
 	function renderQuestion( app ) {
-		var state    = getState();
-		var qIndex   = state.currentQuestion || 0;
-		var question = QUESTIONS[ qIndex ];
-		var total    = QUESTIONS.length;
-		var progress = Math.round( ( qIndex / total ) * 100 );
-		var answers  = state.answers || {};
+		var state   = getState();
+		var qNum    = state.currentQuestion || 1;
+		var q       = QUESTIONS[ qNum - 1 ];
+		var total   = QUESTIONS.length;
+		var answers = state.answers || {};
+		var pct     = Math.round( ( ( qNum - 1 ) / total ) * 100 );
+		var isQualifying = q.categoryKey === 'qualifying';
 
-		var html = outerWrap(
-			// Top bar: logo/name + progress
-			'<div style="' + css( {
-				background:     COLOR.navy,
-				padding:        '0 24px',
-				display:        'flex',
-				'align-items':  'center',
-				'justify-content': 'space-between',
-				'flex-shrink':  '0',
-				height:         '64px',
-			} ) + '">' +
-			'<span style="font-family:' + FONT_RALEWAY + ';font-weight:800;font-size:1rem;color:' + COLOR.white + '">WI Risk Scorecard</span>' +
-			'<span style="font-family:' + FONT_RALEWAY + ';font-weight:600;font-size:0.875rem;color:rgba(255,255,255,0.6)">' +
-			( qIndex + 1 ) + ' of ' + total +
-			'</span>' +
+		app.innerHTML =
+			// Top bar
+			'<div style="' + s( { background: C.navy, height: '60px', display: 'flex', 'align-items': 'center', 'justify-content': 'space-between', padding: '0 24px', 'flex-shrink': '0' } ) + '">' +
+			'<span style="font-family:' + RALEWAY + ';font-weight:800;font-size:0.9375rem;color:' + C.white + '">WI Risk Scorecard</span>' +
+			'<span style="font-family:' + RALEWAY + ';font-weight:600;font-size:0.875rem;color:rgba(255,255,255,0.55)">' + qNum + ' / ' + total + '</span>' +
 			'</div>' +
 
-			// Gold progress bar
-			'<div style="height:4px;background:rgba(201,168,76,0.2);flex-shrink:0">' +
-			'<div style="' + css( {
-				height:      '4px',
-				background:  COLOR.gold,
-				width:       progress + '%',
-				transition:  'width 0.4s ease',
-			} ) + '" role="progressbar" aria-valuenow="' + progress + '" aria-valuemin="0" aria-valuemax="100"></div>' +
+			// Progress bar
+			'<div style="height:4px;background:rgba(201,168,76,0.18)">' +
+			'<div style="height:4px;background:' + C.gold + ';width:' + pct + '%;transition:width 0.35s ease" role="progressbar" aria-valuenow="' + pct + '" aria-valuemin="0" aria-valuemax="100"></div>' +
 			'</div>' +
 
-			// Question area
-			'<div style="' + css( {
-				flex:           '1',
-				display:        'flex',
-				'align-items':  'flex-start',
-				'justify-content': 'center',
-				background:     '#fafafa',
-				padding:        '48px 0 64px',
-				'overflow-y':   'auto',
-			} ) + '">' +
-			container(
-				// Category pill
-				'<span style="' + css( {
-					display:         'inline-block',
-					background:      'rgba(37,99,235,0.08)',
-					color:           COLOR.blue,
-					'font-family':   FONT_RALEWAY,
-					'font-weight':   '700',
-					'font-size':     '0.75rem',
-					'letter-spacing':'0.06em',
-					'text-transform':'uppercase',
-					padding:         '5px 14px',
-					'border-radius': '100px',
-					'margin-bottom': '20px',
-				} ) + '">' + escHtml( question.category ) + '</span>' +
+			// Body
+			'<div style="' + s( { flex: '1', background: '#f9fafb', display: 'flex', 'align-items': 'flex-start', 'justify-content': 'center', padding: '48px 24px 72px', 'overflow-y': 'auto', 'min-height': 'calc(100vh - 64px)' } ) + '">' +
+			'<div style="width:100%;max-width:620px">' +
 
-				// Question text
-				'<h2 style="' + css( {
-					'font-family': FONT_RALEWAY,
-					'font-weight': '700',
-					'font-size':   'clamp(1.125rem,2.5vw,1.5rem)',
-					color:         COLOR.navy,
-					'line-height': '1.35',
-					margin:        '0 0 32px 0',
-				} ) + '">' + escHtml( question.question ) + '</h2>' +
-
-				// Options
-				'<div id="scorecard-options" style="display:flex;flex-direction:column;gap:12px;margin-bottom:40px">' +
-				question.options.map( function ( opt, i ) {
-					var isSelected = String( answers[ question.id ] ) === String( i );
-					return '<button class="scorecard-option" data-index="' + i + '" type="button" style="' + css( {
-						display:         'flex',
-						'align-items':   'flex-start',
-						gap:             '14px',
-						background:      isSelected ? 'rgba(201,168,76,0.06)' : COLOR.white,
-						border:          isSelected ? '2px solid ' + COLOR.gold : '2px solid ' + COLOR.border,
-						'border-radius': '8px',
-						padding:         '16px 20px',
-						cursor:          'pointer',
-						'text-align':    'left',
-						transition:      'border-color 0.15s',
-						width:           '100%',
-					} ) + '">' +
-					'<span style="' + css( {
-						display:         'flex',
-						'align-items':   'center',
-						'justify-content': 'center',
-						'flex-shrink':   '0',
-						width:           '22px',
-						height:          '22px',
-						'border-radius': '50%',
-						border:          isSelected ? '6px solid ' + COLOR.gold : '2px solid ' + COLOR.border,
-						background:      isSelected ? COLOR.gold : COLOR.white,
-						'margin-top':    '1px',
-						transition:      'border 0.15s',
-					} ) + '" aria-hidden="true"></span>' +
-					'<span style="font-family:' + FONT_RALEWAY + ';font-weight:' + ( isSelected ? '700' : '500' ) + ';font-size:1rem;color:' + ( isSelected ? COLOR.navy : '#374151' ) + ';line-height:1.5">' +
-					escHtml( opt.text ) +
-					'</span>' +
-					'</button>';
-				} ).join( '' ) +
-				'</div>' +
-
-				// Navigation
-				'<div style="display:flex;justify-content:space-between;align-items:center">' +
-				// Back button
-				'<button id="scorecard-back" type="button" style="' + css( {
-					display:         'inline-flex',
-					'align-items':   'center',
-					gap:             '8px',
-					background:      'transparent',
-					border:          '2px solid ' + COLOR.border,
-					'border-radius': '4px',
-					padding:         '12px 24px',
-					'font-family':   FONT_RALEWAY,
-					'font-weight':   '600',
-					'font-size':     '0.9375rem',
-					color:           qIndex === 0 ? COLOR.border : COLOR.muted,
-					cursor:          qIndex === 0 ? 'not-allowed' : 'pointer',
-					opacity:         qIndex === 0 ? '0.4' : '1',
-				} ) + '" ' + ( qIndex === 0 ? 'disabled' : '' ) + '>' +
-				'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>' +
-				'Back' +
-				'</button>' +
-
-				// Next button
-				'<button id="scorecard-next" type="button" style="' + css( {
-					display:         'inline-flex',
-					'align-items':   'center',
-					gap:             '10px',
-					background:      answers[ question.id ] !== undefined ? COLOR.navy : COLOR.border,
-					color:           answers[ question.id ] !== undefined ? COLOR.white : '#9ca3af',
-					'font-family':   FONT_RALEWAY,
-					'font-weight':   '700',
-					'font-size':     '0.9375rem',
-					padding:         '12px 28px',
-					'border-radius': '4px',
-					border:          'none',
-					cursor:          answers[ question.id ] !== undefined ? 'pointer' : 'not-allowed',
-					transition:      'background 0.15s',
-				} ) + '">' +
-				( qIndex === total - 1 ? 'See My Results' : 'Next' ) +
-				'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>' +
-				'</button>' +
-				'</div>',
-				'640px'
+			// Category + context
+			( isQualifying
+				? '<span style="' + s( { display: 'inline-block', background: 'rgba(201,168,76,0.10)', color: '#92400e', 'font-family': RALEWAY, 'font-weight': '700', 'font-size': '0.75rem', 'letter-spacing': '0.07em', 'text-transform': 'uppercase', padding: '5px 14px', 'border-radius': '100px', 'margin-bottom': '12px' } ) + '">' + escHtml( q.category ) + '</span>'
+				: '<span style="' + s( { display: 'inline-block', background: 'rgba(29,78,216,0.08)', color: C.blue, 'font-family': RALEWAY, 'font-weight': '700', 'font-size': '0.75rem', 'letter-spacing': '0.07em', 'text-transform': 'uppercase', padding: '5px 14px', 'border-radius': '100px', 'margin-bottom': '12px' } ) + '">' + escHtml( q.category ) + '</span>'
 			) +
-			'</div>',
-			{ background: '#fafafa' }
-		);
 
-		app.innerHTML = html;
+			// Context insight
+			'<p style="font-size:0.8125rem;color:' + C.muted + ';margin:0 0 16px 0;font-style:italic;line-height:1.55">' + escHtml( q.context ) + '</p>' +
 
-		// Option selection
-		app.querySelectorAll( '.scorecard-option' ).forEach( function ( btn ) {
+			// Question
+			'<h2 style="' + s( { 'font-family': RALEWAY, 'font-weight': '700', 'font-size': 'clamp(1.0625rem,2.2vw,1.375rem)', color: C.navy, 'line-height': '1.35', margin: '0 0 28px 0' } ) + '">' + escHtml( q.question ) + '</h2>' +
+
+			// Options
+			'<div id="sc-options" style="display:flex;flex-direction:column;gap:10px;margin-bottom:36px">' +
+			q.answers.map( function ( opt, i ) {
+				var sel = answers[ q.id ] === i;
+				return '<button class="sc-opt" data-idx="' + i + '" type="button" style="' + s( {
+					display: 'flex', 'align-items': 'flex-start', gap: '14px',
+					background: sel ? 'rgba(201,168,76,0.06)' : C.white,
+					border: sel ? '2px solid ' + C.gold : '2px solid ' + C.border,
+					'border-radius': '8px', padding: '16px 18px', cursor: 'pointer',
+					'text-align': 'left', width: '100%', transition: 'border-color 0.15s',
+				} ) + '">' +
+				'<span style="' + s( {
+					'flex-shrink': '0', width: '20px', height: '20px', 'border-radius': '50%', 'margin-top': '2px',
+					border: sel ? '6px solid ' + C.gold : '2px solid ' + C.border,
+					background: C.white, transition: 'border 0.15s',
+				} ) + '" aria-hidden="true"></span>' +
+				'<span style="font-family:' + RALEWAY + ';font-weight:' + ( sel ? '700' : '500' ) + ';font-size:0.9375rem;color:' + ( sel ? C.navy : '#374151' ) + ';line-height:1.5">' + escHtml( opt.label ) + '</span>' +
+				'</button>';
+			} ).join( '' ) +
+			'</div>' +
+
+			// Nav buttons
+			'<div style="display:flex;justify-content:space-between;align-items:center">' +
+			'<button id="sc-back" type="button" style="' + s( {
+				display: 'inline-flex', 'align-items': 'center', gap: '8px',
+				background: 'transparent', border: '2px solid ' + C.border,
+				'border-radius': '4px', padding: '11px 22px', 'font-family': RALEWAY,
+				'font-weight': '600', 'font-size': '0.9375rem', color: qNum === 1 ? C.border : C.muted,
+				cursor: qNum === 1 ? 'not-allowed' : 'pointer', opacity: qNum === 1 ? '0.4' : '1',
+			} ) + '"' + ( qNum === 1 ? ' disabled' : '' ) + '>' +
+			'<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>' +
+			'Back</button>' +
+
+			'<button id="sc-next" type="button" style="' + s( {
+				display: 'inline-flex', 'align-items': 'center', gap: '10px',
+				background: answers[ q.id ] !== undefined ? C.navy : C.border,
+				color: answers[ q.id ] !== undefined ? C.white : '#9ca3af',
+				'font-family': RALEWAY, 'font-weight': '700', 'font-size': '0.9375rem',
+				padding: '11px 26px', 'border-radius': '4px', border: 'none',
+				cursor: answers[ q.id ] !== undefined ? 'pointer' : 'not-allowed',
+			} ) + '">' +
+			( qNum === total ? 'See My Results' : 'Next' ) +
+			'<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>' +
+			'</button>' +
+			'</div>' +
+
+			'</div></div>';
+
+		// Option click
+		app.querySelectorAll( '.sc-opt' ).forEach( function ( btn ) {
 			btn.addEventListener( 'click', function () {
-				var idx     = parseInt( btn.dataset.index, 10 );
+				var idx     = parseInt( btn.dataset.idx, 10 );
 				var updated = Object.assign( {}, getState().answers );
-				updated[ question.id ] = idx;
+				updated[ q.id ] = idx;
 				setState( { answers: updated } );
 
 				pushGTM( 'scorecard_question_answered', {
-					question_id:  question.id,
-					question_text: question.question,
-					answer_index: idx,
-					answer_text:  question.options[ idx ].text,
-					category:     question.category,
+					question_number: q.id,
+					category:        q.category,
+					answer:          q.answers[ idx ].crmValue || String.fromCharCode( 65 + idx ),
 				} );
-
 				renderQuestion( app );
 			} );
 		} );
 
 		// Back
-		if ( qIndex > 0 ) {
-			document.getElementById( 'scorecard-back' ).addEventListener( 'click', function () {
-				setState( { currentQuestion: qIndex - 1 } );
+		if ( qNum > 1 ) {
+			document.getElementById( 'sc-back' ).addEventListener( 'click', function () {
+				setState( { currentQuestion: qNum - 1 } );
 				renderQuestion( app );
 			} );
 		}
 
 		// Next
-		var nextBtn = document.getElementById( 'scorecard-next' );
-		nextBtn.addEventListener( 'click', function () {
-			var current = getState();
-			if ( current.answers[ question.id ] === undefined ) return;
-
-			if ( qIndex < total - 1 ) {
-				setState( { currentQuestion: qIndex + 1 } );
+		document.getElementById( 'sc-next' ).addEventListener( 'click', function () {
+			if ( getState().answers[ q.id ] === undefined ) return;
+			if ( qNum < total ) {
+				setState( { currentQuestion: qNum + 1 } );
 				renderQuestion( app );
 			} else {
-				setState( { stage: 'lead' } );
+				pushGTM( 'scorecard_form_viewed', {
+					total_time_in_assessment: Math.round( ( Date.now() - startTime ) / 1000 ),
+				} );
+				setState( { stage: 'gate' } );
 				renderLeadGate( app );
 			}
 		} );
 	}
 
 	// =========================================================================
-	// STAGE 3 — LEAD GATE
+	// STAGE 3 — CALCULATING (2-second transition, matches Scorecard.tsx)
+	// =========================================================================
+
+	function renderCalculating( app ) {
+		app.innerHTML =
+			'<div style="' + s( { 'min-height': '100vh', display: 'flex', 'flex-direction': 'column', 'align-items': 'center', 'justify-content': 'center', gap: '24px', background: '#f2f2f2' } ) + '">' +
+			'<div style="width:48px;height:48px;border-radius:50%;border:4px solid hsl(197,58%,42%);border-top-color:transparent;animation:sc-spin 0.8s linear infinite"></div>' +
+			'<p style="font-family:' + RALEWAY + ';font-weight:600;font-size:1.25rem;color:hsl(218,47%,20%);margin:0">Calculating your score\u2026</p>' +
+			'<p style="font-size:0.875rem;color:#4a4a4a;margin:0">Analysing your responses across 4 risk categories.</p>' +
+			'</div>' +
+			'<style>@keyframes sc-spin{to{transform:rotate(360deg)}}</style>';
+	}
+
+	// =========================================================================
+	// STAGE 4 — LEAD GATE
 	// =========================================================================
 
 	function renderLeadGate( app ) {
-		var html = outerWrap(
-			'<div style="' + css( {
-				background:   'linear-gradient(135deg,' + COLOR.navy + ' 0%,' + COLOR.navyLight + ' 100%)',
-				flex:         '1',
-				display:      'flex',
-				'align-items': 'center',
-				'justify-content': 'center',
-				padding:      '60px 24px',
-			} ) + '">' +
-			'<div style="' + css( {
-				background:      COLOR.white,
-				'border-radius': '12px',
-				padding:         '48px',
-				width:           '100%',
-				'max-width':     '560px',
-				'box-shadow':    '0 20px 60px rgba(0,0,0,0.2)',
-			} ) + '">' +
+		app.innerHTML =
+			'<div style="' + s( { 'min-height': '100vh', background: 'linear-gradient(135deg,' + C.navy + ' 0%,' + C.navyLight + ' 100%)', display: 'flex', 'align-items': 'center', 'justify-content': 'center', padding: '60px 24px' } ) + '">' +
+			'<div style="' + s( { background: C.white, 'border-radius': '12px', padding: '44px 40px', width: '100%', 'max-width': '520px', 'box-shadow': '0 24px 64px rgba(0,0,0,0.22)' } ) + '">' +
 
-			// Heading
-			'<div style="text-align:center;margin-bottom:32px">' +
-			'<div style="' + css( {
-				width:           '52px',
-				height:          '52px',
-				'border-radius': '50%',
-				background:      'rgba(201,168,76,0.12)',
-				display:         'inline-flex',
-				'align-items':   'center',
-				'justify-content': 'center',
-				'margin-bottom': '16px',
-			} ) + '">' +
-			'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="' + COLOR.gold + '" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>' +
+			// Icon + heading
+			'<div style="text-align:center;margin-bottom:28px">' +
+			'<div style="width:52px;height:52px;border-radius:50%;background:rgba(201,168,76,0.1);display:inline-flex;align-items:center;justify-content:center;margin-bottom:14px">' +
+			'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="' + C.gold + '" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>' +
 			'</div>' +
-			'<h2 style="font-family:' + FONT_RALEWAY + ';font-weight:800;font-size:1.5rem;color:' + COLOR.navy + ';margin:0 0 8px 0">Your results are ready</h2>' +
-			'<p style="font-size:0.9375rem;color:' + COLOR.muted + ';margin:0;line-height:1.6">Enter your details to unlock your personalised risk report. We will also send a copy to your email.</p>' +
+			'<h2 style="font-family:' + RALEWAY + ';font-weight:800;font-size:1.375rem;color:' + C.navy + ';margin:0 0 8px 0">Your results are ready</h2>' +
+			'<p style="font-size:0.9375rem;color:' + C.muted + ';margin:0;line-height:1.6">Enter your details to unlock your personalised risk report.</p>' +
 			'</div>' +
 
-			// Form
-			'<form id="scorecard-lead-form" novalidate>' +
+			'<form id="sc-gate-form" novalidate>' +
 
-			// Name row
-			'<div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px">' +
-			formField( 'scorecard-first-name', 'text',  'First Name',    'First Name *',  true ) +
-			formField( 'scorecard-last-name',  'text',  'Last Name',     'Last Name *',   true ) +
+			// Full name
+			'<div style="margin-bottom:14px">' +
+			gateField( 'sc-fullname', 'text', 'Full Name *', 'name', true ) +
 			'</div>' +
 
 			// Company
 			'<div style="margin-bottom:14px">' +
-			formField( 'scorecard-company', 'text', 'Company / Organisation', 'Company / Organisation *', true ) +
+			gateField( 'sc-company', 'text', 'Company / Organisation *', 'organization', true ) +
 			'</div>' +
 
 			// Email
 			'<div style="margin-bottom:14px">' +
-			formField( 'scorecard-email', 'email', 'Email Address', 'Email Address *', true ) +
+			gateField( 'sc-email', 'email', 'Email Address *', 'email', true ) +
 			'</div>' +
 
 			// Phone
 			'<div style="margin-bottom:14px">' +
-			formField( 'scorecard-phone', 'tel', 'Phone Number', 'Phone Number *', true ) +
+			gateField( 'sc-phone', 'tel', 'Phone Number *', 'tel', true ) +
 			'</div>' +
 
-			// Role select
+			// State
 			'<div style="margin-bottom:24px">' +
-			'<label for="scorecard-role" style="display:block;font-family:' + FONT_RALEWAY + ';font-weight:600;font-size:0.8125rem;color:' + COLOR.navy + ';margin-bottom:6px">Your Role</label>' +
-			'<select id="scorecard-role" name="role" style="' + css( {
-				width:           '100%',
-				padding:         '11px 14px',
-				border:          '1.5px solid ' + COLOR.border,
-				'border-radius': '6px',
-				'font-family':   FONT_RALEWAY,
-				'font-size':     '0.9375rem',
-				color:           '#374151',
-				background:      COLOR.white,
-				appearance:      'none',
-				'-webkit-appearance': 'none',
-			} ) + '">' +
-			'<option value="">Select your role (optional)</option>' +
-			'<option value="Builder / Head Contractor">Builder / Head Contractor</option>' +
-			'<option value="Developer">Developer</option>' +
-			'<option value="Architect / Designer">Architect / Designer</option>' +
-			'<option value="Owner / Investor">Owner / Investor</option>' +
-			'<option value="Strata Manager / FM">Strata Manager / FM</option>' +
-			'<option value="Legal / Insurance">Legal / Insurance</option>' +
-			'<option value="Other">Other</option>' +
+			'<label for="sc-state" style="display:block;font-family:' + RALEWAY + ';font-weight:600;font-size:0.8125rem;color:' + C.navy + ';margin-bottom:6px">State *</label>' +
+			'<select id="sc-state" name="state" required style="' + s( { width: '100%', padding: '11px 14px', border: '1.5px solid ' + C.border, 'border-radius': '6px', 'font-family': RALEWAY, 'font-size': '0.9375rem', color: '#374151', background: C.white, 'box-sizing': 'border-box' } ) + '">' +
+			'<option value="">Select state *</option>' +
+			[ 'NSW', 'VIC', 'QLD', 'WA', 'SA', 'TAS', 'ACT', 'NT' ].map( function ( st ) { return '<option value="' + st + '">' + st + '</option>'; } ).join( '' ) +
 			'</select>' +
 			'</div>' +
 
-			// Error message placeholder
-			'<div id="scorecard-lead-error" role="alert" style="display:none;background:#fff5f5;border:1px solid #fca5a5;border-radius:6px;padding:12px 16px;font-size:0.875rem;color:#b91c1c;margin-bottom:16px"></div>' +
+			// Error block
+			'<div id="sc-gate-error" role="alert" style="display:none;background:#fef2f2;border:1px solid #fca5a5;border-radius:6px;padding:12px 16px;font-size:0.875rem;color:#991b1b;margin-bottom:16px"></div>' +
 
 			// Submit
-			'<button id="scorecard-lead-submit" type="submit" style="' + css( {
-				display:         'flex',
-				'align-items':   'center',
-				'justify-content': 'center',
-				gap:             '10px',
-				width:           '100%',
-				background:      COLOR.navy,
-				color:           COLOR.white,
-				'font-family':   FONT_RALEWAY,
-				'font-weight':   '700',
-				'font-size':     '1rem',
-				padding:         '15px 32px',
-				'border-radius': '4px',
-				border:          'none',
-				cursor:          'pointer',
-				transition:      'opacity 0.2s',
-				'margin-bottom': '14px',
-			} ) + '" type="submit">' +
+			'<button id="sc-gate-submit" type="submit" style="' + s( { display: 'flex', 'align-items': 'center', 'justify-content': 'center', gap: '10px', width: '100%', background: C.navy, color: C.white, 'font-family': RALEWAY, 'font-weight': '700', 'font-size': '1rem', padding: '14px 32px', 'border-radius': '4px', border: 'none', cursor: 'pointer', 'margin-bottom': '12px', 'box-sizing': 'border-box' } ) + '">' +
 			'Unlock My Risk Report' +
 			'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>' +
 			'</button>' +
 
-			// Privacy note
-			'<p style="font-size:0.8125rem;color:' + COLOR.muted + ';text-align:center;margin:0;line-height:1.5">' +
-			'Your details are kept private. We do not share your information with third parties.' +
-			'</p>' +
-
+			'<p style="font-size:0.8125rem;color:' + C.muted + ';text-align:center;margin:0;line-height:1.5">Your details are kept private. We do not share your information with third parties.</p>' +
 			'</form>' +
-			'</div>' +
-			'</div>'
-		);
+			'</div></div>';
 
-		app.innerHTML = html;
-
-		document.getElementById( 'scorecard-lead-form' ).addEventListener( 'submit', function ( e ) {
+		document.getElementById( 'sc-gate-form' ).addEventListener( 'submit', function ( e ) {
 			e.preventDefault();
 			submitLeadGate( app );
 		} );
 	}
 
-	function formField( id, type, name, placeholder, required ) {
+	function gateField( id, type, label, autocomplete, required ) {
 		return (
-			'<div>' +
-			'<label for="' + id + '" style="display:block;font-family:' + FONT_RALEWAY + ';font-weight:600;font-size:0.8125rem;color:' + COLOR.navy + ';margin-bottom:6px">' + escHtml( placeholder ) + '</label>' +
-			'<input id="' + id + '" type="' + type + '" name="' + name + '" placeholder="" autocomplete="' + ( type === 'email' ? 'email' : type === 'tel' ? 'tel' : 'on' ) + '" ' + ( required ? 'required' : '' ) + ' style="' + css( {
-				width:           '100%',
-				padding:         '11px 14px',
-				border:          '1.5px solid ' + COLOR.border,
-				'border-radius': '6px',
-				'font-family':   FONT_RALEWAY,
-				'font-size':     '0.9375rem',
-				color:           '#374151',
-				'box-sizing':    'border-box',
-				outline:         'none',
-				transition:      'border-color 0.15s',
-			} ) + '">' +
-			'</div>'
+			'<label for="' + id + '" style="display:block;font-family:' + RALEWAY + ';font-weight:600;font-size:0.8125rem;color:' + C.navy + ';margin-bottom:6px">' + label + '</label>' +
+			'<input id="' + id + '" type="' + type + '" autocomplete="' + autocomplete + '" ' + ( required ? 'required' : '' ) + ' style="' + s( { width: '100%', padding: '11px 14px', border: '1.5px solid ' + C.border, 'border-radius': '6px', 'font-family': RALEWAY, 'font-size': '0.9375rem', color: '#374151', 'box-sizing': 'border-box' } ) + '">'
 		);
 	}
 
 	function submitLeadGate( app ) {
-		var firstName = ( document.getElementById( 'scorecard-first-name' ).value || '' ).trim();
-		var lastName  = ( document.getElementById( 'scorecard-last-name' ).value  || '' ).trim();
-		var company   = ( document.getElementById( 'scorecard-company' ).value    || '' ).trim();
-		var email     = ( document.getElementById( 'scorecard-email' ).value      || '' ).trim();
-		var phone     = ( document.getElementById( 'scorecard-phone' ).value      || '' ).trim();
-		var role      = ( document.getElementById( 'scorecard-role' ).value       || '' ).trim();
+		var fullName = ( document.getElementById( 'sc-fullname' ).value || '' ).trim();
+		var company  = ( document.getElementById( 'sc-company' ).value  || '' ).trim();
+		var email    = ( document.getElementById( 'sc-email' ).value    || '' ).trim();
+		var phone    = ( document.getElementById( 'sc-phone' ).value    || '' ).trim();
+		var state    = ( document.getElementById( 'sc-state' ).value    || '' ).trim();
 
-		var errors = [];
-		if ( ! firstName ) errors.push( 'First name is required.' );
-		if ( ! lastName )  errors.push( 'Last name is required.' );
-		if ( ! company )   errors.push( 'Company / Organisation is required.' );
-		if ( ! email || ! /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test( email ) ) errors.push( 'A valid email address is required.' );
-		if ( ! phone )     errors.push( 'Phone number is required.' );
+		var errs = [];
+		if ( ! fullName ) errs.push( 'Full name is required.' );
+		if ( ! company )  errs.push( 'Company / Organisation is required.' );
+		if ( ! email || ! /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test( email ) ) errs.push( 'A valid email address is required.' );
+		if ( ! phone )    errs.push( 'Phone number is required.' );
+		if ( ! state )    errs.push( 'Please select your state.' );
 
-		var errEl = document.getElementById( 'scorecard-lead-error' );
-		if ( errors.length ) {
-			errEl.innerHTML = errors.map( function ( e ) { return escHtml( e ); } ).join( '<br>' );
+		var errEl = document.getElementById( 'sc-gate-error' );
+		if ( errs.length ) {
+			errEl.innerHTML = errs.map( escHtml ).join( '<br>' );
 			errEl.style.display = 'block';
 			return;
 		}
 		errEl.style.display = 'none';
 
-		var submitBtn = document.getElementById( 'scorecard-lead-submit' );
-		submitBtn.disabled    = true;
-		submitBtn.textContent = 'Submitting\u2026';
+		var btn = document.getElementById( 'sc-gate-submit' );
+		btn.disabled    = true;
+		btn.textContent = 'Submitting\u2026';
 
-		var state  = getState();
-		var scores = calculateScores( state.answers );
-		var risk   = getRiskLevel( scores.total );
+		var stateObj  = getState();
+		var answers   = stateObj.answers || {};
+		var scores    = calculateScores( answers );
+		var total     = getTotalScore( scores );
+		var riskLevel = getRiskLevel( total );
+		var services  = getRecommendedServices( scores );
+
+		var roleIdx  = answers[ 9 ];
+		var stageIdx = answers[ 10 ];
 
 		var payload = {
-			data: [ {
-				First_Name:   firstName,
-				Last_Name:    lastName,
-				Company:      company,
-				Email:        email,
-				Phone:        phone,
-				Lead_Source:  'WI Risk Scorecard',
-				Description:  'Risk Level: ' + risk.label + ' | Total Score: ' + scores.total + ' | Role: ' + role,
-			} ],
+			lead: {
+				full_name:     fullName,
+				company:       company,
+				email:         email,
+				phone:         phone,
+				state:         state,
+				role_segment:  roleIdx  !== undefined ? ROLE_MAP[ roleIdx ]  : '',
+				project_stage: stageIdx !== undefined ? STAGE_MAP[ stageIdx ] : '',
+				source:        'waterproofing_risk_scorecard',
+			},
+			scorecard: {
+				total_score:               total,
+				risk_level:                riskLevel,
+				design_risk_score:         scores.design,
+				construction_risk_score:   scores.construction,
+				compliance_risk_score:     scores.compliance,
+				defect_exposure_score:     scores.defect,
+				recommended_services:      services,
+				answers: {
+					q1: answers[ 1 ] !== undefined ? String.fromCharCode( 65 + answers[ 1 ] ) : '',
+					q2: answers[ 2 ] !== undefined ? String.fromCharCode( 65 + answers[ 2 ] ) : '',
+					q3: answers[ 3 ] !== undefined ? String.fromCharCode( 65 + answers[ 3 ] ) : '',
+					q4: answers[ 4 ] !== undefined ? String.fromCharCode( 65 + answers[ 4 ] ) : '',
+					q5: answers[ 5 ] !== undefined ? String.fromCharCode( 65 + answers[ 5 ] ) : '',
+					q6: answers[ 6 ] !== undefined ? String.fromCharCode( 65 + answers[ 6 ] ) : '',
+					q7: answers[ 7 ] !== undefined ? String.fromCharCode( 65 + answers[ 7 ] ) : '',
+					q8: answers[ 8 ] !== undefined ? String.fromCharCode( 65 + answers[ 8 ] ) : '',
+					q9_role:  roleIdx  !== undefined ? ROLE_MAP[ roleIdx ]  : '',
+					q10_stage: stageIdx !== undefined ? STAGE_MAP[ stageIdx ] : '',
+				},
+			},
+			metadata: {
+				completed_at:              new Date().toISOString(),
+				time_to_complete_seconds:  Math.round( ( Date.now() - startTime ) / 1000 ),
+				device: window.innerWidth < 768 ? 'mobile' : window.innerWidth < 1024 ? 'tablet' : 'desktop',
+			},
 		};
 
-		fetch( ZOHO_API_ENDPOINT, {
-			method:  'POST',
-			headers: {
-				'Content-Type':  'application/json',
-				'Authorization': 'Zoho-oauthtoken ' + ZOHO_API_KEY,
-			},
-			body: JSON.stringify( payload ),
-		} )
-		.then( function ( res ) {
-			// Proceed to results regardless of API response
-			// (API key may be placeholder in staging)
-			pushGTM( 'scorecard_lead_submitted', {
-				lead_email:  email,
-				risk_level:  risk.id,
-				total_score: scores.total,
+		// Show calculating animation, then POST, then results
+		renderCalculating( app );
+
+		setTimeout( function () {
+			fetch( ZOHO_API_URL, {
+				method:  'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body:    JSON.stringify( payload ),
+			} )
+			.catch( function () { /* silently continue — results still shown */ } )
+			.finally( function () {
+				pushGTM( 'scorecard_form_submitted', {
+					role_segment:  payload.lead.role_segment,
+					project_stage: payload.lead.project_stage,
+				} );
+				clearState();
+				renderResults( app, scores, total, riskLevel, services, fullName );
 			} );
-			setState( { stage: 'results', lead: { firstName: firstName, email: email, role: role } } );
-			renderResults( app );
-		} )
-		.catch( function () {
-			// Network error: proceed to results anyway — don't block the user
-			setState( { stage: 'results', lead: { firstName: firstName, email: email, role: role } } );
-			renderResults( app );
-		} );
+		}, 2000 );
 	}
 
 	// =========================================================================
-	// STAGE 4 — RESULTS
+	// STAGE 5 — RESULTS
 	// =========================================================================
 
-	function renderResults( app ) {
-		var state   = getState();
-		var scores  = calculateScores( state.answers );
-		var risk    = getRiskLevel( scores.total );
-		var lead    = state.lead || {};
-		var name    = lead.firstName ? escHtml( lead.firstName ) : 'there';
+	function renderResults( app, scores, total, riskLevelKey, services, firstName ) {
+		var risk  = RISK_CONFIG[ riskLevelKey ] || RISK_CONFIG.high;
+		var name  = firstName ? escHtml( firstName.split( ' ' )[ 0 ] ) : 'there';
 
-		pushGTM( 'scorecard_completed', {
-			risk_level:  risk.id,
-			total_score: scores.total,
-		} );
+		pushGTM( 'scorecard_results_viewed', { total_score: total, risk_level: riskLevelKey } );
 
-		var html = outerWrap(
-			// Header bar
-			'<div style="' + css( {
-				background:     COLOR.navy,
-				padding:        '0 24px',
-				display:        'flex',
-				'align-items':  'center',
-				'justify-content': 'space-between',
-				'flex-shrink':  '0',
-				height:         '64px',
-			} ) + '">' +
-			'<span style="font-family:' + FONT_RALEWAY + ';font-weight:800;font-size:1rem;color:' + COLOR.white + '">WI Risk Scorecard</span>' +
-			'<button id="scorecard-restart" type="button" style="font-family:' + FONT_RALEWAY + ';font-weight:600;font-size:0.8125rem;color:rgba(255,255,255,0.55);background:transparent;border:none;cursor:pointer;padding:0">Retake assessment</button>' +
+		app.innerHTML =
+			// Top bar
+			'<div style="' + s( { background: C.navy, height: '60px', display: 'flex', 'align-items': 'center', 'justify-content': 'space-between', padding: '0 24px', 'flex-shrink': '0' } ) + '">' +
+			'<span style="font-family:' + RALEWAY + ';font-weight:800;font-size:0.9375rem;color:' + C.white + '">WI Risk Scorecard</span>' +
+			'<button id="sc-restart" type="button" style="font-family:' + RALEWAY + ';font-weight:600;font-size:0.8125rem;color:rgba(255,255,255,0.5);background:transparent;border:none;cursor:pointer;padding:0">Retake</button>' +
 			'</div>' +
 
-			// Results body
-			'<div style="' + css( {
-				flex:           '1',
-				background:     '#fafafa',
-				padding:        '48px 24px 80px',
-				'overflow-y':   'auto',
-			} ) + '">' +
-			container(
+			// Body
+			'<div style="' + s( { flex: '1', background: '#f9fafb', padding: '40px 24px 80px', 'overflow-y': 'auto' } ) + '">' +
+			'<div style="max-width:640px;margin:0 auto">' +
 
-				// Greeting
-				'<p style="font-family:' + FONT_RALEWAY + ';font-weight:600;font-size:0.9375rem;color:' + COLOR.muted + ';margin:0 0 8px 0">Hi ' + name + ', here is your waterproofing risk report.</p>' +
+			// Greeting
+			'<p style="font-family:' + RALEWAY + ';font-size:0.9375rem;color:' + C.muted + ';margin:0 0 6px 0">Hi ' + name + ', here is your risk report.</p>' +
 
-				// Risk level badge
-				'<div style="' + css( {
-					background:      risk.bg,
-					border:          '2px solid ' + risk.border,
-					'border-radius': '10px',
-					padding:         '24px 28px',
-					'margin-bottom': '40px',
-					display:         'flex',
-					'align-items':   'center',
-					'justify-content': 'space-between',
-					'flex-wrap':     'wrap',
-					gap:             '16px',
-				} ) + '">' +
-				'<div>' +
-				'<p style="font-family:' + FONT_RALEWAY + ';font-weight:600;font-size:0.75rem;letter-spacing:0.08em;text-transform:uppercase;color:' + risk.colour + ';margin:0 0 6px 0">Your Risk Level</p>' +
-				'<p style="font-family:' + FONT_RALEWAY + ';font-weight:800;font-size:1.75rem;color:' + risk.colour + ';margin:0 0 10px 0">' + escHtml( risk.label ) + '</p>' +
-				'<p style="font-size:0.9375rem;color:#374151;margin:0;line-height:1.65;max-width:500px">' + escHtml( risk.summary ) + '</p>' +
-				'</div>' +
-				'<div style="text-align:center;flex-shrink:0">' +
-				'<p style="font-family:' + FONT_RALEWAY + ';font-weight:800;font-size:2.5rem;color:' + risk.colour + ';margin:0;line-height:1">' + scores.total + '</p>' +
-				'<p style="font-size:0.75rem;color:' + COLOR.muted + ';margin:4px 0 0 0">out of 40</p>' +
-				'</div>' +
-				'</div>' +
+			// Risk badge
+			'<div style="' + s( { background: risk.bg, border: '2px solid ' + risk.border, 'border-radius': '10px', padding: '24px 28px', 'margin-bottom': '36px', display: 'flex', 'align-items': 'center', 'justify-content': 'space-between', 'flex-wrap': 'wrap', gap: '16px' } ) + '">' +
+			'<div style="flex:1;min-width:0">' +
+			'<p style="font-family:' + RALEWAY + ';font-weight:600;font-size:0.6875rem;letter-spacing:0.1em;text-transform:uppercase;color:' + risk.colour + ';margin:0 0 4px 0">Your Risk Level</p>' +
+			'<p style="font-family:' + RALEWAY + ';font-weight:800;font-size:1.625rem;color:' + risk.colour + ';margin:0 0 10px 0">' + escHtml( risk.label ) + '</p>' +
+			'<p style="font-size:0.9375rem;color:#374151;margin:0;line-height:1.65">' + escHtml( risk.summary ) + '</p>' +
+			'</div>' +
+			'<div style="text-align:center;flex-shrink:0">' +
+			'<p style="font-family:' + RALEWAY + ';font-weight:800;font-size:2.75rem;color:' + risk.colour + ';margin:0;line-height:1">' + total + '</p>' +
+			'<p style="font-size:0.75rem;color:' + C.muted + ';margin:4px 0 0 0">out of 100</p>' +
+			'</div>' +
+			'</div>' +
 
-				// Category score bars
-				'<h3 style="font-family:' + FONT_RALEWAY + ';font-weight:700;font-size:1.0625rem;color:' + COLOR.navy + ';margin:0 0 20px 0">Category Breakdown</h3>' +
-				'<div style="display:flex;flex-direction:column;gap:16px;margin-bottom:40px">' +
-				CATEGORIES.map( function ( cat ) {
-					var sc    = scores.byCategory[ cat ] || { score: 0, max: 0 };
-					var pct   = sc.max > 0 ? Math.round( ( sc.score / sc.max ) * 100 ) : 0;
-					var barColour = pct >= 80 ? '#c0392b' : pct >= 55 ? '#b36a00' : pct >= 35 ? '#2563eb' : '#22863a';
-					return '<div>' +
-					'<div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px">' +
-					'<span style="font-family:' + FONT_RALEWAY + ';font-weight:600;font-size:0.9375rem;color:' + COLOR.navy + '">' + escHtml( cat ) + '</span>' +
-					'<span style="font-size:0.8125rem;color:' + COLOR.muted + '">' + sc.score + ' / ' + sc.max + '</span>' +
+			// Category bars
+			'<h3 style="font-family:' + RALEWAY + ';font-weight:700;font-size:1rem;color:' + C.navy + ';margin:0 0 16px 0">Category Breakdown</h3>' +
+			'<div style="display:flex;flex-direction:column;gap:14px;margin-bottom:36px">' +
+			Object.keys( CATEGORY_DISPLAY ).map( function ( key ) {
+				var raw  = scores[ key ] || 0;
+				var pct  = Math.round( ( raw / 50 ) * 100 );
+				var col  = pct >= 80 ? '#166534' : pct >= 60 ? '#1d4ed8' : pct >= 40 ? '#92400e' : '#991b1b';
+				return (
+					'<div style="background:' + C.white + ';border:1px solid ' + C.border + ';border-radius:8px;padding:16px 20px">' +
+					'<div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px">' +
+					'<span style="font-family:' + RALEWAY + ';font-weight:600;font-size:0.9375rem;color:' + C.navy + '">' + escHtml( CATEGORY_DISPLAY[ key ] ) + '</span>' +
+					'<span style="font-size:0.875rem;font-weight:700;color:' + col + '">' + pct + '%</span>' +
 					'</div>' +
-					'<div style="height:10px;background:' + COLOR.border + ';border-radius:5px;overflow:hidden">' +
-					'<div style="height:10px;background:' + barColour + ';width:' + pct + '%;border-radius:5px;transition:width 0.6s ease"></div>' +
+					'<div style="height:8px;background:#f3f4f6;border-radius:4px;overflow:hidden">' +
+					'<div style="height:8px;background:' + col + ';width:' + pct + '%;border-radius:4px"></div>' +
 					'</div>' +
-					'</div>';
+					'</div>'
+				);
+			} ).join( '' ) +
+			'</div>' +
+
+			// Recommended services
+			( services.length
+				? '<h3 style="font-family:' + RALEWAY + ';font-weight:700;font-size:1rem;color:' + C.navy + ';margin:0 0 16px 0">Recommended Services</h3>' +
+				'<div style="display:flex;flex-direction:column;gap:12px;margin-bottom:36px">' +
+				services.map( function ( key ) {
+					var svc = SERVICE_DETAILS[ key ];
+					if ( ! svc ) return '';
+					return (
+						'<div style="background:' + C.white + ';border:1px solid ' + C.border + ';border-radius:8px;padding:20px">' +
+						'<div style="display:flex;align-items:flex-start;gap:12px">' +
+						'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="' + C.gold + '" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink:0;margin-top:2px"><polyline points="20 6 9 17 4 12"/></svg>' +
+						'<div>' +
+						'<p style="font-family:' + RALEWAY + ';font-weight:700;font-size:0.9375rem;color:' + C.navy + ';margin:0 0 6px 0">' + escHtml( svc.name ) + '</p>' +
+						'<p style="font-size:0.875rem;color:' + C.muted + ';margin:0 0 10px 0;line-height:1.6">' + escHtml( svc.description ) + '</p>' +
+						'<a href="' + svc.link + '" style="font-family:' + RALEWAY + ';font-weight:700;font-size:0.875rem;color:' + C.blue + ';text-decoration:none">Learn more \u2192</a>' +
+						'</div></div></div>'
+					);
 				} ).join( '' ) +
-				'</div>' +
-
-				// Recommended services
-				'<div style="' + css( {
-					background:      COLOR.white,
-					border:          '1px solid ' + COLOR.border,
-					'border-radius': '8px',
-					padding:         '28px',
-					'margin-bottom': '40px',
-				} ) + '">' +
-				'<h3 style="font-family:' + FONT_RALEWAY + ';font-weight:700;font-size:1.0625rem;color:' + COLOR.navy + ';margin:0 0 16px 0">Recommended Services</h3>' +
-				'<ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:10px">' +
-				risk.services.map( function ( svc ) {
-					return '<li style="display:flex;align-items:center;gap:12px;font-size:0.9375rem;color:#374151">' +
-					'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="' + COLOR.gold + '" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>' +
-					escHtml( svc ) +
-					'</li>';
-				} ).join( '' ) +
-				'</ul>' +
-				'</div>' +
-
-				// CTA
-				'<div style="' + css( {
-					background:      'linear-gradient(135deg,' + COLOR.navy + ' 0%,' + COLOR.navyLight + ' 100%)',
-					'border-radius': '10px',
-					padding:         '36px 32px',
-					'text-align':    'center',
-				} ) + '">' +
-				'<h3 style="font-family:' + FONT_RALEWAY + ';font-weight:700;font-size:1.25rem;color:' + COLOR.white + ';margin:0 0 10px 0">Ready to address your risk?</h3>' +
-				'<p style="font-size:0.9375rem;color:rgba(255,255,255,0.7);margin:0 0 24px 0;line-height:1.6">Speak with a senior WI adviser. No obligation &#8212; just clear, independent advice tailored to your project.</p>' +
-				'<a id="scorecard-cta" href="/contact/" class="cta-button" style="' + css( {
-					display:         'inline-flex',
-					'align-items':   'center',
-					gap:             '10px',
-					background:      COLOR.gold,
-					color:           COLOR.navy,
-					'font-family':   FONT_RALEWAY,
-					'font-weight':   '700',
-					'font-size':     '1rem',
-					padding:         '15px 36px',
-					'border-radius': '4px',
-					'text-decoration': 'none',
-				} ) + '">' +
-				'Speak to an Adviser' +
-				'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>' +
-				'</a>' +
-				'<p style="font-size:0.8125rem;color:rgba(255,255,255,0.45);margin:16px 0 0 0">Or call us: <a href="tel:1300025944" class="tel-link" style="color:rgba(255,255,255,0.65);font-weight:600;text-decoration:none">1300 025 944</a></p>' +
-				'</div>',
-
-				'640px'
+				'</div>'
+				: ''
 			) +
-			'</div>'
-		);
 
-		app.innerHTML = html;
+			// CTA block
+			'<div style="' + s( { background: 'linear-gradient(135deg,' + C.navy + ' 0%,' + C.navyLight + ' 100%)', 'border-radius': '10px', padding: '36px 32px', 'text-align': 'center' } ) + '">' +
+			'<h3 style="font-family:' + RALEWAY + ';font-weight:700;font-size:1.1875rem;color:' + C.white + ';margin:0 0 10px 0">Ready to address your risk?</h3>' +
+			'<p style="font-size:0.9375rem;color:rgba(255,255,255,0.68);margin:0 0 24px 0;line-height:1.6">Speak with a senior WI adviser. No obligation \u2014 just clear, independent advice tailored to your project.</p>' +
+			'<a id="sc-cta" href="/contact/" class="cta-button" style="' + s( { display: 'inline-flex', 'align-items': 'center', gap: '10px', background: C.gold, color: C.navy, 'font-family': RALEWAY, 'font-weight': '700', 'font-size': '1rem', padding: '15px 36px', 'border-radius': '4px', 'text-decoration': 'none' } ) + '">' +
+			'Speak to an Adviser' +
+			'<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>' +
+			'</a>' +
+			'<p style="font-size:0.8125rem;color:rgba(255,255,255,0.4);margin:14px 0 0 0">Or call <a href="tel:1300025944" class="tel-link" style="color:rgba(255,255,255,0.6);font-weight:600;text-decoration:none">1300 025 944</a></p>' +
+			'</div>' +
 
-		var ctaBtn = document.getElementById( 'scorecard-cta' );
-		if ( ctaBtn ) {
-			ctaBtn.addEventListener( 'click', function () {
-				pushGTM( 'scorecard_cta_clicked', {
-					risk_level:  risk.id,
-					total_score: scores.total,
-				} );
+			'</div></div>';
+
+		var ctaEl = document.getElementById( 'sc-cta' );
+		if ( ctaEl ) {
+			ctaEl.addEventListener( 'click', function () {
+				pushGTM( 'scorecard_cta_clicked', { risk_level: riskLevelKey, total_score: total } );
 			} );
 		}
 
-		document.getElementById( 'scorecard-restart' ).addEventListener( 'click', function () {
+		document.getElementById( 'sc-restart' ).addEventListener( 'click', function () {
 			clearState();
 			renderLanding( app );
 		} );
-	}
-
-	// =========================================================================
-	// SCORING HELPERS
-	// =========================================================================
-
-	function calculateScores( answers ) {
-		var total      = 0;
-		var byCategory = {};
-
-		CATEGORIES.forEach( function ( cat ) {
-			byCategory[ cat ] = { score: 0, max: 0 };
-		} );
-
-		QUESTIONS.forEach( function ( q ) {
-			var cat      = q.category;
-			var maxScore = q.options.reduce( function ( acc, o ) { return Math.max( acc, o.score ); }, 0 );
-
-			if ( ! byCategory[ cat ] ) byCategory[ cat ] = { score: 0, max: 0 };
-			byCategory[ cat ].max += maxScore;
-
-			var answerIdx = answers[ q.id ];
-			if ( answerIdx !== undefined && q.options[ answerIdx ] ) {
-				var score = q.options[ answerIdx ].score;
-				byCategory[ cat ].score += score;
-				total += score;
-			} else {
-				// Unanswered: assume mid score to avoid skewing results
-				var mid = Math.round( maxScore / 2 );
-				byCategory[ cat ].score += mid;
-				total += mid;
-			}
-		} );
-
-		return { total: total, byCategory: byCategory };
-	}
-
-	function getRiskLevel( total ) {
-		for ( var i = 0; i < RISK_LEVELS.length; i++ ) {
-			var r = RISK_LEVELS[ i ];
-			if ( total >= r.min && total <= r.max ) return r;
-		}
-		// Fallback to highest if out of range
-		return RISK_LEVELS[ RISK_LEVELS.length - 1 ];
 	}
 
 	// =========================================================================
@@ -1106,11 +831,9 @@
 		if ( ! app ) return;
 
 		var state = getState();
-
 		switch ( state.stage ) {
-			case 'questions': renderQuestion( app ); break;
-			case 'lead':      renderLeadGate( app ); break;
-			case 'results':   renderResults( app );  break;
+			case 'questions': renderQuestion( app );  break;
+			case 'gate':      renderLeadGate( app );  break;
 			default:          renderLanding( app );
 		}
 	}
