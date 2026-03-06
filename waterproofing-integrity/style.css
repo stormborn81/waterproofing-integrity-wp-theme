@@ -109,7 +109,7 @@ video {
 
 .wi-site-header .wp-block-navigation a:hover,
 .wi-site-header .wp-block-navigation a:focus-visible {
-	color: var(--wp--preset--color--gold);
+	color: var(--wp--preset--color--white);
 }
 
 /* ==========================================================================
@@ -211,7 +211,7 @@ video {
 
 .wi-ticker-item::after {
 	content: "•";
-	color: var(--wp--preset--color--gold);
+	color: rgba(255, 255, 255, 0.3);
 	margin-left: 2.5rem;
 }
 
@@ -220,7 +220,7 @@ video {
 }
 
 .wi-ticker-number {
-	color: var(--wp--preset--color--gold);
+	color: var(--wp--preset--color--white);
 	font-weight: 800;
 	font-size: 1.125rem;
 }
@@ -348,13 +348,13 @@ label {
    ========================================================================== */
 
 :focus-visible {
-	outline: 3px solid var(--wp--preset--color--gold);
+	outline: 3px solid var(--wp--preset--color--blue);
 	outline-offset: 3px;
 	border-radius: 2px;
 }
 
 a:focus-visible {
-	outline: 3px solid var(--wp--preset--color--gold);
+	outline: 3px solid var(--wp--preset--color--blue);
 	outline-offset: 3px;
 	border-radius: 2px;
 }
@@ -388,7 +388,7 @@ a:focus-visible {
 	font-size: 0.875rem;
 	text-transform: uppercase;
 	letter-spacing: 0.08em;
-	color: var(--wp--preset--color--gold);
+	color: rgba(255, 255, 255, 0.8);
 	margin-bottom: 1rem;
 }
 
@@ -402,7 +402,7 @@ a:focus-visible {
 }
 
 .wi-footer-col a:hover {
-	color: var(--wp--preset--color--gold);
+	color: var(--wp--preset--color--white);
 }
 
 .wi-footer-bottom {
@@ -501,8 +501,8 @@ a:focus-visible {
 	top: 1rem;
 	width: auto;
 	z-index: 999;
-	background: var(--wp--preset--color--gold);
-	color: var(--wp--preset--color--navy);
+	background: var(--wp--preset--color--navy);
+	color: var(--wp--preset--color--white);
 	font-weight: 700;
 	border-radius: 4px;
 }
