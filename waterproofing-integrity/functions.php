@@ -72,6 +72,14 @@ function wi_enqueue_scorecard_assets(): void {
 			'in_footer' => true,
 		]
 	);
+
+	wp_localize_script(
+		'wi-scorecard',
+		'wiScorecard',
+		[
+			'logoUrl' => get_template_directory_uri() . '/assets/images/WI_logo-Dws3Kc0z.png',
+		]
+	);
 }
 add_action('wp_enqueue_scripts', 'wi_enqueue_scorecard_assets');
 

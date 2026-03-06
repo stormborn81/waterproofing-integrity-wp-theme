@@ -306,7 +306,8 @@
 	// GTM — fires both dataLayer (GTM) and gtag if present
 	// =========================================================================
 
-	var startTime = Date.now();
+	var startTime     = Date.now();
+	var autoAdvancing = false;
 
 	function pushGTM( eventName, data ) {
 		var payload = Object.assign( { event: eventName }, data || {} );
@@ -392,94 +393,153 @@
 	// STAGE 2 — QUESTIONS
 	// =========================================================================
 
-	function renderQuestion( app ) {
-		var state   = getState();
-		var qNum    = state.currentQuestion || 1;
-		var q       = QUESTIONS[ qNum - 1 ];
-		var total   = QUESTIONS.length;
-		var answers = state.answers || {};
-		var pct     = Math.round( ( ( qNum - 1 ) / total ) * 100 );
+	/**
+	 * Render a single question.
+	 *
+	 * dir: 'forward'  — slide in from right (default, going to next question)
+	 *      'backward' — slide in from left (going back)
+	 *      'none'     — no animation (immediate re-render, e.g. showing selection)
+	 */
+	function renderQuestion( app, dir ) {
+		if ( ! dir ) dir = 'forward';
+
+		var state        = getState();
+		var qNum         = state.currentQuestion || 1;
+		var q            = QUESTIONS[ qNum - 1 ];
+		var total        = QUESTIONS.length;
+		var answers      = state.answers || {};
+		var pct          = Math.round( ( qNum / total ) * 100 );
 		var isQualifying = q.categoryKey === 'qualifying';
+		var TEAL         = 'hsl(197,58%,42%)';
+
+		// Logo: injected via wp_localize_script as window.wiScorecard.logoUrl
+		var logoUrl  = window.wiScorecard && window.wiScorecard.logoUrl ? window.wiScorecard.logoUrl : '';
+		var logoHtml = logoUrl
+			? '<img src="' + logoUrl + '" alt="Waterproofing Integrity" style="height:32px;width:auto;flex-shrink:0">'
+			: '<span style="font-family:' + RALEWAY + ';font-weight:800;font-size:0.875rem;color:' + C.navy + ';flex-shrink:0">WI</span>';
+
+		// Initial slide position
+		var initX = dir === 'forward' ? '32px' : ( dir === 'backward' ? '-32px' : '0' );
+
+		// Set app background for questions stage
+		app.style.background = '#f9fafb';
 
 		app.innerHTML =
-			// Top bar
-			'<div style="' + s( { background: C.navy, height: '60px', display: 'flex', 'align-items': 'center', 'justify-content': 'space-between', padding: '0 24px', 'flex-shrink': '0' } ) + '">' +
-			'<span style="font-family:' + RALEWAY + ';font-weight:800;font-size:0.9375rem;color:' + C.white + '">WI Risk Scorecard</span>' +
-			'<span style="font-family:' + RALEWAY + ';font-weight:600;font-size:0.875rem;color:rgba(255,255,255,0.55)">' + qNum + ' / ' + total + '</span>' +
+			// ---- Sticky header ----
+			'<div style="position:sticky;top:0;z-index:10;background:#ffffff;border-bottom:1px solid #f3f4f6;box-shadow:0 1px 3px rgba(0,0,0,0.06)">' +
+			'<div style="max-width:680px;margin:0 auto;padding:12px 16px;display:flex;align-items:center;gap:12px">' +
+
+			// Back chevron button
+			'<button id="sc-back" type="button"' + ( qNum === 1 ? ' disabled' : '' ) +
+			' aria-label="Back"' +
+			' style="flex-shrink:0;display:flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:8px;background:transparent;border:none;cursor:' + ( qNum === 1 ? 'default' : 'pointer' ) + ';opacity:' + ( qNum === 1 ? '0.25' : '1' ) + '">' +
+			'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="' + C.navy + '" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>' +
+			'</button>' +
+
+			// Progress area
+			'<div style="flex:1;min-width:0">' +
+			'<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">' +
+			'<span style="font-family:' + RALEWAY + ';font-weight:500;font-size:0.75rem;color:#6b7280">Question ' + qNum + ' of ' + total + '</span>' +
+			'<span style="font-family:' + RALEWAY + ';font-weight:600;font-size:0.75rem;color:' + TEAL + '">' + pct + '%</span>' +
+			'</div>' +
+			'<div style="height:6px;background:#e5e7eb;border-radius:3px;overflow:hidden" role="progressbar" aria-valuenow="' + pct + '" aria-valuemin="0" aria-valuemax="100">' +
+			'<div style="height:6px;background:' + TEAL + ';width:' + pct + '%;transition:width 0.35s ease;border-radius:3px"></div>' +
+			'</div>' +
 			'</div>' +
 
-			// Progress bar
-			'<div style="height:4px;background:rgba(201,168,76,0.18)">' +
-			'<div style="height:4px;background:' + C.gold + ';width:' + pct + '%;transition:width 0.35s ease" role="progressbar" aria-valuenow="' + pct + '" aria-valuemin="0" aria-valuemax="100"></div>' +
-			'</div>' +
+			// Logo
+			logoHtml +
+			'</div></div>' +
 
-			// Body
-			'<div style="' + s( { flex: '1', background: '#f9fafb', display: 'flex', 'align-items': 'flex-start', 'justify-content': 'center', padding: '48px 24px 72px', 'overflow-y': 'auto', 'min-height': 'calc(100vh - 64px)' } ) + '">' +
-			'<div style="width:100%;max-width:620px">' +
+			// ---- Question body ----
+			'<div style="flex:1;background:#f9fafb;display:flex;align-items:flex-start;justify-content:center;padding:48px 24px 72px;overflow-y:auto;min-height:calc(100vh - 72px)">' +
+			'<div id="sc-q-inner" style="width:100%;max-width:620px;opacity:' + ( dir === 'none' ? '1' : '0' ) + ';transform:translateX(' + initX + ');transition:opacity 0.3s ease,transform 0.3s ease">' +
 
-			// Category + context
+			// Category badge
 			( isQualifying
-				? '<span style="' + s( { display: 'inline-block', background: 'rgba(201,168,76,0.10)', color: '#92400e', 'font-family': RALEWAY, 'font-weight': '700', 'font-size': '0.75rem', 'letter-spacing': '0.07em', 'text-transform': 'uppercase', padding: '5px 14px', 'border-radius': '100px', 'margin-bottom': '12px' } ) + '">' + escHtml( q.category ) + '</span>'
-				: '<span style="' + s( { display: 'inline-block', background: 'rgba(29,78,216,0.08)', color: C.blue, 'font-family': RALEWAY, 'font-weight': '700', 'font-size': '0.75rem', 'letter-spacing': '0.07em', 'text-transform': 'uppercase', padding: '5px 14px', 'border-radius': '100px', 'margin-bottom': '12px' } ) + '">' + escHtml( q.category ) + '</span>'
+				? '<span style="display:inline-block;background:rgba(201,168,76,0.10);color:#92400e;font-family:' + RALEWAY + ';font-weight:700;font-size:0.75rem;letter-spacing:0.07em;text-transform:uppercase;padding:5px 14px;border-radius:100px;margin-bottom:12px">' + escHtml( q.category ) + '</span>'
+				: '<span style="display:inline-block;background:rgba(29,78,216,0.08);color:' + C.blue + ';font-family:' + RALEWAY + ';font-weight:700;font-size:0.75rem;letter-spacing:0.07em;text-transform:uppercase;padding:5px 14px;border-radius:100px;margin-bottom:12px">' + escHtml( q.category ) + '</span>'
 			) +
 
 			// Context insight
 			'<p style="font-size:0.8125rem;color:' + C.muted + ';margin:0 0 16px 0;font-style:italic;line-height:1.55">' + escHtml( q.context ) + '</p>' +
 
-			// Question
-			'<h2 style="' + s( { 'font-family': RALEWAY, 'font-weight': '700', 'font-size': 'clamp(1.0625rem,2.2vw,1.375rem)', color: C.navy, 'line-height': '1.35', margin: '0 0 28px 0' } ) + '">' + escHtml( q.question ) + '</h2>' +
+			// Question text
+			'<h2 style="font-family:' + RALEWAY + ';font-weight:700;font-size:clamp(1.0625rem,2.2vw,1.375rem);color:' + C.navy + ';line-height:1.35;margin:0 0 28px 0">' + escHtml( q.question ) + '</h2>' +
 
-			// Options
-			'<div id="sc-options" style="display:flex;flex-direction:column;gap:10px;margin-bottom:36px">' +
+			// Answer options
+			'<div id="sc-options" style="display:flex;flex-direction:column;gap:10px">' +
 			q.answers.map( function ( opt, i ) {
 				var sel = answers[ q.id ] === i;
-				return '<button class="sc-opt" data-idx="' + i + '" type="button" style="' + s( {
-					display: 'flex', 'align-items': 'flex-start', gap: '14px',
-					background: sel ? 'rgba(201,168,76,0.06)' : C.white,
-					border: sel ? '2px solid ' + C.gold : '2px solid ' + C.border,
-					'border-radius': '8px', padding: '16px 18px', cursor: 'pointer',
-					'text-align': 'left', width: '100%', transition: 'border-color 0.15s',
-				} ) + '">' +
-				'<span style="' + s( {
-					'flex-shrink': '0', width: '20px', height: '20px', 'border-radius': '50%', 'margin-top': '2px',
-					border: sel ? '6px solid ' + C.gold : '2px solid ' + C.border,
-					background: C.white, transition: 'border 0.15s',
-				} ) + '" aria-hidden="true"></span>' +
-				'<span style="font-family:' + RALEWAY + ';font-weight:' + ( sel ? '700' : '500' ) + ';font-size:0.9375rem;color:' + ( sel ? C.navy : '#374151' ) + ';line-height:1.5">' + escHtml( opt.label ) + '</span>' +
-				'</button>';
+				return (
+					'<button class="sc-opt" data-idx="' + i + '" type="button" style="' +
+					'position:relative;display:flex;align-items:center;justify-content:space-between;gap:14px;' +
+					'background:' + ( sel ? '#EDF7FC' : C.white ) + ';' +
+					'border:2px solid ' + ( sel ? TEAL : '#e0e0e0' ) + ';' +
+					'border-radius:12px;' +
+					'padding:16px ' + ( sel ? '20px 16px 24px' : '20px 16px 20px' ) + ';' +
+					'cursor:pointer;text-align:left;width:100%;' +
+					'transition:border-color 0.15s,background 0.15s' +
+					'">' +
+					// Left teal accent bar (selected only)
+					( sel ? '<div style="position:absolute;left:0;top:0;bottom:0;width:4px;background:' + TEAL + ';border-radius:12px 0 0 12px"></div>' : '' ) +
+					// Answer label
+					'<span style="font-family:' + RALEWAY + ';font-weight:' + ( sel ? '600' : '500' ) + ';font-size:0.9375rem;color:' + ( sel ? C.navy : '#374151' ) + ';line-height:1.5;flex:1">' + escHtml( opt.label ) + '</span>' +
+					// Check circle (selected) or empty circle
+					( sel
+						? '<div style="flex-shrink:0;width:24px;height:24px;border-radius:50%;background:' + TEAL + ';display:flex;align-items:center;justify-content:center">' +
+						  '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>' +
+						  '</div>'
+						: '<div style="flex-shrink:0;width:22px;height:22px;border-radius:50%;border:2px solid #e0e0e0"></div>'
+					) +
+					'</button>'
+				);
 			} ).join( '' ) +
-			'</div>' +
-
-			// Nav buttons
-			'<div style="display:flex;justify-content:space-between;align-items:center">' +
-			'<button id="sc-back" type="button" style="' + s( {
-				display: 'inline-flex', 'align-items': 'center', gap: '8px',
-				background: 'transparent', border: '2px solid ' + C.border,
-				'border-radius': '4px', padding: '11px 22px', 'font-family': RALEWAY,
-				'font-weight': '600', 'font-size': '0.9375rem', color: qNum === 1 ? C.border : C.muted,
-				cursor: qNum === 1 ? 'not-allowed' : 'pointer', opacity: qNum === 1 ? '0.4' : '1',
-			} ) + '"' + ( qNum === 1 ? ' disabled' : '' ) + '>' +
-			'<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>' +
-			'Back</button>' +
-
-			'<button id="sc-next" type="button" style="' + s( {
-				display: 'inline-flex', 'align-items': 'center', gap: '10px',
-				background: answers[ q.id ] !== undefined ? C.navy : C.border,
-				color: answers[ q.id ] !== undefined ? C.white : '#9ca3af',
-				'font-family': RALEWAY, 'font-weight': '700', 'font-size': '0.9375rem',
-				padding: '11px 26px', 'border-radius': '4px', border: 'none',
-				cursor: answers[ q.id ] !== undefined ? 'pointer' : 'not-allowed',
-			} ) + '">' +
-			( qNum === total ? 'See My Results' : 'Next' ) +
-			'<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>' +
-			'</button>' +
 			'</div>' +
 
 			'</div></div>';
 
-		// Option click
+		// Slide-in animation (double rAF forces style recalculation)
+		if ( dir !== 'none' ) {
+			requestAnimationFrame( function () {
+				requestAnimationFrame( function () {
+					var inner = document.getElementById( 'sc-q-inner' );
+					if ( inner ) {
+						inner.style.opacity   = '1';
+						inner.style.transform = 'translateX(0)';
+					}
+				} );
+			} );
+		}
+
+		// Back button
+		if ( qNum > 1 ) {
+			document.getElementById( 'sc-back' ).addEventListener( 'click', function () {
+				setState( { currentQuestion: qNum - 1 } );
+				renderQuestion( app, 'backward' );
+			} );
+		}
+
+		// Hover states on answer cards
+		app.querySelectorAll( '.sc-opt' ).forEach( function ( btn ) {
+			var idx = parseInt( btn.dataset.idx, 10 );
+			btn.addEventListener( 'mouseenter', function () {
+				if ( answers[ q.id ] !== idx ) {
+					btn.style.borderColor = '#9ca3af';
+				}
+			} );
+			btn.addEventListener( 'mouseleave', function () {
+				if ( answers[ q.id ] !== idx ) {
+					btn.style.borderColor = '#e0e0e0';
+				}
+			} );
+		} );
+
+		// Answer option click — show selection then auto-advance
 		app.querySelectorAll( '.sc-opt' ).forEach( function ( btn ) {
 			btn.addEventListener( 'click', function () {
+				if ( autoAdvancing ) return;
+
 				var idx     = parseInt( btn.dataset.idx, 10 );
 				var updated = Object.assign( {}, getState().answers );
 				updated[ q.id ] = idx;
@@ -490,31 +550,27 @@
 					category:        q.category,
 					answer:          q.answers[ idx ].crmValue || String.fromCharCode( 65 + idx ),
 				} );
-				renderQuestion( app );
-			} );
-		} );
 
-		// Back
-		if ( qNum > 1 ) {
-			document.getElementById( 'sc-back' ).addEventListener( 'click', function () {
-				setState( { currentQuestion: qNum - 1 } );
-				renderQuestion( app );
-			} );
-		}
+				// Re-render immediately to display the selected state (no slide)
+				renderQuestion( app, 'none' );
 
-		// Next
-		document.getElementById( 'sc-next' ).addEventListener( 'click', function () {
-			if ( getState().answers[ q.id ] === undefined ) return;
-			if ( qNum < total ) {
-				setState( { currentQuestion: qNum + 1 } );
-				renderQuestion( app );
-			} else {
-				pushGTM( 'scorecard_form_viewed', {
-					total_time_in_assessment: Math.round( ( Date.now() - startTime ) / 1000 ),
-				} );
-				setState( { stage: 'gate' } );
-				renderLeadGate( app );
-			}
+				// Auto-advance after 450ms (matches ScorecardAssessment.tsx timeout)
+				autoAdvancing = true;
+				setTimeout( function () {
+					autoAdvancing = false;
+					if ( qNum < total ) {
+						setState( { currentQuestion: qNum + 1 } );
+						renderQuestion( app, 'forward' );
+					} else {
+						// Last question — proceed to lead gate
+						pushGTM( 'scorecard_form_viewed', {
+							total_time_in_assessment: Math.round( ( Date.now() - startTime ) / 1000 ),
+						} );
+						setState( { stage: 'gate' } );
+						renderLeadGate( app );
+					}
+				}, 450 );
+			} );
 		} );
 	}
 
