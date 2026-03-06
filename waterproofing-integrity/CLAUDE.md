@@ -18,3 +18,27 @@ Read both documents before starting any work.
 - No caching plugins — Kinsta handles caching
 - Never hardcode Zoho form IDs — use placeholder comment blocks
 - Working directory for all theme files: waterproofing-integrity/
+
+## Known WordPress FSE Gotchas — Learn From These
+
+### 1. Sticky Nav Must Be on wp-block-template-part, Not the Inner Group
+A sticky element can only stick within its direct parent container. The header wp-block-template-part is only 80px tall — sticky on the inner .wi-site-header group will not work. Always apply sticky positioning to the template part wrapper:
+.wp-block-template-part:has(.wi-site-header) { position: sticky; top: 0; z-index: 100; }
+
+### 2. WordPress Core Overrides position:sticky on wp-block-group
+WordPress core applies position:relative to .wp-block-group via a :where() selector. Override explicitly:
+.wi-site-header.wp-block-group { position: sticky !important; top: 0 !important; }
+
+### 3. WordPress Core Applies overflow-x:clip to .wp-site-blocks
+This breaks sticky positioning on any child. Always include this override:
+.wp-site-blocks { overflow-x: unset; }
+
+### 4. Smart Quotes Break PHP Parsing
+Never use curly/smart quotes inside PHP strings including apostrophes in words like Integrity's. Always use straight quotes. After creating any PHP file run: grep -n filename.php to check.
+
+### 5. Claude Code Branch Workflow
+Always run git fetch origin after a session to find the branch name, then:
+git fetch origin
+git merge origin/[claude-branch-name]  
+git push origin master
+If diverged: git stash, git pull origin master --rebase, git stash pop, git push origin master
