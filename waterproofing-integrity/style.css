@@ -121,7 +121,7 @@ video {
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
-	min-height: 44px;
+	min-height: 48px;
 	padding: 1.25rem 1.75rem;
 	background-color: var(--wp--preset--color--gold);
 	color: var(--wp--preset--color--navy);
