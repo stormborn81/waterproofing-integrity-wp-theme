@@ -443,6 +443,50 @@ a:focus-visible {
 	}
 }
 
+/* Desktop padding override for all section-level wrappers that use --spacing--2xl.
+   Inline WP block styles require !important to be overridden.
+   Mobile: 5rem (--spacing--2xl), Desktop 768px+: 7rem (--spacing--3xl). */
+@media (min-width: 768px) {
+	.wi-404-links,
+	.wi-authority,
+	.wi-blog-grid,
+	.wi-case-studies,
+	.wi-case-studies-grid,
+	.wi-case-study-content-area,
+	.wi-contact-body,
+	.wi-contact-form,
+	.wi-faq,
+	.wi-locations,
+	.wi-memberships,
+	.wi-pillars,
+	.wi-policy-content,
+	.wi-post-content-area,
+	.wi-process-steps,
+	.wi-related-cases,
+	.wi-reviews,
+	.wi-sectors,
+	.wi-service-design,
+	.wi-service-detail,
+	.wi-service-inspect,
+	.wi-service-remediate,
+	.wi-service-test,
+	.wi-services,
+	.wi-services-navy,
+	.wi-social-proof,
+	.wi-team,
+	.wi-team-member-profile,
+	.wi-testimonials-about,
+	.wi-thank-you-contact,
+	.wi-what-happens-next,
+	.wi-who-we-help,
+	.wi-who-we-work-with,
+	.wi-why-independence,
+	.wi-why-we-exist {
+		padding-top: var(--wp--preset--spacing--3xl) !important;
+		padding-bottom: var(--wp--preset--spacing--3xl) !important;
+	}
+}
+
 .wi-section--light-grey {
 	background-color: var(--wp--preset--color--light-grey);
 }

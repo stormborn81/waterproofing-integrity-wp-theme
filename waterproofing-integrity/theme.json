@@ -116,7 +116,7 @@
         { "slug": "md",  "size": "1.5rem",  "name": "MD" },
         { "slug": "lg",  "size": "2rem",    "name": "LG" },
         { "slug": "xl",  "size": "3rem",    "name": "XL" },
-        { "slug": "2xl", "size": "4rem",    "name": "2XL" },
+        { "slug": "2xl", "size": "5rem",    "name": "2XL" },
         { "slug": "3xl", "size": "7rem",    "name": "3XL" }
       ],
       "units": ["px", "em", "rem", "%", "vh", "vw"]
