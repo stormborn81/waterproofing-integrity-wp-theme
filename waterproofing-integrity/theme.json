@@ -132,12 +132,17 @@
       "presets": [
         {
           "slug": "card",
-          "shadow": "0 2px 8px rgba(30, 58, 95, 0.10)",
+          "shadow": "0 1px 2px 0 rgba(30, 58, 95, 0.05)",
           "name": "Card"
         },
         {
+          "slug": "card-md",
+          "shadow": "0 4px 6px -1px rgba(30, 58, 95, 0.08), 0 2px 4px -2px rgba(30, 58, 95, 0.06)",
+          "name": "Card MD"
+        },
+        {
           "slug": "card-hover",
-          "shadow": "0 8px 24px rgba(30, 58, 95, 0.18)",
+          "shadow": "0 10px 15px -3px rgba(30, 58, 95, 0.10), 0 4px 6px -4px rgba(30, 58, 95, 0.08)",
           "name": "Card Hover"
         },
         {
@@ -200,6 +205,7 @@
       "h4": {
         "typography": {
           "fontFamily": "var(--wp--preset--font-family--raleway)",
+          "fontSize": "0.875rem",
           "fontWeight": "600",
           "lineHeight": "1.3"
         }

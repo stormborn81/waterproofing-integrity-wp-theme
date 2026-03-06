@@ -122,12 +122,12 @@ video {
 	align-items: center;
 	justify-content: center;
 	min-height: 44px;
-	padding: 0.625rem 1.5rem;
+	padding: 0.875rem 1.75rem;
 	background-color: var(--wp--preset--color--gold);
 	color: var(--wp--preset--color--navy);
 	font-family: var(--wp--preset--font-family--raleway);
 	font-weight: 700;
-	font-size: 0.9375rem;
+	font-size: 1rem;
 	text-decoration: none;
 	border-radius: 8px;
 	border: 2px solid transparent;
@@ -399,7 +399,7 @@ a:focus-visible {
 }
 
 .wi-footer-col a {
-	color: rgba(255, 255, 255, 0.8);
+	color: rgba(255, 255, 255, 0.6);
 	text-decoration: none;
 	font-size: 0.9375rem;
 	line-height: 2;
@@ -416,7 +416,7 @@ a:focus-visible {
 	padding: 1rem;
 	text-align: center;
 	font-size: 0.8125rem;
-	color: rgba(255, 255, 255, 0.55);
+	color: rgba(255, 255, 255, 0.4);
 }
 
 @media (min-width: 1024px) {
@@ -467,12 +467,12 @@ a:focus-visible {
 	border-radius: 8px;
 	box-shadow: var(--wp--preset--shadow--card);
 	overflow: hidden;
-	transition: box-shadow 0.25s ease, transform 0.25s ease;
+	transition: box-shadow 0.3s ease, transform 0.3s ease;
 }
 
 .wi-card:hover {
 	box-shadow: var(--wp--preset--shadow--card-hover);
-	transform: translateY(-3px);
+	transform: translateY(-0.25rem);
 }
 
 .wi-card--large {
