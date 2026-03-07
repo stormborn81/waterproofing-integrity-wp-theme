@@ -514,15 +514,6 @@ video {
    AUTHORITY — WHY INDEPENDENCE MATTERS
    ========================================================================== */
 
-/* Flush join between sectors (navy) and authority (light grey) */
-.wi-who-we-work-with {
-	padding-bottom: 0 !important;
-}
-
-.wi-authority {
-	padding-top: 0 !important;
-}
-
 /* Icon + heading on same row */
 .wi-authority-title-row {
 	display: flex;
@@ -921,14 +912,43 @@ video {
 	text-decoration: none;
 }
 
-/* Mobile */
+/* Mobile: 2rem section padding across all section-level blocks */
 @media (max-width: 767px) {
-	.wi-locations,
-	.wi-reviews,
-	.wi-who-we-work-with,
-	.wi-sectors,
+	.wi-404-links,
+	.wi-authority,
+	.wi-blog-grid,
+	.wi-case-studies,
+	.wi-case-studies-grid,
+	.wi-case-study-content-area,
+	.wi-contact-body,
 	.wi-contact-form,
-	.wi-authority {
+	.wi-faq,
+	.wi-locations,
+	.wi-memberships,
+	.wi-pillars,
+	.wi-policy-content,
+	.wi-post-content-area,
+	.wi-process-steps,
+	.wi-related-cases,
+	.wi-reviews,
+	.wi-sectors,
+	.wi-service-design,
+	.wi-service-detail,
+	.wi-service-inspect,
+	.wi-service-remediate,
+	.wi-service-test,
+	.wi-services,
+	.wi-services-navy,
+	.wi-social-proof,
+	.wi-team,
+	.wi-team-member-profile,
+	.wi-testimonials-about,
+	.wi-thank-you-contact,
+	.wi-what-happens-next,
+	.wi-who-we-help,
+	.wi-who-we-work-with,
+	.wi-why-independence,
+	.wi-why-we-exist {
 		padding-top: 2rem !important;
 		padding-bottom: 2rem !important;
 	}
@@ -1090,9 +1110,14 @@ a:focus-visible {
 	}
 }
 
+/* Zero the WP block-gap margin so sections sit flush with no space between them */
+.wp-site-blocks > * + * {
+	margin-block-start: 0 !important;
+}
+
 /* Desktop padding override for all section-level wrappers that use --spacing--2xl.
    Inline WP block styles require !important to be overridden.
-   Mobile: 5rem (--spacing--2xl), Desktop 768px+: 4rem. */
+   Mobile: 2rem, Desktop 768px+: 4rem. */
 @media (min-width: 768px) {
 	.wi-404-links,
 	.wi-authority,
