@@ -586,7 +586,7 @@ a:focus-visible {
 	width: 36px;
 	height: 36px;
 	background: rgba(46, 134, 171, 0.10);
-	border-radius: 50%;
+	border-radius: 8px;
 	display: flex;
 	align-items: center;
 	justify-content: center;
