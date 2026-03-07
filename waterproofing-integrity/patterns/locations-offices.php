@@ -3,9 +3,12 @@
  * Pattern: Locations — 4 Office Cards
  * Slug: waterproofing-integrity/locations-offices
  *
- * White bg — 4-col desktop / 2-col tablet / 1-col mobile.
- * Light Grey card bg — Gold MapPin icon.
- * Offices: Sydney (Head Office), Newcastle, Brisbane, Melbourne.
+ * White bg — 4-col desktop / 1-col mobile.
+ * Section header: "NATIONAL COVERAGE" label (blue), heading left + phone right.
+ * White card bg, 1px #E0E0E0 border — Gold MapPin SVG + city name inline.
+ * Sydney card: "HEAD OFFICE" gold badge inline after city name.
+ * Card rows: address, divider, coverage, email (envelope SVG), phone (phone SVG).
+ * Melbourne card: "Address coming soon" in italic muted grey.
  * Phone numbers use <a href="tel:"> with class .tel-link.
  * Emails use <a href="mailto:">.
  *
@@ -23,9 +26,19 @@ return [
 	<!-- wp:group {"layout":{"type":"constrained","contentSize":"1200px"}} -->
 	<div class="wp-block-group">
 
-		<!-- wp:heading {"textAlign":"center","level":2,"textColor":"navy","style":{"typography":{"fontWeight":"700"},"spacing":{"margin":{"bottom":"var(--wp--preset--spacing--lg)"}}}} -->
-		<h2 class="wp-block-heading has-text-align-center has-navy-color has-text-color" style="font-weight:700;margin-bottom:var(--wp--preset--spacing--lg)">Our Offices</h2>
-		<!-- /wp:heading -->
+		<!-- Section header: label + heading/phone row -->
+		<!-- wp:html -->
+		<div class="wi-locations-header">
+			<p class="wi-location-label">NATIONAL COVERAGE</p>
+			<div class="wi-location-heading-row">
+				<h2 class="wi-location-heading">Offices Across Australia</h2>
+				<a href="tel:1300025944" class="tel-link wi-location-phone" aria-label="Call 1300 025 944">
+					<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13 19.79 19.79 0 0 1 1.65 4.38 2 2 0 0 1 3.63 2.18h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.18 6.18l.97-.97a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+					1300 025 944
+				</a>
+			</div>
+		</div>
+		<!-- /wp:html -->
 
 		<!-- wp:columns {"isStackedOnMobile":true,"style":{"spacing":{"blockGap":"var(--wp--preset--spacing--md)"}}} -->
 		<div class="wp-block-columns is-layout-flex">
@@ -33,105 +46,101 @@ return [
 			<!-- Sydney (Head Office) -->
 			<!-- wp:column -->
 			<div class="wp-block-column">
-				<!-- wp:group {"className":"wi-office-card","style":{"color":{"background":"var(--wp--preset--color--light-grey)"},"border":{"radius":"8px"},"spacing":{"padding":{"top":"var(--wp--preset--spacing--lg)","bottom":"var(--wp--preset--spacing--lg)","left":"var(--wp--preset--spacing--lg)","right":"var(--wp--preset--spacing--lg)"}}}} -->
-				<div class="wp-block-group wi-office-card" style="background:var(--wp--preset--color--light-grey);border-radius:8px;padding:var(--wp--preset--spacing--lg)">
-					<!-- wp:html -->
-					<div style="display:flex;align-items:center;gap:10px;margin-bottom:16px">
-						<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--wp--preset--color--gold)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink:0"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-						<span style="font-family:var(--wp--preset--font-family--raleway);font-weight:700;font-size:0.75rem;letter-spacing:0.08em;color:var(--wp--preset--color--gold);text-transform:uppercase">Head Office</span>
+				<!-- wp:html -->
+				<div class="wi-office-card">
+					<div class="wi-office-city-row">
+						<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#F0A500" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink:0"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+						<span class="wi-office-city">Sydney</span>
+						<span class="wi-office-badge">HEAD OFFICE</span>
 					</div>
-					<!-- /wp:html -->
-					<!-- wp:heading {"level":3,"textColor":"navy","style":{"typography":{"fontWeight":"700","fontSize":"1.0625rem"},"spacing":{"margin":{"bottom":"var(--wp--preset--spacing--sm)"}}}} -->
-					<h3 class="wp-block-heading has-navy-color has-text-color" style="font-weight:700;font-size:1.0625rem;margin-bottom:var(--wp--preset--spacing--sm)">Sydney</h3>
-					<!-- /wp:heading -->
-					<!-- wp:html -->
-					<address style="font-style:normal;display:flex;flex-direction:column;gap:8px">
-						<p style="margin:0;font-size:0.9rem;color:var(--wp--preset--color--muted);line-height:1.5">49C Slough Business Park<br>2 Slough Ave, Silverwater NSW 2128</p>
-						<p style="margin:0;font-size:0.8125rem;font-weight:600;color:var(--wp--preset--color--blue)">Covering NSW &amp; ACT</p>
-						<a href="tel:1300025944" class="tel-link" style="font-size:0.9rem;color:var(--wp--preset--color--navy);font-weight:600;text-decoration:none">1300 025 944</a>
-						<a href="mailto:info@waterproofingintegrity.com.au" style="font-size:0.875rem;color:var(--wp--preset--color--muted);text-decoration:none;word-break:break-all">info@waterproofingintegrity.com.au</a>
-					</address>
-					<!-- /wp:html -->
+					<p class="wi-office-address">49C Slough Business Park<br>2 Slough Ave, Silverwater NSW 2128</p>
+					<div class="wi-office-divider" aria-hidden="true"></div>
+					<p class="wi-office-coverage">Covering: NSW &amp; ACT</p>
+					<a href="mailto:sales@waterproofingintegrity.com.au" class="wi-office-contact-row">
+						<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+						sales@waterproofingintegrity.com.au
+					</a>
+					<a href="tel:1300025944" class="tel-link wi-office-contact-row">
+						<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13 19.79 19.79 0 0 1 1.65 4.38 2 2 0 0 1 3.63 2.18h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.18 6.18l.97-.97a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+						1300 025 944
+					</a>
 				</div>
-				<!-- /wp:group -->
+				<!-- /wp:html -->
 			</div>
 			<!-- /wp:column -->
 
 			<!-- Newcastle -->
 			<!-- wp:column -->
 			<div class="wp-block-column">
-				<!-- wp:group {"className":"wi-office-card","style":{"color":{"background":"var(--wp--preset--color--light-grey)"},"border":{"radius":"8px"},"spacing":{"padding":{"top":"var(--wp--preset--spacing--lg)","bottom":"var(--wp--preset--spacing--lg)","left":"var(--wp--preset--spacing--lg)","right":"var(--wp--preset--spacing--lg)"}}}} -->
-				<div class="wp-block-group wi-office-card" style="background:var(--wp--preset--color--light-grey);border-radius:8px;padding:var(--wp--preset--spacing--lg)">
-					<!-- wp:html -->
-					<div style="display:flex;align-items:center;gap:10px;margin-bottom:16px">
-						<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--wp--preset--color--gold)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink:0"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+				<!-- wp:html -->
+				<div class="wi-office-card">
+					<div class="wi-office-city-row">
+						<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#F0A500" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink:0"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+						<span class="wi-office-city">Newcastle</span>
 					</div>
-					<!-- /wp:html -->
-					<!-- wp:heading {"level":3,"textColor":"navy","style":{"typography":{"fontWeight":"700","fontSize":"1.0625rem"},"spacing":{"margin":{"bottom":"var(--wp--preset--spacing--sm)"}}}} -->
-					<h3 class="wp-block-heading has-navy-color has-text-color" style="font-weight:700;font-size:1.0625rem;margin-bottom:var(--wp--preset--spacing--sm)">Newcastle</h3>
-					<!-- /wp:heading -->
-					<!-- wp:html -->
-					<address style="font-style:normal;display:flex;flex-direction:column;gap:8px">
-						<p style="margin:0;font-size:0.9rem;color:var(--wp--preset--color--muted);line-height:1.5">Suite 1, 3 Honeysuckle Dr<br>Newcastle NSW 2300</p>
-						<p style="margin:0;font-size:0.8125rem;font-weight:600;color:var(--wp--preset--color--blue)">Covering Newcastle &amp; Hunter</p>
-						<a href="tel:1300025944" class="tel-link" style="font-size:0.9rem;color:var(--wp--preset--color--navy);font-weight:600;text-decoration:none">1300 025 944</a>
-						<a href="mailto:newcastle@waterproofingintegrity.com.au" style="font-size:0.875rem;color:var(--wp--preset--color--muted);text-decoration:none;word-break:break-all">newcastle@waterproofingintegrity.com.au</a>
-					</address>
-					<!-- /wp:html -->
+					<p class="wi-office-address">13/56 Industrial Drive<br>Mayfield East NSW 2304</p>
+					<div class="wi-office-divider" aria-hidden="true"></div>
+					<p class="wi-office-coverage">Covering: Newcastle, Central Coast, Greater Hunter, Tamworth, Port Macquarie</p>
+					<a href="mailto:newcastle@waterproofingintegrity.com.au" class="wi-office-contact-row">
+						<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+						newcastle@waterproofingintegrity.com.au
+					</a>
+					<a href="tel:0249265654" class="tel-link wi-office-contact-row">
+						<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13 19.79 19.79 0 0 1 1.65 4.38 2 2 0 0 1 3.63 2.18h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.18 6.18l.97-.97a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+						02 4926 5654
+					</a>
 				</div>
-				<!-- /wp:group -->
+				<!-- /wp:html -->
 			</div>
 			<!-- /wp:column -->
 
 			<!-- Brisbane -->
 			<!-- wp:column -->
 			<div class="wp-block-column">
-				<!-- wp:group {"className":"wi-office-card","style":{"color":{"background":"var(--wp--preset--color--light-grey)"},"border":{"radius":"8px"},"spacing":{"padding":{"top":"var(--wp--preset--spacing--lg)","bottom":"var(--wp--preset--spacing--lg)","left":"var(--wp--preset--spacing--lg)","right":"var(--wp--preset--spacing--lg)"}}}} -->
-				<div class="wp-block-group wi-office-card" style="background:var(--wp--preset--color--light-grey);border-radius:8px;padding:var(--wp--preset--spacing--lg)">
-					<!-- wp:html -->
-					<div style="display:flex;align-items:center;gap:10px;margin-bottom:16px">
-						<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--wp--preset--color--gold)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink:0"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+				<!-- wp:html -->
+				<div class="wi-office-card">
+					<div class="wi-office-city-row">
+						<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#F0A500" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink:0"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+						<span class="wi-office-city">Brisbane</span>
 					</div>
-					<!-- /wp:html -->
-					<!-- wp:heading {"level":3,"textColor":"navy","style":{"typography":{"fontWeight":"700","fontSize":"1.0625rem"},"spacing":{"margin":{"bottom":"var(--wp--preset--spacing--sm)"}}}} -->
-					<h3 class="wp-block-heading has-navy-color has-text-color" style="font-weight:700;font-size:1.0625rem;margin-bottom:var(--wp--preset--spacing--sm)">Brisbane</h3>
-					<!-- /wp:heading -->
-					<!-- wp:html -->
-					<address style="font-style:normal;display:flex;flex-direction:column;gap:8px">
-						<p style="margin:0;font-size:0.9rem;color:var(--wp--preset--color--muted);line-height:1.5">Level 5, 10 Market St<br>Brisbane QLD 4000</p>
-						<p style="margin:0;font-size:0.8125rem;font-weight:600;color:var(--wp--preset--color--blue)">Covering QLD</p>
-						<a href="tel:1300025944" class="tel-link" style="font-size:0.9rem;color:var(--wp--preset--color--navy);font-weight:600;text-decoration:none">1300 025 944</a>
-						<a href="mailto:brisbane@waterproofingintegrity.com.au" style="font-size:0.875rem;color:var(--wp--preset--color--muted);text-decoration:none;word-break:break-all">brisbane@waterproofingintegrity.com.au</a>
-					</address>
-					<!-- /wp:html -->
+					<p class="wi-office-address">PO Box 12<br>Cannon Hill QLD 4170</p>
+					<div class="wi-office-divider" aria-hidden="true"></div>
+					<p class="wi-office-coverage">Covering: Brisbane, Gold Coast, Sunshine Coast, Byron Bay &amp; Greater South-East QLD</p>
+					<a href="mailto:brisbane@waterproofingintegrity.com.au" class="wi-office-contact-row">
+						<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+						brisbane@waterproofingintegrity.com.au
+					</a>
+					<a href="tel:0421003003" class="tel-link wi-office-contact-row">
+						<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13 19.79 19.79 0 0 1 1.65 4.38 2 2 0 0 1 3.63 2.18h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.18 6.18l.97-.97a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+						0421 003 003
+					</a>
 				</div>
-				<!-- /wp:group -->
+				<!-- /wp:html -->
 			</div>
 			<!-- /wp:column -->
 
 			<!-- Melbourne -->
 			<!-- wp:column -->
 			<div class="wp-block-column">
-				<!-- wp:group {"className":"wi-office-card","style":{"color":{"background":"var(--wp--preset--color--light-grey)"},"border":{"radius":"8px"},"spacing":{"padding":{"top":"var(--wp--preset--spacing--lg)","bottom":"var(--wp--preset--spacing--lg)","left":"var(--wp--preset--spacing--lg)","right":"var(--wp--preset--spacing--lg)"}}}} -->
-				<div class="wp-block-group wi-office-card" style="background:var(--wp--preset--color--light-grey);border-radius:8px;padding:var(--wp--preset--spacing--lg)">
-					<!-- wp:html -->
-					<div style="display:flex;align-items:center;gap:10px;margin-bottom:16px">
-						<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--wp--preset--color--gold)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink:0"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+				<!-- wp:html -->
+				<div class="wi-office-card">
+					<div class="wi-office-city-row">
+						<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#F0A500" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink:0"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+						<span class="wi-office-city">Melbourne</span>
 					</div>
-					<!-- /wp:html -->
-					<!-- wp:heading {"level":3,"textColor":"navy","style":{"typography":{"fontWeight":"700","fontSize":"1.0625rem"},"spacing":{"margin":{"bottom":"var(--wp--preset--spacing--sm)"}}}} -->
-					<h3 class="wp-block-heading has-navy-color has-text-color" style="font-weight:700;font-size:1.0625rem;margin-bottom:var(--wp--preset--spacing--sm)">Melbourne</h3>
-					<!-- /wp:heading -->
-					<!-- wp:html -->
-					<address style="font-style:normal;display:flex;flex-direction:column;gap:8px">
-						<p style="margin:0;font-size:0.9rem;color:var(--wp--preset--color--muted);line-height:1.5">Level 14, 330 Collins St<br>Melbourne VIC 3000</p>
-						<p style="margin:0;font-size:0.8125rem;font-weight:600;color:var(--wp--preset--color--blue)">Covering VIC</p>
-						<a href="tel:1300025944" class="tel-link" style="font-size:0.9rem;color:var(--wp--preset--color--navy);font-weight:600;text-decoration:none">1300 025 944</a>
-						<a href="mailto:melbourne@waterproofingintegrity.com.au" style="font-size:0.875rem;color:var(--wp--preset--color--muted);text-decoration:none;word-break:break-all">melbourne@waterproofingintegrity.com.au</a>
-					</address>
-					<!-- /wp:html -->
+					<p class="wi-office-address wi-office-address--soon">Address coming soon</p>
+					<div class="wi-office-divider" aria-hidden="true"></div>
+					<p class="wi-office-coverage">Covering: Geelong, Greater Victoria &amp; Tasmania</p>
+					<a href="mailto:melbourne@waterproofingintegrity.com.au" class="wi-office-contact-row">
+						<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+						melbourne@waterproofingintegrity.com.au
+					</a>
+					<a href="tel:1300025944" class="tel-link wi-office-contact-row">
+						<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13 19.79 19.79 0 0 1 1.65 4.38 2 2 0 0 1 3.63 2.18h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.18 6.18l.97-.97a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+						1300 025 944
+					</a>
 				</div>
-				<!-- /wp:group -->
+				<!-- /wp:html -->
 			</div>
 			<!-- /wp:column -->
 

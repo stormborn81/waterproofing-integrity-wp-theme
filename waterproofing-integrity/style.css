@@ -719,6 +719,147 @@ video {
 }
 
 /* ==========================================================================
+   LOCATIONS SECTION
+   ========================================================================== */
+
+.wi-locations-header {
+	margin-bottom: 2rem;
+}
+
+.wi-location-label {
+	font-size: 0.75rem;
+	font-weight: 700;
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+	color: #2E86AB;
+	margin: 0 0 0.75rem;
+}
+
+.wi-location-heading-row {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 1rem;
+}
+
+.wi-location-heading {
+	font-size: clamp(1.5rem, 3vw, 2rem);
+	font-weight: 700;
+	color: var(--wp--preset--color--navy);
+	margin: 0;
+}
+
+.wi-location-phone {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	font-size: 1rem;
+	font-weight: 700;
+	color: var(--wp--preset--color--navy);
+	text-decoration: none;
+	white-space: nowrap;
+}
+
+.wi-location-phone:hover {
+	color: var(--wp--preset--color--blue);
+}
+
+/* Office cards */
+
+.wi-office-card {
+	background: #fff;
+	border: 1px solid #E0E0E0;
+	border-radius: 8px;
+	padding: 1.5rem;
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+}
+
+.wi-office-city-row {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	margin-bottom: 0.625rem;
+}
+
+.wi-office-city {
+	font-weight: 700;
+	font-size: 1.0625rem;
+	color: var(--wp--preset--color--navy);
+}
+
+.wi-office-badge {
+	font-size: 0.6875rem;
+	font-weight: 700;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+	color: var(--wp--preset--color--gold);
+	background: rgba(240, 165, 0, 0.1);
+	border-radius: 4px;
+	padding: 2px 7px;
+}
+
+.wi-office-address {
+	font-size: 0.875rem;
+	color: var(--wp--preset--color--muted);
+	line-height: 1.5;
+	margin: 0 0 0.75rem;
+}
+
+.wi-office-address--soon {
+	font-style: italic;
+}
+
+.wi-office-divider {
+	height: 1px;
+	background: #E0E0E0;
+	margin-bottom: 0.75rem;
+}
+
+.wi-office-coverage {
+	font-size: 0.875rem;
+	color: #2E86AB;
+	line-height: 1.4;
+	margin: 0 0 0.625rem;
+}
+
+.wi-office-contact-row {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	font-size: 0.875rem;
+	color: var(--wp--preset--color--muted);
+	text-decoration: none;
+	word-break: break-all;
+	margin-bottom: 0.375rem;
+}
+
+.wi-office-contact-row:last-child {
+	margin-bottom: 0;
+}
+
+.wi-office-contact-row:hover {
+	color: var(--wp--preset--color--blue);
+}
+
+/* Mobile */
+@media (max-width: 767px) {
+	.wi-locations {
+		padding-top: 2rem !important;
+	}
+
+	.wi-location-heading-row {
+		flex-direction: column;
+		align-items: flex-start;
+	}
+
+	.wi-office-card {
+		padding: 1.25rem;
+	}
+}
+
+/* ==========================================================================
    FORM TAP TARGETS & INPUTS
    ========================================================================== */
 
