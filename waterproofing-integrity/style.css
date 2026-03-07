@@ -1070,7 +1070,7 @@ a:focus-visible {
 
 @media (min-width: 768px) {
 	.wi-section {
-		padding: 7rem 2rem;
+		padding: 4rem 2rem;
 	}
 }
 
@@ -1080,16 +1080,13 @@ a:focus-visible {
 
 @media (min-width: 768px) {
 	.wi-section--lg {
-		padding: 7rem 2rem;
+		padding: 4rem 2rem;
 	}
 }
 
 /* Desktop padding override for all section-level wrappers that use --spacing--2xl.
    Inline WP block styles require !important to be overridden.
-   Mobile: 5rem (--spacing--2xl), Desktop 768px+: 7rem.
-   NOTE: hardcoded 7rem used instead of var(--wp--preset--spacing--3xl) because
-   _wp_to_kebab_case() transforms slug '3xl' to '3-xl', making the actual CSS
-   variable --wp--preset--spacing--3-xl, which would not match. */
+   Mobile: 5rem (--spacing--2xl), Desktop 768px+: 4rem. */
 @media (min-width: 768px) {
 	.wi-404-links,
 	.wi-authority,
@@ -1126,8 +1123,8 @@ a:focus-visible {
 	.wi-who-we-work-with,
 	.wi-why-independence,
 	.wi-why-we-exist {
-		padding-top: 7rem !important;
-		padding-bottom: 7rem !important;
+		padding-top: 4rem !important;
+		padding-bottom: 4rem !important;
 	}
 }
 
