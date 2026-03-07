@@ -1044,7 +1044,7 @@ a:focus-visible {
 
 @media (min-width: 768px) {
 	.wi-footer-grid {
-		grid-template-columns: 2fr 1fr 1fr 1fr;
+		grid-template-columns: 1.5fr 0.75fr 2fr 1fr;
 		padding: 4rem 2rem;
 	}
 }
@@ -1057,6 +1057,16 @@ a:focus-visible {
 	letter-spacing: 0.08em;
 	color: rgba(255, 255, 255, 0.8);
 	margin: 0 0 1rem;
+}
+
+/* Footer logo — invert to white */
+.wi-footer-logo {
+	max-width: 160px;
+	height: auto;
+	display: block;
+	filter: brightness(0) invert(1);
+	opacity: 0.9;
+	margin-bottom: 0.75rem;
 }
 
 /* Footer brand tagline */
@@ -1142,6 +1152,12 @@ a:focus-visible {
 
 .wi-footer-col a:hover {
 	color: var(--wp--preset--color--white);
+}
+
+/* Restore flex display for icon+text rows — overrides .wi-footer-col a { display:block } */
+.wi-footer-col a.wi-footer-contact-row {
+	display: flex;
+	align-items: center;
 }
 
 .wi-footer-bottom {
