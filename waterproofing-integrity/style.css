@@ -44,6 +44,11 @@ video {
 	overflow-x: unset;
 }
 
+/* Remove WP blockGap between sticky header and first content block */
+.wp-block-template-part:has(.wi-site-header) + * {
+	margin-block-start: 0 !important;
+}
+
 /* The wp-block-template-part container is only as tall as its header child (~80px).
    Sticky must live here so it sticks against the viewport scroll container, not
    within an 80px parent that immediately exhausts its sticky range. */
@@ -84,9 +89,15 @@ video {
 	gap: 1rem;
 }
 
-.wi-site-header .wp-block-site-logo img {
+.wi-logo-link {
+	display: block;
+	line-height: 0;
+}
+
+.wi-logo-img {
 	max-height: 48px;
 	width: auto;
+	display: block;
 }
 
 /* Desktop nav height */
@@ -134,10 +145,7 @@ video {
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
-	min-height: 48px;
-	padding: 1.25rem 1.75rem;
 	background-color: var(--wp--preset--color--gold);
-	color: var(--wp--preset--color--navy);
 	font-family: var(--wp--preset--font-family--raleway);
 	font-weight: 700;
 	font-size: 1rem;
@@ -152,7 +160,6 @@ video {
 .cta-button:hover,
 .wp-block-button__link.cta-button:hover {
 	background-color: #d9920a;
-	color: var(--wp--preset--color--navy);
 	box-shadow: 0 4px 12px rgba(240, 165, 0, 0.35);
 }
 
