@@ -786,7 +786,7 @@ video {
 .wi-office-city {
 	font-weight: 700;
 	font-size: 1.0625rem;
-	color: var(--wp--preset--color--navy);
+	color: #1E3A5F !important;
 }
 
 .wi-office-badge {
@@ -794,10 +794,11 @@ video {
 	font-weight: 700;
 	letter-spacing: 0.06em;
 	text-transform: uppercase;
-	color: var(--wp--preset--color--gold);
-	background: rgba(240, 165, 0, 0.1);
+	color: #F0A500;
+	background: #FFF3CD;
+	border: 1px solid #F0A500;
 	border-radius: 4px;
-	padding: 2px 7px;
+	padding: 2px 8px;
 }
 
 .wi-office-address {
@@ -812,18 +813,20 @@ video {
 }
 
 .wi-office-divider {
+	display: block;
 	width: 100%;
 	height: 1px;
 	background: #E0E0E0;
 	border: none;
-	margin: 0 0 0.75rem;
+	margin: 0 0 0.75rem !important;
 	padding: 0;
 	flex-shrink: 0;
+	align-self: stretch;
 }
 
 .wi-office-coverage {
 	font-size: 0.875rem;
-	color: #2E86AB;
+	color: #2E86AB !important;
 	line-height: 1.4;
 	margin: 0 0 0.625rem;
 }
