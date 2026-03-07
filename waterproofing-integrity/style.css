@@ -789,15 +789,15 @@ video {
 }
 
 .wi-office-badge {
+	background: rgba(46, 134, 171, 0.12) !important;
+	color: #2E86AB !important;
+	border: none;
+	border-radius: 6px;
+	padding: 3px 10px;
 	font-size: 0.7rem;
 	font-weight: 600;
 	letter-spacing: 0.05em;
 	text-transform: uppercase;
-	color: #F0A500;
-	background: rgba(240, 165, 0, 0.15);
-	border: none;
-	border-radius: 6px;
-	padding: 3px 10px;
 }
 
 .wi-office-address {
