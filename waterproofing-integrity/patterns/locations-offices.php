@@ -67,7 +67,7 @@ return [
 					<!-- Row 3: address -->
 					<p class="wi-office-address">49C Slough Business Park, 2 Slough Ave, Silverwater NSW 2128</p>
 					<!-- Divider -->
-					<div class="wi-office-divider" aria-hidden="true"></div>
+					<hr class="wi-office-divider">
 					<!-- Row 4: email -->
 					<a href="mailto:sales@waterproofingintegrity.com.au" class="wi-office-contact-row">
 						<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#6B7E9A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink:0"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
@@ -98,7 +98,7 @@ return [
 					<!-- Row 3: address -->
 					<p class="wi-office-address">13/56 Industrial Drive, Mayfield East NSW 2304</p>
 					<!-- Divider -->
-					<div class="wi-office-divider" aria-hidden="true"></div>
+					<hr class="wi-office-divider">
 					<!-- Row 4: email -->
 					<a href="mailto:newcastle@waterproofingintegrity.com.au" class="wi-office-contact-row">
 						<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#6B7E9A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink:0"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
@@ -129,7 +129,7 @@ return [
 					<!-- Row 3: address -->
 					<p class="wi-office-address">PO Box 12, Cannon Hill QLD 4170</p>
 					<!-- Divider -->
-					<div class="wi-office-divider" aria-hidden="true"></div>
+					<hr class="wi-office-divider">
 					<!-- Row 4: email -->
 					<a href="mailto:brisbane@waterproofingintegrity.com.au" class="wi-office-contact-row">
 						<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#6B7E9A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink:0"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
@@ -160,7 +160,7 @@ return [
 					<!-- Row 3: address coming soon -->
 					<p class="wi-office-address wi-office-address--soon">Address coming soon</p>
 					<!-- Divider -->
-					<div class="wi-office-divider" aria-hidden="true"></div>
+					<hr class="wi-office-divider">
 					<!-- Row 4: email -->
 					<a href="mailto:melbourne@waterproofingintegrity.com.au" class="wi-office-contact-row">
 						<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#6B7E9A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink:0"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>

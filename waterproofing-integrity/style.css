@@ -812,9 +812,13 @@ video {
 }
 
 .wi-office-divider {
+	width: 100%;
 	height: 1px;
 	background: #E0E0E0;
-	margin-bottom: 0.75rem;
+	border: none;
+	margin: 0 0 0.75rem;
+	padding: 0;
+	flex-shrink: 0;
 }
 
 .wi-office-coverage {
