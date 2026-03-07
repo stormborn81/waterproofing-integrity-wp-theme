@@ -23,7 +23,7 @@ return [
 
 		<!-- Section label -->
 		<!-- wp:paragraph {"textAlign":"center","style":{"typography":{"fontSize":"0.75rem","fontWeight":"700","letterSpacing":"0.1em"},"color":{"text":"rgba(255,255,255,0.5)"},"spacing":{"margin":{"bottom":"var(--wp--preset--spacing--xl)"}}}} -->
-		<p class="has-text-align-center" style="font-size:0.75rem;font-weight:700;letter-spacing:0.1em;color:rgba(255,255,255,0.5);text-transform:uppercase;margin-bottom:var(--wp--preset--spacing--xl)">WHO WE WORK WITH</p>
+		<p class="has-text-align-center wi-section-label" style="margin-bottom:var(--wp--preset--spacing--xl)">WHO WE WORK WITH</p>
 		<!-- /wp:paragraph -->
 
 		<!-- wp:columns {"isStackedOnMobile":true,"style":{"spacing":{"blockGap":"var(--wp--preset--spacing--lg)"}}} -->
@@ -49,11 +49,11 @@ return [
 					<!-- /wp:heading -->
 
 					<!-- wp:paragraph {"style":{"color":{"text":"rgba(255,255,255,0.8)"},"typography":{"fontSize":"0.9375rem"},"spacing":{"margin":{"top":"0","bottom":"var(--wp--preset--spacing--lg)"}}}} -->
-					<p style="color:rgba(255,255,255,0.8);font-size:0.9375rem;line-height:1.65;margin-top:0;margin-bottom:var(--wp--preset--spacing--lg)">Risk registers, programme delays and defect liability, managed before they escalate.</p>
+					<p class="wi-sector-description" style="margin-top:0;margin-bottom:var(--wp--preset--spacing--lg)">Risk registers, programme delays and defect liability, managed before they escalate.</p>
 					<!-- /wp:paragraph -->
 
 					<!-- wp:paragraph {"style":{"typography":{"fontWeight":"600","fontSize":"0.9375rem"},"spacing":{"margin":{"top":"auto","bottom":"0"}}}} -->
-					<p style="font-weight:600;font-size:0.9375rem;margin-top:auto;margin-bottom:0"><a href="/sectors/builders/" style="color:#fff;text-decoration:none">Learn More &#8594;</a></p>
+					<p class="wi-sector-learn-more" style="margin-top:auto;margin-bottom:0"><a href="/sectors/builders/">Learn More &#8594;</a></p>
 					<!-- /wp:paragraph -->
 
 				</div>
@@ -81,11 +81,11 @@ return [
 					<!-- /wp:heading -->
 
 					<!-- wp:paragraph {"style":{"color":{"text":"rgba(255,255,255,0.8)"},"typography":{"fontSize":"0.9375rem"},"spacing":{"margin":{"top":"0","bottom":"var(--wp--preset--spacing--lg)"}}}} -->
-					<p style="color:rgba(255,255,255,0.8);font-size:0.9375rem;line-height:1.65;margin-top:0;margin-bottom:var(--wp--preset--spacing--lg)">Long-term asset protection, warranty periods and portfolio risk, all covered.</p>
+					<p class="wi-sector-description" style="margin-top:0;margin-bottom:var(--wp--preset--spacing--lg)">Long-term asset protection, warranty periods and portfolio risk, all covered.</p>
 					<!-- /wp:paragraph -->
 
 					<!-- wp:paragraph {"style":{"typography":{"fontWeight":"600","fontSize":"0.9375rem"},"spacing":{"margin":{"top":"auto","bottom":"0"}}}} -->
-					<p style="font-weight:600;font-size:0.9375rem;margin-top:auto;margin-bottom:0"><a href="/sectors/developers/" style="color:#fff;text-decoration:none">Learn More &#8594;</a></p>
+					<p class="wi-sector-learn-more" style="margin-top:auto;margin-bottom:0"><a href="/sectors/developers/">Learn More &#8594;</a></p>
 					<!-- /wp:paragraph -->
 
 				</div>
@@ -113,11 +113,11 @@ return [
 					<!-- /wp:heading -->
 
 					<!-- wp:paragraph {"style":{"color":{"text":"rgba(255,255,255,0.8)"},"typography":{"fontSize":"0.9375rem"},"spacing":{"margin":{"top":"0","bottom":"var(--wp--preset--spacing--lg)"}}}} -->
-					<p style="color:rgba(255,255,255,0.8);font-size:0.9375rem;line-height:1.65;margin-top:0;margin-bottom:var(--wp--preset--spacing--lg)">Condition assessments, maintenance planning and remediation budgets, clarified.</p>
+					<p class="wi-sector-description" style="margin-top:0;margin-bottom:var(--wp--preset--spacing--lg)">Condition assessments, maintenance planning and remediation budgets, clarified.</p>
 					<!-- /wp:paragraph -->
 
 					<!-- wp:paragraph {"style":{"typography":{"fontWeight":"600","fontSize":"0.9375rem"},"spacing":{"margin":{"top":"auto","bottom":"0"}}}} -->
-					<p style="font-weight:600;font-size:0.9375rem;margin-top:auto;margin-bottom:0"><a href="/sectors/asset-owners/" style="color:#fff;text-decoration:none">Learn More &#8594;</a></p>
+					<p class="wi-sector-learn-more" style="margin-top:auto;margin-bottom:0"><a href="/sectors/asset-owners/">Learn More &#8594;</a></p>
 					<!-- /wp:paragraph -->
 
 				</div>
