@@ -505,15 +505,17 @@ video {
 }
 
 .wi-authority-icon {
-	width: 40px;
-	height: 40px;
-	background: #F2F2F2;
-	border-radius: 8px;
-	padding: 8px;
-	display: flex;
+	background: rgba(27, 45, 75, 0.1);
+	border-radius: 10px;
+	padding: 10px;
+	display: inline-flex;
 	align-items: center;
 	justify-content: center;
 	flex-shrink: 0;
+}
+
+.wi-authority-icon svg {
+	stroke: rgb(27, 45, 75);
 }
 
 .wi-authority-heading {
