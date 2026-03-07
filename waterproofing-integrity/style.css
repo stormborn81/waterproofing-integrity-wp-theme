@@ -923,8 +923,13 @@ video {
 
 /* Mobile */
 @media (max-width: 767px) {
-	.wi-locations {
+	.wi-locations,
+	.wi-reviews,
+	.wi-who-we-work-with,
+	.wi-sectors,
+	.wi-contact-form {
 		padding-top: 2rem !important;
+		padding-bottom: 2rem !important;
 	}
 
 	.wi-location-heading-row {
