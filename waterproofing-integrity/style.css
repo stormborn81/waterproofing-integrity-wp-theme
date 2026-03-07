@@ -927,7 +927,8 @@ video {
 	.wi-reviews,
 	.wi-who-we-work-with,
 	.wi-sectors,
-	.wi-contact-form {
+	.wi-contact-form,
+	.wi-authority {
 		padding-top: 2rem !important;
 		padding-bottom: 2rem !important;
 	}
