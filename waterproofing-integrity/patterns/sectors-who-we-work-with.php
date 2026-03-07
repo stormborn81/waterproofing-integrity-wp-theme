@@ -3,8 +3,9 @@
  * Pattern: Sectors — Who We Work With
  * Slug: waterproofing-integrity/sectors-who-we-work-with
  *
- * Navy gradient bg — 3 glassmorphism cards (white 5% opacity, backdrop-blur).
- * Cards: Builders, Developers & Owners, Asset Owners.
+ * Navy gradient bg — small white/muted uppercase "WHO WE WORK WITH" label — 3 glassmorphism cards.
+ * Cards: icon + gold sector label row, white title (2-line <br>), white 80% description, white Learn More →.
+ * Sectors: Builders, Developers, Asset Owners.
  *
  * @package WaterproofingIntegrity
  */
@@ -20,12 +21,9 @@ return [
 	<!-- wp:group {"layout":{"type":"constrained","contentSize":"1200px"}} -->
 	<div class="wp-block-group">
 
-		<!-- wp:heading {"textAlign":"center","level":2,"textColor":"white","style":{"typography":{"fontWeight":"700"},"spacing":{"margin":{"bottom":"var(--wp--preset--spacing--sm)"}}}} -->
-		<h2 class="wp-block-heading has-text-align-center has-white-color has-text-color" style="font-weight:700;margin-bottom:var(--wp--preset--spacing--sm)">Who We Work With</h2>
-		<!-- /wp:heading -->
-
-		<!-- wp:paragraph {"textAlign":"center","style":{"color":{"text":"rgba(255,255,255,0.7)"},"spacing":{"margin":{"bottom":"var(--wp--preset--spacing--xl)"}}}} -->
-		<p class="has-text-align-center" style="color:rgba(255,255,255,0.7);margin-bottom:var(--wp--preset--spacing--xl)">Independent waterproofing advisory trusted by the full construction supply chain.</p>
+		<!-- Section label -->
+		<!-- wp:paragraph {"textAlign":"center","style":{"typography":{"fontSize":"0.75rem","fontWeight":"700","letterSpacing":"0.1em"},"color":{"text":"rgba(255,255,255,0.5)"},"spacing":{"margin":{"bottom":"var(--wp--preset--spacing--xl)"}}}} -->
+		<p class="has-text-align-center" style="font-size:0.75rem;font-weight:700;letter-spacing:0.1em;color:rgba(255,255,255,0.5);text-transform:uppercase;margin-bottom:var(--wp--preset--spacing--xl)">WHO WE WORK WITH</p>
 		<!-- /wp:paragraph -->
 
 		<!-- wp:columns {"isStackedOnMobile":true,"style":{"spacing":{"blockGap":"var(--wp--preset--spacing--lg)"}}} -->
@@ -38,25 +36,24 @@ return [
 				<div class="wp-block-group wi-sector-card" style="background:rgba(255,255,255,0.05);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,0.12);border-radius:12px;padding:var(--wp--preset--spacing--xl) var(--wp--preset--spacing--lg)">
 
 					<!-- wp:html -->
-					<div style="width:56px;height:56px;background:rgba(255,255,255,0.08);border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:20px">
-						<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--wp--preset--color--gold)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+					<div class="wi-sector-card-header">
+						<div class="wi-sector-icon">
+							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18"/><path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"/><path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"/><path d="M10 6h4"/><path d="M10 10h4"/><path d="M10 14h4"/><path d="M10 18h4"/></svg>
+						</div>
+						<span class="wi-sector-label">BUILDERS</span>
 					</div>
 					<!-- /wp:html -->
 
-					<!-- wp:heading {"level":3,"textColor":"white","style":{"typography":{"fontWeight":"700","fontSize":"1.25rem"},"spacing":{"margin":{"bottom":"var(--wp--preset--spacing--sm)"}}}} -->
-					<h3 class="wp-block-heading has-white-color has-text-color" style="font-weight:700;font-size:1.25rem;margin-bottom:var(--wp--preset--spacing--sm)">Builders</h3>
+					<!-- wp:heading {"level":3,"textColor":"white","style":{"typography":{"fontWeight":"700","fontSize":"1.125rem"},"spacing":{"margin":{"top":"0","bottom":"var(--wp--preset--spacing--sm)"}}}} -->
+					<h3 class="wp-block-heading has-white-color has-text-color" style="font-weight:700;font-size:1.125rem;margin-top:0;margin-bottom:var(--wp--preset--spacing--sm)">Protect your programme.<br>Reduce rework.</h3>
 					<!-- /wp:heading -->
 
-					<!-- wp:heading {"level":4,"style":{"typography":{"fontWeight":"600","fontSize":"0.875rem","letterSpacing":"0.05em"},"color":{"text":"var(--wp--preset--color--gold)"},"spacing":{"margin":{"bottom":"var(--wp--preset--spacing--sm)"}}}} -->
-					<h4 class="wp-block-heading" style="font-weight:600;font-size:0.875rem;letter-spacing:0.05em;color:var(--wp--preset--color--gold);text-transform:uppercase;margin-bottom:var(--wp--preset--spacing--sm)">Construction Quality Assurance</h4>
-					<!-- /wp:heading -->
-
-					<!-- wp:paragraph {"style":{"color":{"text":"rgba(255,255,255,0.75)"},"typography":{"fontSize":"0.9375rem"},"spacing":{"margin":{"bottom":"var(--wp--preset--spacing--md)"}}}} -->
-					<p style="color:rgba(255,255,255,0.75);font-size:0.9375rem;line-height:1.65;margin-bottom:var(--wp--preset--spacing--md)">Independent oversight at every stage of construction. We work alongside your trades to catch defects before they become disputes, protecting your programme and your liability exposure.</p>
+					<!-- wp:paragraph {"style":{"color":{"text":"rgba(255,255,255,0.8)"},"typography":{"fontSize":"0.9375rem"},"spacing":{"margin":{"top":"0","bottom":"var(--wp--preset--spacing--lg)"}}}} -->
+					<p style="color:rgba(255,255,255,0.8);font-size:0.9375rem;line-height:1.65;margin-top:0;margin-bottom:var(--wp--preset--spacing--lg)">Risk registers, programme delays and defect liability, managed before they escalate.</p>
 					<!-- /wp:paragraph -->
 
-					<!-- wp:paragraph {"style":{"color":{"text":"var(--wp--preset--color--gold)"},"typography":{"fontWeight":"600","fontSize":"0.9375rem"}}} -->
-					<p style="color:var(--wp--preset--color--gold);font-weight:600;font-size:0.9375rem"><a href="/sectors/builders/" style="color:var(--wp--preset--color--gold);text-decoration:none">Learn More &#8594;</a></p>
+					<!-- wp:paragraph {"style":{"typography":{"fontWeight":"600","fontSize":"0.9375rem"},"spacing":{"margin":{"top":"auto","bottom":"0"}}}} -->
+					<p style="font-weight:600;font-size:0.9375rem;margin-top:auto;margin-bottom:0"><a href="/sectors/builders/" style="color:#fff;text-decoration:none">Learn More &#8594;</a></p>
 					<!-- /wp:paragraph -->
 
 				</div>
@@ -64,32 +61,31 @@ return [
 			</div>
 			<!-- /wp:column -->
 
-			<!-- Card 2: Developers & Owners -->
+			<!-- Card 2: Developers -->
 			<!-- wp:column -->
 			<div class="wp-block-column">
 				<!-- wp:group {"className":"wi-sector-card","style":{"border":{"radius":"12px"},"spacing":{"padding":{"top":"var(--wp--preset--spacing--xl)","bottom":"var(--wp--preset--spacing--xl)","left":"var(--wp--preset--spacing--lg)","right":"var(--wp--preset--spacing--lg)"}}}} -->
 				<div class="wp-block-group wi-sector-card" style="background:rgba(255,255,255,0.05);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,0.12);border-radius:12px;padding:var(--wp--preset--spacing--xl) var(--wp--preset--spacing--lg)">
 
 					<!-- wp:html -->
-					<div style="width:56px;height:56px;background:rgba(255,255,255,0.08);border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:20px">
-						<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--wp--preset--color--gold)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+					<div class="wi-sector-card-header">
+						<div class="wi-sector-icon">
+							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="3" x2="21" y1="22" y2="22"/><line x1="6" x2="6" y1="18" y2="11"/><line x1="10" x2="10" y1="18" y2="11"/><line x1="14" x2="14" y1="18" y2="11"/><line x1="18" x2="18" y1="18" y2="11"/><polygon points="12 2 20 7 4 7"/></svg>
+						</div>
+						<span class="wi-sector-label">DEVELOPERS</span>
 					</div>
 					<!-- /wp:html -->
 
-					<!-- wp:heading {"level":3,"textColor":"white","style":{"typography":{"fontWeight":"700","fontSize":"1.25rem"},"spacing":{"margin":{"bottom":"var(--wp--preset--spacing--sm)"}}}} -->
-					<h3 class="wp-block-heading has-white-color has-text-color" style="font-weight:700;font-size:1.25rem;margin-bottom:var(--wp--preset--spacing--sm)">Developers &amp; Owners</h3>
+					<!-- wp:heading {"level":3,"textColor":"white","style":{"typography":{"fontWeight":"700","fontSize":"1.125rem"},"spacing":{"margin":{"top":"0","bottom":"var(--wp--preset--spacing--sm)"}}}} -->
+					<h3 class="wp-block-heading has-white-color has-text-color" style="font-weight:700;font-size:1.125rem;margin-top:0;margin-bottom:var(--wp--preset--spacing--sm)">Protect your asset.<br>Reduce your exposure.</h3>
 					<!-- /wp:heading -->
 
-					<!-- wp:heading {"level":4,"style":{"typography":{"fontWeight":"600","fontSize":"0.875rem","letterSpacing":"0.05em"},"color":{"text":"var(--wp--preset--color--gold)"},"spacing":{"margin":{"bottom":"var(--wp--preset--spacing--sm)"}}}} -->
-					<h4 class="wp-block-heading" style="font-weight:600;font-size:0.875rem;letter-spacing:0.05em;color:var(--wp--preset--color--gold);text-transform:uppercase;margin-bottom:var(--wp--preset--spacing--sm)">Risk Management &amp; Due Diligence</h4>
-					<!-- /wp:heading -->
-
-					<!-- wp:paragraph {"style":{"color":{"text":"rgba(255,255,255,0.75)"},"typography":{"fontSize":"0.9375rem"},"spacing":{"margin":{"bottom":"var(--wp--preset--spacing--md)"}}}} -->
-					<p style="color:rgba(255,255,255,0.75);font-size:0.9375rem;line-height:1.65;margin-bottom:var(--wp--preset--spacing--md)">Protect your development from waterproofing risk from feasibility through to handover. Our independent advice gives you the evidence base to manage contractors, satisfy financiers, and defend against future claims.</p>
+					<!-- wp:paragraph {"style":{"color":{"text":"rgba(255,255,255,0.8)"},"typography":{"fontSize":"0.9375rem"},"spacing":{"margin":{"top":"0","bottom":"var(--wp--preset--spacing--lg)"}}}} -->
+					<p style="color:rgba(255,255,255,0.8);font-size:0.9375rem;line-height:1.65;margin-top:0;margin-bottom:var(--wp--preset--spacing--lg)">Long-term asset protection, warranty periods and portfolio risk, all covered.</p>
 					<!-- /wp:paragraph -->
 
-					<!-- wp:paragraph {"style":{"color":{"text":"var(--wp--preset--color--gold)"},"typography":{"fontWeight":"600","fontSize":"0.9375rem"}}} -->
-					<p style="color:var(--wp--preset--color--gold);font-weight:600;font-size:0.9375rem"><a href="/sectors/developers/" style="color:var(--wp--preset--color--gold);text-decoration:none">Learn More &#8594;</a></p>
+					<!-- wp:paragraph {"style":{"typography":{"fontWeight":"600","fontSize":"0.9375rem"},"spacing":{"margin":{"top":"auto","bottom":"0"}}}} -->
+					<p style="font-weight:600;font-size:0.9375rem;margin-top:auto;margin-bottom:0"><a href="/sectors/developers/" style="color:#fff;text-decoration:none">Learn More &#8594;</a></p>
 					<!-- /wp:paragraph -->
 
 				</div>
@@ -104,25 +100,24 @@ return [
 				<div class="wp-block-group wi-sector-card" style="background:rgba(255,255,255,0.05);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,0.12);border-radius:12px;padding:var(--wp--preset--spacing--xl) var(--wp--preset--spacing--lg)">
 
 					<!-- wp:html -->
-					<div style="width:56px;height:56px;background:rgba(255,255,255,0.08);border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:20px">
-						<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--wp--preset--color--gold)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M4.93 4.93a10 10 0 0 0 0 14.14"/></svg>
+					<div class="wi-sector-card-header">
+						<div class="wi-sector-icon">
+							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+						</div>
+						<span class="wi-sector-label">ASSET OWNERS</span>
 					</div>
 					<!-- /wp:html -->
 
-					<!-- wp:heading {"level":3,"textColor":"white","style":{"typography":{"fontWeight":"700","fontSize":"1.25rem"},"spacing":{"margin":{"bottom":"var(--wp--preset--spacing--sm)"}}}} -->
-					<h3 class="wp-block-heading has-white-color has-text-color" style="font-weight:700;font-size:1.25rem;margin-bottom:var(--wp--preset--spacing--sm)">Asset Owners</h3>
+					<!-- wp:heading {"level":3,"textColor":"white","style":{"typography":{"fontWeight":"700","fontSize":"1.125rem"},"spacing":{"margin":{"top":"0","bottom":"var(--wp--preset--spacing--sm)"}}}} -->
+					<h3 class="wp-block-heading has-white-color has-text-color" style="font-weight:700;font-size:1.125rem;margin-top:0;margin-bottom:var(--wp--preset--spacing--sm)">Know what you own.<br>Know what it costs.</h3>
 					<!-- /wp:heading -->
 
-					<!-- wp:heading {"level":4,"style":{"typography":{"fontWeight":"600","fontSize":"0.875rem","letterSpacing":"0.05em"},"color":{"text":"var(--wp--preset--color--gold)"},"spacing":{"margin":{"bottom":"var(--wp--preset--spacing--sm)"}}}} -->
-					<h4 class="wp-block-heading" style="font-weight:600;font-size:0.875rem;letter-spacing:0.05em;color:var(--wp--preset--color--gold);text-transform:uppercase;margin-bottom:var(--wp--preset--spacing--sm)">Ongoing Maintenance &amp; Compliance</h4>
-					<!-- /wp:heading -->
-
-					<!-- wp:paragraph {"style":{"color":{"text":"rgba(255,255,255,0.75)"},"typography":{"fontSize":"0.9375rem"},"spacing":{"margin":{"bottom":"var(--wp--preset--spacing--md)"}}}} -->
-					<p style="color:rgba(255,255,255,0.75);font-size:0.9375rem;line-height:1.65;margin-bottom:var(--wp--preset--spacing--md)">Maintain the long-term integrity of your building envelope with independent assessment, planned maintenance programmes, and expert defect resolution backed by NATA-accredited testing.</p>
+					<!-- wp:paragraph {"style":{"color":{"text":"rgba(255,255,255,0.8)"},"typography":{"fontSize":"0.9375rem"},"spacing":{"margin":{"top":"0","bottom":"var(--wp--preset--spacing--lg)"}}}} -->
+					<p style="color:rgba(255,255,255,0.8);font-size:0.9375rem;line-height:1.65;margin-top:0;margin-bottom:var(--wp--preset--spacing--lg)">Condition assessments, maintenance planning and remediation budgets, clarified.</p>
 					<!-- /wp:paragraph -->
 
-					<!-- wp:paragraph {"style":{"color":{"text":"var(--wp--preset--color--gold)"},"typography":{"fontWeight":"600","fontSize":"0.9375rem"}}} -->
-					<p style="color:var(--wp--preset--color--gold);font-weight:600;font-size:0.9375rem"><a href="/sectors/asset-owners/" style="color:var(--wp--preset--color--gold);text-decoration:none">Learn More &#8594;</a></p>
+					<!-- wp:paragraph {"style":{"typography":{"fontWeight":"600","fontSize":"0.9375rem"},"spacing":{"margin":{"top":"auto","bottom":"0"}}}} -->
+					<p style="font-weight:600;font-size:0.9375rem;margin-top:auto;margin-bottom:0"><a href="/sectors/asset-owners/" style="color:#fff;text-decoration:none">Learn More &#8594;</a></p>
 					<!-- /wp:paragraph -->
 
 				</div>

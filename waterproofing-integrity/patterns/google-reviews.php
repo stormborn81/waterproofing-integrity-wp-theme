@@ -49,11 +49,13 @@ return [
 					<div class="wi-review-author">
 						<div class="wi-review-avatar" aria-hidden="true">DA</div>
 						<div class="wi-review-author-info">
-							<p class="wi-review-name">D A</p>
+							<div class="wi-review-name-row">
+								<span class="wi-review-name">D A</span>
+								<span class="wi-review-stars" aria-label="5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+							</div>
 							<p class="wi-review-date">2 months ago</p>
 						</div>
 					</div>
-					<div class="wi-review-stars" aria-label="5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
 					<p class="wi-review-text">David and his team provided an independent, evidence-based assessment that stood out for its integrity, measured analysis, and proportionate articulation. Although I approached them on short notice and in difficult circumstances, they accepted my request and delivered exceptional support. Their assistance has been catalytic in my ongoing legal efforts and is likely to be a genuine game changer. I wholeheartedly endorse this company and sincerely appreciate their help.</p>
 				</div>
 				<!-- /wp:html -->
@@ -68,11 +70,13 @@ return [
 					<div class="wi-review-author">
 						<div class="wi-review-avatar" aria-hidden="true">SM</div>
 						<div class="wi-review-author-info">
-							<p class="wi-review-name">Salar Mohseni</p>
+							<div class="wi-review-name-row">
+								<span class="wi-review-name">Salar Mohseni</span>
+								<span class="wi-review-stars" aria-label="5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+							</div>
 							<p class="wi-review-date">2 months ago</p>
 						</div>
 					</div>
-					<div class="wi-review-stars" aria-label="5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
 					<p class="wi-review-text">I had a great experience in using David\'s technical expertise and getting professional advice on waterproofing best practices. David was very collaborative and took genuine time in explaining what to look out for.</p>
 				</div>
 				<!-- /wp:html -->
@@ -87,11 +91,13 @@ return [
 					<div class="wi-review-author">
 						<div class="wi-review-avatar" aria-hidden="true">JY</div>
 						<div class="wi-review-author-info">
-							<p class="wi-review-name">Jamie Yiw</p>
+							<div class="wi-review-name-row">
+								<span class="wi-review-name">Jamie Yiw</span>
+								<span class="wi-review-stars" aria-label="5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+							</div>
 							<p class="wi-review-date">3 months ago</p>
 						</div>
 					</div>
-					<div class="wi-review-stars" aria-label="5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
 					<p class="wi-review-text">They preformed a water proofing inspection on our new build in Brisbane. Very detailed report which proved very useful. I would recommend. Thanks Kieran</p>
 				</div>
 				<!-- /wp:html -->
