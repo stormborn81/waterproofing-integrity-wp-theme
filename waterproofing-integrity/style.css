@@ -791,12 +791,13 @@ video {
 .wi-office-badge {
 	font-size: 0.7rem;
 	font-weight: 600;
-	letter-spacing: 0.06em;
+	letter-spacing: 0.05em;
 	text-transform: uppercase;
 	color: #F0A500;
-	background: rgba(240, 165, 0, 0.1);
-	border-radius: 4px;
-	padding: 2px 8px;
+	background: rgba(240, 165, 0, 0.15);
+	border: none;
+	border-radius: 6px;
+	padding: 3px 10px;
 }
 
 .wi-office-address {
