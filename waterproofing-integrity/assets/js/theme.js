@@ -295,6 +295,16 @@ const initNavOverlayClose = () => {
 };
 
 // ---------------------------------------------------------------------------
+// Copyright year: keep footer year current without hardcoding
+// ---------------------------------------------------------------------------
+
+const initCopyrightYear = () => {
+	const el = document.querySelector('.wi-footer-bottom p');
+	if (!el) return;
+	el.innerHTML = el.innerHTML.replace(/\d{4}/, new Date().getFullYear());
+};
+
+// ---------------------------------------------------------------------------
 // Init on DOMContentLoaded
 // ---------------------------------------------------------------------------
 
@@ -311,6 +321,7 @@ const init = () => {
 	initNavOverlayClose();
 	initAnchorScroll();
 	initZohoFormTracking();
+	initCopyrightYear();
 };
 
 if (document.readyState === 'loading') {
