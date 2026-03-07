@@ -45,14 +45,25 @@ If diverged: git stash, git pull origin master --rebase, git stash pop, git push
 
 ## Source Reference URLs
 
-Loveable design source (fetch these when doing visual alignment work):
-- https://raw.githubusercontent.com/stormborn81/water-tight-resolve/main/src/index.css
+Loveable design source (fetch these when doing visual alignment work).
+Base URL: https://raw.githubusercontent.com/stormborn81/water-tight-resolve/main/src/
+
+Component filenames are confirmed from Index.tsx imports — use these exactly:
+- https://raw.githubusercontent.com/stormborn81/water-tight-resolve/main/src/pages/Index.tsx
+- https://raw.githubusercontent.com/stormborn81/water-tight-resolve/main/src/components/Navigation.tsx
+- https://raw.githubusercontent.com/stormborn81/water-tight-resolve/main/src/components/ProofTicker.tsx
 - https://raw.githubusercontent.com/stormborn81/water-tight-resolve/main/src/components/HeroSection.tsx
 - https://raw.githubusercontent.com/stormborn81/water-tight-resolve/main/src/components/ServicesSection.tsx
-- https://raw.githubusercontent.com/stormborn81/water-tight-resolve/main/src/components/StatsSection.tsx
-- https://raw.githubusercontent.com/stormborn81/water-tight-resolve/main/src/components/GoogleReviews.tsx
-- https://raw.githubusercontent.com/stormborn81/water-tight-resolve/main/src/components/WhyChooseUs.tsx
+- https://raw.githubusercontent.com/stormborn81/water-tight-resolve/main/src/components/SocialProofSection.tsx
+- https://raw.githubusercontent.com/stormborn81/water-tight-resolve/main/src/components/GoogleReviewsSection.tsx
 - https://raw.githubusercontent.com/stormborn81/water-tight-resolve/main/src/components/SectorsSection.tsx
+- https://raw.githubusercontent.com/stormborn81/water-tight-resolve/main/src/components/AuthoritySection.tsx
+- https://raw.githubusercontent.com/stormborn81/water-tight-resolve/main/src/components/ProjectTypesSection.tsx
 - https://raw.githubusercontent.com/stormborn81/water-tight-resolve/main/src/components/LocationsSection.tsx
+- https://raw.githubusercontent.com/stormborn81/water-tight-resolve/main/src/components/ContactSection.tsx
 - https://raw.githubusercontent.com/stormborn81/water-tight-resolve/main/src/components/Footer.tsx
-- https://raw.githubusercontent.com/stormborn81/water-tight-resolve/main/src/components/Navigation.tsx
+
+Note: filenames must match Index.tsx imports exactly. Previously incorrect names:
+- GoogleReviews.tsx → GoogleReviewsSection.tsx
+- WhyChooseUs.tsx → AuthoritySection.tsx
+- StatsSection.tsx → SocialProofSection.tsx
