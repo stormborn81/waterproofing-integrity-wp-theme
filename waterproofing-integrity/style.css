@@ -513,6 +513,34 @@ a:focus-visible {
 }
 
 /* ==========================================================================
+   SERVICE CARDS
+   ========================================================================== */
+
+/* Equal-height columns: override WP flex columns so cards stretch to match tallest */
+.wi-services .wp-block-columns {
+	align-items: stretch;
+}
+
+.wi-services .wp-block-column {
+	display: flex;
+	flex-direction: column;
+}
+
+.wi-service-card {
+	flex: 1;
+	box-shadow: var(--wp--preset--shadow--card-md);
+	border-radius: 8px;
+	transition: box-shadow 0.3s ease, transform 0.3s ease, border-top-color 0.3s ease;
+	border-top: 3px solid transparent !important;
+}
+
+.wi-service-card:hover {
+	box-shadow: var(--wp--preset--shadow--card-hover);
+	transform: translateY(-0.25rem);
+	border-top-color: var(--wp--preset--color--blue) !important;
+}
+
+/* ==========================================================================
    CARD BASE
    ========================================================================== */
 

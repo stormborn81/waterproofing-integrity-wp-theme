@@ -32,7 +32,7 @@ return [
 				<!-- wp:group {"className":"wi-service-card","backgroundColor":"white","style":{"border":{"width":"1px","color":"var(--wp--preset--color--border)","radius":"8px"},"spacing":{"padding":{"top":"var(--wp--preset--spacing--lg)","bottom":"var(--wp--preset--spacing--lg)","left":"var(--wp--preset--spacing--lg)","right":"var(--wp--preset--spacing--lg)"}}}} -->
 				<div class="wp-block-group wi-service-card has-white-background-color has-background" style="border:1px solid var(--wp--preset--color--border);border-radius:8px;padding:var(--wp--preset--spacing--lg)">
 					<!-- wp:html -->
-					<div class="wi-service-icon" style="width:48px;height:48px;background:var(--wp--preset--color--light-grey);border-radius:8px;display:flex;align-items:center;justify-content:center;margin-bottom:16px">
+					<div class="wi-service-icon" style="width:36px;height:36px;background:rgba(46,134,171,0.10);border-radius:8px;display:flex;align-items:center;justify-content:center;margin-bottom:16px">
 						<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--wp--preset--color--blue)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
 					</div>
 					<!-- /wp:html -->
@@ -55,7 +55,7 @@ return [
 				<!-- wp:group {"className":"wi-service-card","backgroundColor":"white","style":{"border":{"width":"1px","color":"var(--wp--preset--color--border)","radius":"8px"},"spacing":{"padding":{"top":"var(--wp--preset--spacing--lg)","bottom":"var(--wp--preset--spacing--lg)","left":"var(--wp--preset--spacing--lg)","right":"var(--wp--preset--spacing--lg)"}}}} -->
 				<div class="wp-block-group wi-service-card has-white-background-color has-background" style="border:1px solid var(--wp--preset--color--border);border-radius:8px;padding:var(--wp--preset--spacing--lg)">
 					<!-- wp:html -->
-					<div class="wi-service-icon" style="width:48px;height:48px;background:var(--wp--preset--color--light-grey);border-radius:8px;display:flex;align-items:center;justify-content:center;margin-bottom:16px">
+					<div class="wi-service-icon" style="width:36px;height:36px;background:rgba(46,134,171,0.10);border-radius:8px;display:flex;align-items:center;justify-content:center;margin-bottom:16px">
 						<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--wp--preset--color--blue)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
 					</div>
 					<!-- /wp:html -->
@@ -78,7 +78,7 @@ return [
 				<!-- wp:group {"className":"wi-service-card","backgroundColor":"white","style":{"border":{"width":"1px","color":"var(--wp--preset--color--border)","radius":"8px"},"spacing":{"padding":{"top":"var(--wp--preset--spacing--lg)","bottom":"var(--wp--preset--spacing--lg)","left":"var(--wp--preset--spacing--lg)","right":"var(--wp--preset--spacing--lg)"}}}} -->
 				<div class="wp-block-group wi-service-card has-white-background-color has-background" style="border:1px solid var(--wp--preset--color--border);border-radius:8px;padding:var(--wp--preset--spacing--lg)">
 					<!-- wp:html -->
-					<div class="wi-service-icon" style="width:48px;height:48px;background:var(--wp--preset--color--light-grey);border-radius:8px;display:flex;align-items:center;justify-content:center;margin-bottom:16px">
+					<div class="wi-service-icon" style="width:36px;height:36px;background:rgba(46,134,171,0.10);border-radius:8px;display:flex;align-items:center;justify-content:center;margin-bottom:16px">
 						<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--wp--preset--color--blue)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2v-4M9 21H5a2 2 0 0 1-2-2v-4m0 0h18"/></svg>
 					</div>
 					<!-- /wp:html -->
@@ -101,7 +101,7 @@ return [
 				<!-- wp:group {"className":"wi-service-card","backgroundColor":"white","style":{"border":{"width":"1px","color":"var(--wp--preset--color--border)","radius":"8px"},"spacing":{"padding":{"top":"var(--wp--preset--spacing--lg)","bottom":"var(--wp--preset--spacing--lg)","left":"var(--wp--preset--spacing--lg)","right":"var(--wp--preset--spacing--lg)"}}}} -->
 				<div class="wp-block-group wi-service-card has-white-background-color has-background" style="border:1px solid var(--wp--preset--color--border);border-radius:8px;padding:var(--wp--preset--spacing--lg)">
 					<!-- wp:html -->
-					<div class="wi-service-icon" style="width:48px;height:48px;background:var(--wp--preset--color--light-grey);border-radius:8px;display:flex;align-items:center;justify-content:center;margin-bottom:16px">
+					<div class="wi-service-icon" style="width:36px;height:36px;background:rgba(46,134,171,0.10);border-radius:8px;display:flex;align-items:center;justify-content:center;margin-bottom:16px">
 						<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--wp--preset--color--blue)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
 					</div>
 					<!-- /wp:html -->
