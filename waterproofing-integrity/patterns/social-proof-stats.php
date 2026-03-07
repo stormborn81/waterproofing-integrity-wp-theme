@@ -3,7 +3,8 @@
  * Pattern: Social Proof Stats
  * Slug: waterproofing-integrity/social-proof-stats
  *
- * Navy bg — 4 stats (Inspections in Gold, rest White) + client logos text strip.
+ * Navy bg — 4 stats + "TRUSTED BY" label + client logos text strip.
+ * Stats grid: 1-col mobile, 2-col tablet (768px), 4-col desktop (1024px).
  * Client logos: Toga, Growthbuilt, Meriton, Built, Roberts Co, Aqualand, Crown.
  *
  * @package WaterproofingIntegrity
@@ -20,19 +21,15 @@ return [
 	<!-- wp:group {"layout":{"type":"constrained","contentSize":"1200px"}} -->
 	<div class="wp-block-group">
 
-		<!-- wp:heading {"textAlign":"center","level":2,"textColor":"white","style":{"typography":{"fontWeight":"700"},"spacing":{"margin":{"bottom":"var(--wp--preset--spacing--xl)"}}}} -->
-		<h2 class="wp-block-heading has-text-align-center has-white-color has-text-color" style="font-weight:700;margin-bottom:var(--wp--preset--spacing--xl)">Proven Results Across Australia</h2>
-		<!-- /wp:heading -->
-
-		<!-- wp:columns {"isStackedOnMobile":true,"style":{"spacing":{"blockGap":"var(--wp--preset--spacing--lg)"}}} -->
-		<div class="wp-block-columns is-layout-flex">
+		<!-- wp:columns {"isStackedOnMobile":true,"className":"wi-stats-grid","style":{"spacing":{"blockGap":"var(--wp--preset--spacing--lg)"}}} -->
+		<div class="wp-block-columns wi-stats-grid is-layout-flex">
 
 			<!-- wp:column -->
 			<div class="wp-block-column" style="text-align:center">
-				<!-- wp:paragraph {"textColor":"gold","style":{"typography":{"fontWeight":"800","fontSize":"clamp(2rem,4vw,3rem)"}}} -->
+				<!-- wp:paragraph {"textColor":"gold","style":{"typography":{"fontWeight":"800","fontSize":"clamp(2rem,4vw,3rem)"},"spacing":{"margin":{"bottom":"4px"}}}} -->
 				<p class="has-gold-color has-text-color" style="font-weight:800;font-size:clamp(2rem,4vw,3rem);text-align:center;margin-bottom:4px">10,000+</p>
 				<!-- /wp:paragraph -->
-				<!-- wp:paragraph {"textColor":"white","style":{"typography":{"fontSize":"1rem","fontWeight":"500"}}} -->
+				<!-- wp:paragraph {"textColor":"white","style":{"typography":{"fontSize":"1rem","fontWeight":"500"},"spacing":{"margin":{"top":"0"}}}} -->
 				<p class="has-white-color has-text-color" style="font-size:1rem;font-weight:500;text-align:center;margin-top:0">Inspections Completed</p>
 				<!-- /wp:paragraph -->
 			</div>
@@ -40,10 +37,10 @@ return [
 
 			<!-- wp:column -->
 			<div class="wp-block-column" style="text-align:center">
-				<!-- wp:paragraph {"textColor":"white","style":{"typography":{"fontWeight":"800","fontSize":"clamp(2rem,4vw,3rem)"}}} -->
+				<!-- wp:paragraph {"textColor":"white","style":{"typography":{"fontWeight":"800","fontSize":"clamp(2rem,4vw,3rem)"},"spacing":{"margin":{"bottom":"4px"}}}} -->
 				<p class="has-white-color has-text-color" style="font-weight:800;font-size:clamp(2rem,4vw,3rem);text-align:center;margin-bottom:4px">750+</p>
 				<!-- /wp:paragraph -->
-				<!-- wp:paragraph {"textColor":"white","style":{"typography":{"fontSize":"1rem","fontWeight":"500"}}} -->
+				<!-- wp:paragraph {"textColor":"white","style":{"typography":{"fontSize":"1rem","fontWeight":"500"},"spacing":{"margin":{"top":"0"}}}} -->
 				<p class="has-white-color has-text-color" style="font-size:1rem;font-weight:500;text-align:center;margin-top:0">Designs Delivered</p>
 				<!-- /wp:paragraph -->
 			</div>
@@ -51,10 +48,10 @@ return [
 
 			<!-- wp:column -->
 			<div class="wp-block-column" style="text-align:center">
-				<!-- wp:paragraph {"textColor":"white","style":{"typography":{"fontWeight":"800","fontSize":"clamp(2rem,4vw,3rem)"}}} -->
+				<!-- wp:paragraph {"textColor":"white","style":{"typography":{"fontWeight":"800","fontSize":"clamp(2rem,4vw,3rem)"},"spacing":{"margin":{"bottom":"4px"}}}} -->
 				<p class="has-white-color has-text-color" style="font-weight:800;font-size:clamp(2rem,4vw,3rem);text-align:center;margin-bottom:4px">$283K</p>
 				<!-- /wp:paragraph -->
-				<!-- wp:paragraph {"textColor":"white","style":{"typography":{"fontSize":"1rem","fontWeight":"500"}}} -->
+				<!-- wp:paragraph {"textColor":"white","style":{"typography":{"fontSize":"1rem","fontWeight":"500"},"spacing":{"margin":{"top":"0"}}}} -->
 				<p class="has-white-color has-text-color" style="font-size:1rem;font-weight:500;text-align:center;margin-top:0">Average Defect Cost Exposed</p>
 				<!-- /wp:paragraph -->
 			</div>
@@ -62,10 +59,10 @@ return [
 
 			<!-- wp:column -->
 			<div class="wp-block-column" style="text-align:center">
-				<!-- wp:paragraph {"textColor":"white","style":{"typography":{"fontWeight":"800","fontSize":"clamp(2rem,4vw,3rem)"}}} -->
+				<!-- wp:paragraph {"textColor":"white","style":{"typography":{"fontWeight":"800","fontSize":"clamp(2rem,4vw,3rem)"},"spacing":{"margin":{"bottom":"4px"}}}} -->
 				<p class="has-white-color has-text-color" style="font-weight:800;font-size:clamp(2rem,4vw,3rem);text-align:center;margin-bottom:4px">2,500+</p>
 				<!-- /wp:paragraph -->
-				<!-- wp:paragraph {"textColor":"white","style":{"typography":{"fontSize":"1rem","fontWeight":"500"}}} -->
+				<!-- wp:paragraph {"textColor":"white","style":{"typography":{"fontSize":"1rem","fontWeight":"500"},"spacing":{"margin":{"top":"0"}}}} -->
 				<p class="has-white-color has-text-color" style="font-size:1rem;font-weight:500;text-align:center;margin-top:0">Projects Completed</p>
 				<!-- /wp:paragraph -->
 			</div>
@@ -74,16 +71,19 @@ return [
 		</div>
 		<!-- /wp:columns -->
 
-		<!-- Client logos text strip -->
+		<!-- TRUSTED BY label + client logos text strip -->
 		<!-- wp:html -->
-		<div style="margin-top:var(--wp--preset--spacing--xl);padding-top:var(--wp--preset--spacing--lg);border-top:1px solid rgba(255,255,255,0.15);display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:32px">
-			<span style="font-family:var(--wp--preset--font-family--raleway);font-weight:700;font-size:0.875rem;letter-spacing:0.05em;color:rgba(255,255,255,0.5);text-transform:uppercase">Toga</span>
-			<span style="font-family:var(--wp--preset--font-family--raleway);font-weight:700;font-size:0.875rem;letter-spacing:0.05em;color:rgba(255,255,255,0.5);text-transform:uppercase">Growthbuilt</span>
-			<span style="font-family:var(--wp--preset--font-family--raleway);font-weight:700;font-size:0.875rem;letter-spacing:0.05em;color:rgba(255,255,255,0.5);text-transform:uppercase">Meriton</span>
-			<span style="font-family:var(--wp--preset--font-family--raleway);font-weight:700;font-size:0.875rem;letter-spacing:0.05em;color:rgba(255,255,255,0.5);text-transform:uppercase">Built</span>
-			<span style="font-family:var(--wp--preset--font-family--raleway);font-weight:700;font-size:0.875rem;letter-spacing:0.05em;color:rgba(255,255,255,0.5);text-transform:uppercase">Roberts Co</span>
-			<span style="font-family:var(--wp--preset--font-family--raleway);font-weight:700;font-size:0.875rem;letter-spacing:0.05em;color:rgba(255,255,255,0.5);text-transform:uppercase">Aqualand</span>
-			<span style="font-family:var(--wp--preset--font-family--raleway);font-weight:700;font-size:0.875rem;letter-spacing:0.05em;color:rgba(255,255,255,0.5);text-transform:uppercase">Crown</span>
+		<div class="wi-trusted-by-section">
+			<p class="wi-trusted-by-label">TRUSTED BY</p>
+			<div class="wi-company-names">
+				<span>Toga</span>
+				<span>Growthbuilt</span>
+				<span>Meriton</span>
+				<span>Built</span>
+				<span>Roberts Co</span>
+				<span>Aqualand</span>
+				<span>Crown</span>
+			</div>
 		</div>
 		<!-- /wp:html -->
 

@@ -223,6 +223,69 @@ video {
 }
 
 /* ==========================================================================
+   SOCIAL PROOF STATS
+   ========================================================================== */
+
+/* Stats grid: 1-col mobile → 2-col tablet → 4-col desktop */
+@media (max-width: 767px) {
+	.wi-stats-grid {
+		flex-wrap: wrap !important;
+	}
+
+	.wi-stats-grid .wp-block-column {
+		flex-basis: 100% !important;
+		max-width: 100% !important;
+	}
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+	.wi-stats-grid {
+		flex-wrap: wrap !important;
+	}
+
+	.wi-stats-grid .wp-block-column {
+		flex-basis: calc(50% - 1rem) !important;
+		max-width: calc(50% - 1rem) !important;
+	}
+}
+
+/* TRUSTED BY section */
+.wi-trusted-by-section {
+	margin-top: var(--wp--preset--spacing--xl);
+	padding-top: var(--wp--preset--spacing--lg);
+	padding-bottom: var(--wp--preset--spacing--lg);
+	border-top: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.wi-trusted-by-label {
+	font-family: var(--wp--preset--font-family--raleway);
+	font-weight: 700;
+	font-size: 0.75rem;
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+	color: rgba(255, 255, 255, 0.6);
+	text-align: center;
+	margin: 0 0 1rem 0;
+}
+
+.wi-company-names {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	align-items: center;
+	gap: 2rem;
+}
+
+.wi-company-names span {
+	font-family: var(--wp--preset--font-family--raleway);
+	font-weight: 700;
+	font-size: 0.875rem;
+	letter-spacing: 0.05em;
+	color: rgba(255, 255, 255, 0.5);
+	text-transform: uppercase;
+}
+
+/* ==========================================================================
    PROOF TICKER
    ========================================================================== */
 
