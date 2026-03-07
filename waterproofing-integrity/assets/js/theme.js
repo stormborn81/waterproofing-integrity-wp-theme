@@ -218,6 +218,21 @@ const initAnchorScroll = () => {
 };
 
 // ---------------------------------------------------------------------------
+// Flip card: replace "HOVER TO LEARN MORE" with "TAP TO LEARN MORE" on touch devices
+// ---------------------------------------------------------------------------
+
+const initFlipCardTouchLabel = () => {
+	const isTouch = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
+	if (!isTouch) return;
+
+	document.querySelectorAll('.wi-flip-card *').forEach((el) => {
+		if (el.childElementCount === 0 && el.textContent.trim() === 'HOVER TO LEARN MORE') {
+			el.textContent = 'TAP TO LEARN MORE';
+		}
+	});
+};
+
+// ---------------------------------------------------------------------------
 // Flip card: remove focus on outside tap (enables :focus-within CSS flip)
 // Desktop hover handled entirely in CSS.
 // ---------------------------------------------------------------------------
@@ -291,6 +306,7 @@ const init = () => {
 	initOutboundLinkTracking();
 	initScrollDepthTracking();
 	initFlipCardTouch();
+	initFlipCardTouchLabel();
 	initFlipCardFocusAway();
 	initNavOverlayClose();
 	initAnchorScroll();
