@@ -58,12 +58,12 @@ return [
 				<div class="wi-office-card">
 					<!-- Row 1: map pin + city + badge -->
 					<div class="wi-office-city-row">
-						<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#F0A500" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink:0"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+						<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2E86AB" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink:0"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
 						<span class="wi-office-city">Sydney</span>
 						<span class="wi-office-badge">HEAD OFFICE</span>
 					</div>
 					<!-- Row 2: covering -->
-					<p class="wi-office-coverage">NSW &amp; ACT</p>
+					<p class="wi-office-coverage"><strong>Covering:</strong>NSW &amp; ACT</p>
 					<!-- Row 3: address -->
 					<p class="wi-office-address">49C Slough Business Park, 2 Slough Ave, Silverwater NSW 2128</p>
 					<!-- Divider -->
@@ -90,11 +90,11 @@ return [
 				<div class="wi-office-card">
 					<!-- Row 1: map pin + city -->
 					<div class="wi-office-city-row">
-						<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#F0A500" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink:0"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+						<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2E86AB" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink:0"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
 						<span class="wi-office-city">Newcastle</span>
 					</div>
 					<!-- Row 2: covering -->
-					<p class="wi-office-coverage">Newcastle, Central Coast, Greater Hunter, Tamworth, Port Macquarie</p>
+					<p class="wi-office-coverage"><strong>Covering:</strong>Newcastle, Central Coast, Greater Hunter, Tamworth, Port Macquarie</p>
 					<!-- Row 3: address -->
 					<p class="wi-office-address">13/56 Industrial Drive, Mayfield East NSW 2304</p>
 					<!-- Divider -->
@@ -121,11 +121,11 @@ return [
 				<div class="wi-office-card">
 					<!-- Row 1: map pin + city -->
 					<div class="wi-office-city-row">
-						<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#F0A500" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink:0"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+						<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2E86AB" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink:0"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
 						<span class="wi-office-city">Brisbane</span>
 					</div>
 					<!-- Row 2: covering -->
-					<p class="wi-office-coverage">Brisbane, Gold Coast, Sunshine Coast, Byron Bay &amp; Greater South-East QLD</p>
+					<p class="wi-office-coverage"><strong>Covering:</strong>Brisbane, Gold Coast, Sunshine Coast, Byron Bay &amp; Greater South-East QLD</p>
 					<!-- Row 3: address -->
 					<p class="wi-office-address">PO Box 12, Cannon Hill QLD 4170</p>
 					<!-- Divider -->
@@ -152,11 +152,11 @@ return [
 				<div class="wi-office-card">
 					<!-- Row 1: map pin + city -->
 					<div class="wi-office-city-row">
-						<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#F0A500" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink:0"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+						<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2E86AB" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink:0"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
 						<span class="wi-office-city">Melbourne</span>
 					</div>
 					<!-- Row 2: covering -->
-					<p class="wi-office-coverage">Geelong, Greater Victoria &amp; Tasmania</p>
+					<p class="wi-office-coverage"><strong>Covering:</strong>Geelong, Greater Victoria &amp; Tasmania</p>
 					<!-- Row 3: address coming soon -->
 					<p class="wi-office-address wi-office-address--soon">Address coming soon</p>
 					<!-- Divider -->
