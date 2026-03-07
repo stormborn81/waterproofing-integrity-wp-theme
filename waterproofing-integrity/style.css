@@ -818,7 +818,7 @@ video {
 	height: 1px;
 	background: #E0E0E0;
 	border: none;
-	margin: 0 0 0.75rem !important;
+	margin: auto 0 0.75rem !important;
 	padding: 0;
 	flex-shrink: 0;
 	align-self: stretch;
