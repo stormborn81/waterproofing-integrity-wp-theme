@@ -33,7 +33,7 @@ return [
 				<!-- Icon + heading on same row -->
 				<!-- wp:html -->
 				<div class="wi-authority-title-row">
-					<div class="wi-authority-icon" aria-hidden="true">
+					<div class="wi-authority-icon" aria-hidden="true" style="background:#F2F2F2;border-radius:10px;padding:10px;display:inline-flex;align-items:center;justify-content:center;">
 						<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2E86AB" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
 					</div>
 					<h2 class="wi-authority-heading">Why Independence Matters</h2>
