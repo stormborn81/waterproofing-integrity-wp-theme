@@ -134,6 +134,33 @@ video {
 	min-height: 55vh;
 	display: flex;
 	align-items: center;
+	background:
+		linear-gradient(135deg, rgba(30, 58, 95, 0.88) 0%, rgba(30, 58, 95, 0.75) 100%),
+		url('/wp-content/themes/waterproofing-integrity/assets/images/hero-bg-waterproofing.jpg') center / cover no-repeat;
+}
+
+.wi-container {
+	max-width: 1200px;
+	margin: 0 auto;
+	padding: 0 2rem;
+	width: 100%;
+}
+
+/* CTA row: stack on mobile, inline on desktop */
+.wi-hero-cta-row {
+	flex-direction: column !important;
+	align-items: flex-start !important;
+}
+
+@media (min-width: 768px) {
+	.wi-hero-cta-row {
+		flex-direction: row !important;
+		align-items: center !important;
+	}
+}
+
+.wi-hero-trust {
+	margin: 0 !important;
 }
 
 /* ==========================================================================
