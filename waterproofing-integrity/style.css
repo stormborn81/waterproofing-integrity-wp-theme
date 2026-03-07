@@ -1040,6 +1040,7 @@ a:focus-visible {
 	grid-template-columns: 1fr;
 	gap: 2.5rem;
 	padding: 4rem 1rem;
+	align-items: start;
 }
 
 @media (min-width: 768px) {
