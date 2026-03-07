@@ -60,7 +60,10 @@ video {
 }
 
 .wi-site-header {
-	background-color: var(--wp--preset--color--navy);
+	background-color: rgba(255, 255, 255, 0.95);
+	backdrop-filter: blur(8px);
+	-webkit-backdrop-filter: blur(8px);
+	border-bottom: 1px solid var(--wp--preset--color--border);
 	transition: box-shadow 0.25s ease;
 	min-height: 64px;
 	display: flex;
@@ -69,7 +72,7 @@ video {
 
 
 .wi-site-header.is-scrolled {
-	box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+	box-shadow: 0 2px 12px rgba(30, 58, 95, 0.15);
 }
 
 .wi-site-header .wi-nav-inner {
@@ -97,9 +100,9 @@ video {
 	}
 }
 
-/* Navigation links — white on navy */
+/* Navigation links — navy on white */
 .wi-site-header .wp-block-navigation a {
-	color: var(--wp--preset--color--white);
+	color: var(--wp--preset--color--navy);
 	text-decoration: none;
 	font-family: var(--wp--preset--font-family--raleway);
 	font-weight: 600;
@@ -109,7 +112,7 @@ video {
 
 .wi-site-header .wp-block-navigation a:hover,
 .wi-site-header .wp-block-navigation a:focus-visible {
-	color: var(--wp--preset--color--white);
+	color: var(--wp--preset--color--blue);
 }
 
 /* ==========================================================================
@@ -445,7 +448,10 @@ a:focus-visible {
 
 /* Desktop padding override for all section-level wrappers that use --spacing--2xl.
    Inline WP block styles require !important to be overridden.
-   Mobile: 5rem (--spacing--2xl), Desktop 768px+: 7rem (--spacing--3xl). */
+   Mobile: 5rem (--spacing--2xl), Desktop 768px+: 7rem.
+   NOTE: hardcoded 7rem used instead of var(--wp--preset--spacing--3xl) because
+   _wp_to_kebab_case() transforms slug '3xl' to '3-xl', making the actual CSS
+   variable --wp--preset--spacing--3-xl, which would not match. */
 @media (min-width: 768px) {
 	.wi-404-links,
 	.wi-authority,
@@ -482,8 +488,8 @@ a:focus-visible {
 	.wi-who-we-work-with,
 	.wi-why-independence,
 	.wi-why-we-exist {
-		padding-top: var(--wp--preset--spacing--3xl) !important;
-		padding-bottom: var(--wp--preset--spacing--3xl) !important;
+		padding-top: 7rem !important;
+		padding-bottom: 7rem !important;
 	}
 }
 
