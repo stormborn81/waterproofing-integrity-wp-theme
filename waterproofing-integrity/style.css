@@ -306,6 +306,121 @@ video {
 }
 
 /* ==========================================================================
+   GOOGLE REVIEWS
+   ========================================================================== */
+
+/* Header row — left-aligned */
+.wi-reviews-header {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	margin-bottom: 2.5rem;
+}
+
+.wi-reviews-rating {
+	font-family: var(--wp--preset--font-family--raleway);
+	font-size: 1.75rem;
+	font-weight: 800;
+	color: var(--wp--preset--color--navy);
+	line-height: 1;
+}
+
+.wi-reviews-stars {
+	color: var(--wp--preset--color--gold);
+	font-size: 1.125rem;
+	letter-spacing: 1px;
+	line-height: 1;
+}
+
+.wi-reviews-source {
+	font-family: var(--wp--preset--font-family--raleway);
+	font-size: 0.875rem;
+	color: var(--wp--preset--color--muted);
+}
+
+/* Equal-height card columns */
+.wi-reviews .wp-block-columns {
+	align-items: stretch !important;
+}
+
+.wi-reviews .wp-block-column {
+	display: flex;
+	flex-direction: column;
+}
+
+/* Review card */
+.wi-review-card {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	background: #F2F2F2;
+	border-radius: 8px;
+	padding: var(--wp--preset--spacing--lg);
+}
+
+/* Author row: avatar + name/date */
+.wi-review-author {
+	display: flex;
+	align-items: flex-start;
+	gap: 12px;
+	margin-bottom: 0.75rem;
+}
+
+.wi-review-avatar {
+	width: 44px;
+	height: 44px;
+	border-radius: 50%;
+	background: var(--wp--preset--color--navy);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-family: var(--wp--preset--font-family--raleway);
+	font-weight: 700;
+	font-size: 0.875rem;
+	color: #fff;
+	flex-shrink: 0;
+}
+
+.wi-review-author-info {
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+}
+
+.wi-review-name {
+	margin: 0;
+	font-family: var(--wp--preset--font-family--raleway);
+	font-weight: 700;
+	font-size: 0.9375rem;
+	color: var(--wp--preset--color--navy);
+	line-height: 1.3;
+}
+
+.wi-review-date {
+	margin: 0;
+	font-size: 0.8125rem;
+	color: var(--wp--preset--color--muted);
+	line-height: 1.3;
+}
+
+/* Stars below author row */
+.wi-review-stars {
+	color: var(--wp--preset--color--gold);
+	font-size: 1rem;
+	letter-spacing: 1px;
+	margin-bottom: 0.75rem;
+}
+
+/* Review text */
+.wi-review-text {
+	margin: 0;
+	font-size: 0.9375rem;
+	color: var(--wp--preset--color--navy);
+	line-height: 1.65;
+	font-weight: 400;
+}
+
+/* ==========================================================================
    PROOF TICKER
    ========================================================================== */
 
