@@ -226,6 +226,19 @@ video {
    SOCIAL PROOF STATS
    ========================================================================== */
 
+/* Override global 7rem section padding — stats section uses tighter spacing */
+.wi-social-proof {
+	padding-top: 2rem !important;
+	padding-bottom: 3rem !important;
+}
+
+@media (min-width: 768px) {
+	.wi-social-proof {
+		padding-top: 3rem !important;
+		padding-bottom: 3rem !important;
+	}
+}
+
 /* Stats grid: 1-col mobile → 2-col tablet → 4-col desktop */
 @media (max-width: 767px) {
 	.wi-stats-grid {
@@ -260,10 +273,10 @@ video {
 .wi-trusted-by-label {
 	font-family: var(--wp--preset--font-family--raleway);
 	font-weight: 700;
-	font-size: 0.75rem;
+	font-size: 0.65rem;
 	letter-spacing: 0.1em;
 	text-transform: uppercase;
-	color: rgba(255, 255, 255, 0.6);
+	color: rgba(255, 255, 255, 0.5);
 	text-align: center;
 	margin: 0 0 1rem 0;
 }

@@ -15,8 +15,8 @@ return [
 	'description' => __( 'Navy background stats strip with 4 key figures and client logos text row.', 'waterproofing-integrity' ),
 	'keywords'    => [ 'stats', 'social proof', 'clients', 'numbers' ],
 	'content'     => '
-<!-- wp:group {"tagName":"section","className":"wi-social-proof","style":{"color":{"background":"var(--wp--preset--color--navy)"},"spacing":{"padding":{"top":"var(--wp--preset--spacing--2xl)","bottom":"var(--wp--preset--spacing--2xl)","left":"var(--wp--preset--spacing--md)","right":"var(--wp--preset--spacing--md)"}}}} -->
-<section class="wp-block-group wi-social-proof" style="background:var(--wp--preset--color--navy);padding-top:var(--wp--preset--spacing--2xl);padding-right:var(--wp--preset--spacing--md);padding-bottom:var(--wp--preset--spacing--2xl);padding-left:var(--wp--preset--spacing--md)">
+<!-- wp:group {"tagName":"section","className":"wi-social-proof","style":{"color":{"background":"var(--wp--preset--color--navy)"},"spacing":{"padding":{"top":"2rem","bottom":"3rem","left":"var(--wp--preset--spacing--md)","right":"var(--wp--preset--spacing--md)"}}}} -->
+<section class="wp-block-group wi-social-proof" style="background:var(--wp--preset--color--navy);padding-top:2rem;padding-right:var(--wp--preset--spacing--md);padding-bottom:3rem;padding-left:var(--wp--preset--spacing--md)">
 
 	<!-- wp:group {"layout":{"type":"constrained","contentSize":"1200px"}} -->
 	<div class="wp-block-group">
@@ -29,8 +29,8 @@ return [
 				<!-- wp:paragraph {"textColor":"gold","style":{"typography":{"fontWeight":"800","fontSize":"clamp(2rem,4vw,3rem)"},"spacing":{"margin":{"bottom":"4px"}}}} -->
 				<p class="has-gold-color has-text-color" style="font-weight:800;font-size:clamp(2rem,4vw,3rem);text-align:center;margin-bottom:4px">10,000+</p>
 				<!-- /wp:paragraph -->
-				<!-- wp:paragraph {"textColor":"white","style":{"typography":{"fontSize":"1rem","fontWeight":"500"},"spacing":{"margin":{"top":"0"}}}} -->
-				<p class="has-white-color has-text-color" style="font-size:1rem;font-weight:500;text-align:center;margin-top:0">Inspections Completed</p>
+				<!-- wp:paragraph {"style":{"typography":{"fontSize":"0.75rem","fontWeight":"400","letterSpacing":"0.08em"},"spacing":{"margin":{"top":"0"}}}} -->
+				<p style="font-size:0.75rem;font-weight:400;letter-spacing:0.08em;color:rgba(255,255,255,0.7);text-align:center;margin-top:0;text-transform:uppercase">Inspections</p>
 				<!-- /wp:paragraph -->
 			</div>
 			<!-- /wp:column -->
@@ -40,8 +40,8 @@ return [
 				<!-- wp:paragraph {"textColor":"white","style":{"typography":{"fontWeight":"800","fontSize":"clamp(2rem,4vw,3rem)"},"spacing":{"margin":{"bottom":"4px"}}}} -->
 				<p class="has-white-color has-text-color" style="font-weight:800;font-size:clamp(2rem,4vw,3rem);text-align:center;margin-bottom:4px">750+</p>
 				<!-- /wp:paragraph -->
-				<!-- wp:paragraph {"textColor":"white","style":{"typography":{"fontSize":"1rem","fontWeight":"500"},"spacing":{"margin":{"top":"0"}}}} -->
-				<p class="has-white-color has-text-color" style="font-size:1rem;font-weight:500;text-align:center;margin-top:0">Designs Delivered</p>
+				<!-- wp:paragraph {"style":{"typography":{"fontSize":"0.75rem","fontWeight":"400","letterSpacing":"0.08em"},"spacing":{"margin":{"top":"0"}}}} -->
+				<p style="font-size:0.75rem;font-weight:400;letter-spacing:0.08em;color:rgba(255,255,255,0.7);text-align:center;margin-top:0;text-transform:uppercase">Designs</p>
 				<!-- /wp:paragraph -->
 			</div>
 			<!-- /wp:column -->
@@ -51,8 +51,8 @@ return [
 				<!-- wp:paragraph {"textColor":"white","style":{"typography":{"fontWeight":"800","fontSize":"clamp(2rem,4vw,3rem)"},"spacing":{"margin":{"bottom":"4px"}}}} -->
 				<p class="has-white-color has-text-color" style="font-weight:800;font-size:clamp(2rem,4vw,3rem);text-align:center;margin-bottom:4px">$283K</p>
 				<!-- /wp:paragraph -->
-				<!-- wp:paragraph {"textColor":"white","style":{"typography":{"fontSize":"1rem","fontWeight":"500"},"spacing":{"margin":{"top":"0"}}}} -->
-				<p class="has-white-color has-text-color" style="font-size:1rem;font-weight:500;text-align:center;margin-top:0">Average Defect Cost Exposed</p>
+				<!-- wp:paragraph {"style":{"typography":{"fontSize":"0.75rem","fontWeight":"400","letterSpacing":"0.08em"},"spacing":{"margin":{"top":"0"}}}} -->
+				<p style="font-size:0.75rem;font-weight:400;letter-spacing:0.08em;color:rgba(255,255,255,0.7);text-align:center;margin-top:0;text-transform:uppercase">Avg Defect Cost</p>
 				<!-- /wp:paragraph -->
 			</div>
 			<!-- /wp:column -->
@@ -62,8 +62,8 @@ return [
 				<!-- wp:paragraph {"textColor":"white","style":{"typography":{"fontWeight":"800","fontSize":"clamp(2rem,4vw,3rem)"},"spacing":{"margin":{"bottom":"4px"}}}} -->
 				<p class="has-white-color has-text-color" style="font-weight:800;font-size:clamp(2rem,4vw,3rem);text-align:center;margin-bottom:4px">2,500+</p>
 				<!-- /wp:paragraph -->
-				<!-- wp:paragraph {"textColor":"white","style":{"typography":{"fontSize":"1rem","fontWeight":"500"},"spacing":{"margin":{"top":"0"}}}} -->
-				<p class="has-white-color has-text-color" style="font-size:1rem;font-weight:500;text-align:center;margin-top:0">Projects Completed</p>
+				<!-- wp:paragraph {"style":{"typography":{"fontSize":"0.75rem","fontWeight":"400","letterSpacing":"0.08em"},"spacing":{"margin":{"top":"0"}}}} -->
+				<p style="font-size:0.75rem;font-weight:400;letter-spacing:0.08em;color:rgba(255,255,255,0.7);text-align:center;margin-top:0;text-transform:uppercase">Projects</p>
 				<!-- /wp:paragraph -->
 			</div>
 			<!-- /wp:column -->
