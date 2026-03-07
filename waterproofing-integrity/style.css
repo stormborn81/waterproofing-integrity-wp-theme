@@ -567,7 +567,6 @@ a:focus-visible {
 	box-shadow: var(--wp--preset--shadow--card-md);
 	border-radius: 8px;
 	transition: box-shadow 0.3s ease, transform 0.3s ease;
-	border-top: 3px solid #2E86AB !important;
 }
 
 .wi-service-card:hover {
