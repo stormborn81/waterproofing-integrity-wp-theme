@@ -39,6 +39,20 @@ Never use curly/smart quotes inside PHP strings including apostrophes in words l
 ### 5. Claude Code Branch Workflow
 Always run git fetch origin after a session to find the branch name, then:
 git fetch origin
-git merge origin/[claude-branch-name]  
+git merge origin/[claude-branch-name]
 git push origin master
 If diverged: git stash, git pull origin master --rebase, git stash pop, git push origin master
+
+## Source Reference URLs
+
+Loveable design source (fetch these when doing visual alignment work):
+- https://raw.githubusercontent.com/stormborn81/water-tight-resolve/main/src/index.css
+- https://raw.githubusercontent.com/stormborn81/water-tight-resolve/main/src/components/HeroSection.tsx
+- https://raw.githubusercontent.com/stormborn81/water-tight-resolve/main/src/components/ServicesSection.tsx
+- https://raw.githubusercontent.com/stormborn81/water-tight-resolve/main/src/components/StatsSection.tsx
+- https://raw.githubusercontent.com/stormborn81/water-tight-resolve/main/src/components/GoogleReviews.tsx
+- https://raw.githubusercontent.com/stormborn81/water-tight-resolve/main/src/components/WhyChooseUs.tsx
+- https://raw.githubusercontent.com/stormborn81/water-tight-resolve/main/src/components/SectorsSection.tsx
+- https://raw.githubusercontent.com/stormborn81/water-tight-resolve/main/src/components/LocationsSection.tsx
+- https://raw.githubusercontent.com/stormborn81/water-tight-resolve/main/src/components/Footer.tsx
+- https://raw.githubusercontent.com/stormborn81/water-tight-resolve/main/src/components/Navigation.tsx
