@@ -25,12 +25,12 @@ return [
 	<!-- wp:group {"layout":{"type":"constrained","contentSize":"800px"}} -->
 	<div class="wp-block-group">
 
-		<!-- wp:heading {"textAlign":"center","level":2,"textColor":"white","style":{"typography":{"fontWeight":"700"},"spacing":{"margin":{"bottom":"0.5rem"}}}} -->
-		<h2 class="wp-block-heading has-text-align-center has-white-color has-text-color" style="font-weight:700;margin-bottom:0.5rem">Get Expert Advice</h2>
+		<!-- wp:heading {"textAlign":"center","level":2,"textColor":"white","style":{"typography":{"fontWeight":"700"}}} -->
+		<h2 class="wp-block-heading has-text-align-center has-white-color has-text-color" style="font-weight:700">Get Expert Advice</h2>
 		<!-- /wp:heading -->
 
-		<!-- wp:paragraph {"textAlign":"center","style":{"color":{"text":"rgba(255,255,255,0.8)"},"spacing":{"margin":{"bottom":"var(--wp--preset--spacing--xl)"}}}} -->
-		<p class="has-text-align-center" style="color:rgba(255,255,255,0.8);margin-bottom:var(--wp--preset--spacing--xl)">Tell us about your project. We&#8217;ll have the right specialist in touch within 4 hours.</p>
+		<!-- wp:paragraph {"textAlign":"center","className":"wi-contact-description","style":{"color":{"text":"rgba(255,255,255,0.8)"},"spacing":{"margin":{"bottom":"var(--wp--preset--spacing--xl)"}}}} -->
+		<p class="has-text-align-center wi-contact-description" style="color:rgba(255,255,255,0.8);margin-bottom:var(--wp--preset--spacing--xl)">Tell us about your project. We&#8217;ll have the right specialist in touch within 4 hours.</p>
 		<!-- /wp:paragraph -->
 
 		<!-- White form card -->
