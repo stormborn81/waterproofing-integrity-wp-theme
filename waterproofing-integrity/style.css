@@ -49,8 +49,9 @@ video {
 	margin-block-start: 0 !important;
 }
 
-/* Remove WP auto-generated block gap margins between all homepage sections.
+/* Remove WP auto-generated block gap margins between sections on every page.
    All section spacing is handled by each section's own padding. */
+main.wp-block-group > *,
 .wi-homepage-main > * {
 	margin-block-start: 0 !important;
 	margin-block-end: 0 !important;
