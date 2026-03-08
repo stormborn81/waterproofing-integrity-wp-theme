@@ -3,11 +3,9 @@
  * Pattern: Contact — FAQ Accordion
  * Slug: waterproofing-integrity/contact-faq-accordion
  *
- * Light Grey bg — 8 FAQ Q&As.
+ * Light Grey bg — 8 FAQ Q&As from Loveable Contact.tsx.
  * CSS-only accordion using native <details>/<summary> elements.
- * No JavaScript dependency.
- *
- * TODO: Replace Q&A copy with questions and answers from src/pages/Contact.tsx.
+ * No JavaScript. All styles in style.css.
  *
  * @package WaterproofingIntegrity
  */
@@ -23,120 +21,66 @@ return [
 	<!-- wp:group {"layout":{"type":"constrained","contentSize":"800px"}} -->
 	<div class="wp-block-group">
 
-		<!-- wp:heading {"textAlign":"center","level":2,"textColor":"navy","style":{"typography":{"fontWeight":"700"},"spacing":{"margin":{"bottom":"var(--wp--preset--spacing--sm)"}}}} -->
-		<h2 class="wp-block-heading has-text-align-center has-navy-color has-text-color" style="font-weight:700;margin-bottom:var(--wp--preset--spacing--sm)">Frequently Asked Questions</h2>
+		<!-- wp:heading {"textAlign":"center","level":2,"textColor":"navy","style":{"typography":{"fontWeight":"700"},"spacing":{"margin":{"bottom":"var(--wp--preset--spacing--xl)"}}}} -->
+		<h2 class="wp-block-heading has-text-align-center has-navy-color has-text-color" style="font-weight:700;margin-bottom:var(--wp--preset--spacing--xl)">Common Questions</h2>
 		<!-- /wp:heading -->
 
-		<!-- wp:paragraph {"textAlign":"center","textColor":"muted","style":{"spacing":{"margin":{"bottom":"var(--wp--preset--spacing--xl)"}}}} -->
-		<p class="has-text-align-center has-muted-color has-text-color" style="margin-bottom:var(--wp--preset--spacing--xl)">Everything you need to know before engaging Waterproofing Integrity.</p>
-		<!-- /wp:paragraph -->
-
 		<!-- wp:html -->
-		<style>
-			.wi-faq details {
-				background: #ffffff;
-				border-radius: 8px;
-				border: 1px solid var(--wp--preset--color--border);
-				margin-bottom: 8px;
-				overflow: hidden;
-			}
-			.wi-faq details[open] {
-				border-color: var(--wp--preset--color--blue);
-			}
-			.wi-faq summary {
-				display: flex;
-				justify-content: space-between;
-				align-items: center;
-				gap: 16px;
-				padding: 20px 24px;
-				font-family: var(--wp--preset--font-family--raleway);
-				font-weight: 700;
-				font-size: 1rem;
-				color: var(--wp--preset--color--navy);
-				cursor: pointer;
-				list-style: none;
-				-webkit-user-select: none;
-				user-select: none;
-			}
-			.wi-faq summary::-webkit-details-marker { display: none; }
-			.wi-faq summary::after {
-				content: "";
-				display: block;
-				flex-shrink: 0;
-				width: 20px;
-				height: 20px;
-				background-image: url("data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%2720%27 height=%2720%27 viewBox=%270 0 24 24%27 fill=%27none%27 stroke=%27%23c9a84c%27 stroke-width=%272.5%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27%3E%3Cpolyline points=%276 9 12 15 18 9%27/%3E%3C/svg%3E");
-				background-repeat: no-repeat;
-				background-size: contain;
-				transition: transform 0.2s ease;
-			}
-			.wi-faq details[open] summary::after {
-				transform: rotate(180deg);
-			}
-			.wi-faq .wi-faq-body {
-				padding: 0 24px 20px 24px;
-				font-size: 0.9375rem;
-				color: var(--wp--preset--color--muted);
-				line-height: 1.7;
-			}
-		</style>
-
-		<!-- TODO: Replace all 8 Q&A pairs with copy from src/pages/Contact.tsx -->
-		<div>
+		<div class="wi-faq-list">
 
 			<details>
-				<summary>How quickly can you mobilise for an inspection?</summary>
+				<summary>How quickly will someone get back to me?</summary>
 				<div class="wi-faq-body">
-					<p style="margin:0">For standard inspection engagements, we typically mobilise within 2&#8211;5 business days of written instruction. For urgent matters &#8212; such as time-critical construction milestones or active defect disputes &#8212; please call us directly on <a href="tel:1300025944" class="tel-link" style="color:var(--wp--preset--color--blue);font-weight:600">1300 025 944</a> and we will make every effort to accommodate your programme.</p>
+					<p>Our SLA is under 4 hours during business hours. Most enquiries receive a call within 2 hours. After-hours submissions are actioned first thing the next business day.</p>
 				</div>
 			</details>
 
 			<details>
-				<summary>Do you work nationally across all Australian states?</summary>
+				<summary>Do you work nationally?</summary>
 				<div class="wi-faq-body">
-					<p style="margin:0">Yes. Waterproofing Integrity operates nationally, with offices in Sydney, Newcastle, Brisbane, and Melbourne. Our field technicians conduct inspections and testing across every state and territory. For remote or regional sites, please contact us to discuss logistics and mobilisation arrangements.</p>
+					<p>Yes. We have offices in Sydney, Melbourne, and Brisbane with specialists covering all states and territories.</p>
 				</div>
 			</details>
 
 			<details>
-				<summary>What is a NATA-accredited test and why does it matter?</summary>
+				<summary>What does an initial consultation involve?</summary>
 				<div class="wi-faq-body">
-					<p style="margin:0">NATA (National Association of Testing Authorities) is Australia&#8217;s peak body for accrediting testing, inspection, and calibration facilities. A NATA-accredited test result carries internationally recognised authority. For waterproofing, this means our flood tests, electric impedance tests, and other methodologies produce certificates that are accepted by building certifiers, insurers, and courts &#8212; without question.</p>
+					<p>We will discuss your project, understand the scope, and recommend the right service, whether that is a design review, inspection program, testing, or defect assessment. There is no cost or obligation for the initial conversation.</p>
 				</div>
 			</details>
 
 			<details>
-				<summary>What is the difference between a waterproofing inspection and a waterproofing test?</summary>
+				<summary>Do you provide waterproofing installation?</summary>
 				<div class="wi-faq-body">
-					<p style="margin:0">An inspection is a visual and physical assessment of waterproofing installation against the project specification &#8212; checking substrate preparation, membrane application, detailing at penetrations and upstands, and compliance with AS 4654 or AS 3740. A test uses instrumented methodology (flood testing, electric impedance, nuclear isotope moisture scanning, or infrared thermography) to objectively verify membrane integrity and detect defects not visible to the naked eye. Most projects benefit from both.</p>
+					<p>No. We are 100% independent consultants. We design, inspect, test, and advise. We never install. That independence is what makes our advice trustworthy.</p>
 				</div>
 			</details>
 
 			<details>
-				<summary>Do you carry out remediation works, or is WI advisory only?</summary>
+				<summary>What size projects do you work on?</summary>
 				<div class="wi-faq-body">
-					<p style="margin:0">Waterproofing Integrity is strictly an independent advisory practice. We do not install, supply, or carry out waterproofing works. This is the foundation of our independence &#8212; we have no commercial interest in any remediation outcome. We will, however, manage the remediation process on your behalf: scoping the works, tendering to approved contractors, and inspecting and certifying the completed remediation.</p>
+					<p>Everything from single-dwelling remediation to multi-tower developments. Our client base includes tier-1 builders, major developers, and individual asset owners.</p>
 				</div>
 			</details>
 
 			<details>
-				<summary>How much does an independent waterproofing inspection cost?</summary>
+				<summary>What accreditations do you hold?</summary>
 				<div class="wi-faq-body">
-					<p style="margin:0">Fees vary depending on project size, location, number of inspection stages, and testing requirements. We offer both fixed-fee engagements (for clearly scoped projects) and schedule-of-rates arrangements (for ongoing or larger programmes). Contact us with your project details and we will provide a tailored, obligation-free fee proposal within one business day.</p>
+					<p>We are NATA accredited for waterproofing testing and members of the Australian Institute of Waterproofing (AIW). Our team includes qualified building inspectors and registered engineers.</p>
 				</div>
 			</details>
 
 			<details>
-				<summary>Can Waterproofing Integrity provide expert witness reports?</summary>
+				<summary>How are your fees structured?</summary>
 				<div class="wi-faq-body">
-					<p style="margin:0">Yes. David Previte and senior members of our team are accepted expert witnesses in waterproofing disputes before NCAT, VCAT, QCAT, and the Federal Court of Australia. Our expert reports are prepared in accordance with the applicable expert evidence guidelines in each jurisdiction. Please contact us directly to discuss your matter and confirm availability.</p>
+					<p>Fees depend on scope, complexity, and service type. We provide a clear proposal with fixed pricing before any work begins. No hidden costs.</p>
 				</div>
 			</details>
 
 			<details>
-				<summary>What information do I need to provide to get a quote?</summary>
+				<summary>Can I send you plans or documents before our call?</summary>
 				<div class="wi-faq-body">
-					<p style="margin:0">The more context you can provide, the more accurate our proposal will be. Helpful information includes: project type and size (e.g. residential apartment, commercial podium), location, programme stage, the waterproofing areas involved (e.g. bathrooms, balconies, podium, roof), whether you already have a waterproofing specification, and your preferred start date. Fill in the enquiry form on this page and we will come back to you within 2 business hours.</p>
+					<p>Absolutely. After submitting the form, you will receive a confirmation email with instructions for sharing project documentation securely.</p>
 				</div>
 			</details>
 

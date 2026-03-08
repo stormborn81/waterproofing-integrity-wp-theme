@@ -1518,6 +1518,65 @@ a:focus-visible {
 }
 
 /* ==========================================================================
+   FAQ ACCORDION
+   ========================================================================== */
+
+.wi-faq-list details {
+	background: #fff;
+	border-radius: 8px;
+	border: 1px solid var(--wp--preset--color--border);
+	margin-bottom: 8px;
+	overflow: hidden;
+}
+
+.wi-faq-list summary {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: 16px;
+	padding: 20px 24px;
+	font-family: var(--wp--preset--font-family--raleway);
+	font-weight: 700;
+	font-size: 1rem;
+	color: var(--wp--preset--color--navy);
+	cursor: pointer;
+	list-style: none;
+	-webkit-user-select: none;
+	user-select: none;
+}
+
+.wi-faq-list summary::-webkit-details-marker {
+	display: none;
+}
+
+.wi-faq-list summary::after {
+	content: "";
+	display: block;
+	flex-shrink: 0;
+	width: 20px;
+	height: 20px;
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%236B7E9A' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+	background-repeat: no-repeat;
+	background-size: contain;
+	transition: transform 0.2s ease;
+}
+
+.wi-faq-list details[open] summary::after {
+	transform: rotate(180deg);
+}
+
+.wi-faq-list .wi-faq-body {
+	padding: 0 24px 20px;
+	font-size: 0.9375rem;
+	color: var(--wp--preset--color--muted);
+	line-height: 1.7;
+}
+
+.wi-faq-list .wi-faq-body p {
+	margin: 0;
+}
+
+/* ==========================================================================
    CONTACT FORM SECTION
    ========================================================================== */
 
