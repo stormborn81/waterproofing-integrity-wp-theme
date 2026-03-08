@@ -1472,8 +1472,14 @@ a:focus-visible {
 
 .wi-what-happens-next__steps {
 	display: grid;
-	grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+	grid-template-columns: repeat(3, 1fr);
 	gap: var(--wp--preset--spacing--lg);
+}
+
+@media (max-width: 600px) {
+	.wi-what-happens-next__steps {
+		grid-template-columns: 1fr;
+	}
 }
 
 .wi-step {
