@@ -1462,6 +1462,56 @@ a:focus-visible {
 }
 
 /* ==========================================================================
+   WHAT HAPPENS NEXT — 3-step section
+   ========================================================================== */
+
+/* Override WP light-grey background preset */
+.wi-what-happens-next {
+	background: #fff !important;
+}
+
+.wi-what-happens-next__steps {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+	gap: var(--wp--preset--spacing--lg);
+}
+
+.wi-step {
+	text-align: center;
+}
+
+.wi-step__icon-wrap {
+	width: 56px;
+	height: 56px;
+	border-radius: 50%;
+	background: #EBF4FA;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin: 0 auto 1rem;
+	color: #2E86AB;
+}
+
+.wi-step__icon-wrap svg {
+	color: #2E86AB;
+}
+
+.wi-step__title {
+	font-family: var(--wp--preset--font-family--raleway);
+	font-weight: 700;
+	font-size: 1rem;
+	color: var(--wp--preset--color--navy);
+	margin: 0 0 0.5rem;
+}
+
+.wi-step__desc {
+	font-size: 0.9rem;
+	color: var(--wp--preset--color--muted);
+	margin: 0;
+	line-height: 1.6;
+}
+
+/* ==========================================================================
    CONTACT FORM SECTION
    ========================================================================== */
 
