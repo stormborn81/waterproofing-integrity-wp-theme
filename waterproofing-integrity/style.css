@@ -1391,14 +1391,9 @@ a:focus-visible {
 
 .wi-office-card__badge {
 	font-family: var(--wp--preset--font-family--raleway);
-	font-size: 0.625rem;
-	font-weight: 700;
-	letter-spacing: 0.06em;
-	text-transform: uppercase;
-	color: var(--wp--preset--color--navy);
-	background: var(--wp--preset--color--gold);
-	padding: 2px 7px;
-	border-radius: 4px;
+	font-size: 0.9375rem;
+	font-weight: 400;
+	color: #2E86AB;
 }
 
 .wi-office-card__row {
@@ -1416,9 +1411,9 @@ a:focus-visible {
 
 .wi-office-card__coverage {
 	font-size: 0.8125rem;
-	font-weight: 600;
-	color: #2E86AB;
-	margin: 0 0 5px;
+	font-weight: 400;
+	color: #6B7E9A;
+	margin: 4px 0 0;
 }
 
 .wi-office-card__tel {
