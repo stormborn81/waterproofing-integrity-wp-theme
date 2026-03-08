@@ -295,6 +295,26 @@ const initNavOverlayClose = () => {
 };
 
 // ---------------------------------------------------------------------------
+// CTA strip "Use the Form" button: smooth scroll to #contact-form
+// Offsets by the sticky nav height so the form isn't hidden behind the header.
+// ---------------------------------------------------------------------------
+
+const initCtaFormScroll = () => {
+	const btn = document.querySelector('.wi-cta-strip__form-btn');
+	if (!btn) return;
+
+	btn.addEventListener('click', (e) => {
+		e.preventDefault();
+		const target = document.getElementById('contact-form');
+		if (!target) return;
+
+		const navHeight = document.querySelector('.wi-site-header')?.offsetHeight || 80;
+		const top = target.getBoundingClientRect().top + window.scrollY - navHeight - 16;
+		window.scrollTo({ top, behavior: 'smooth' });
+	});
+};
+
+// ---------------------------------------------------------------------------
 // FAQ accordion: mutual exclusivity + GTM event tracking
 // Uses native <details>/<summary> — listens to the 'toggle' event which fires
 // after the open state has changed, so item.open reflects the new state.
@@ -364,6 +384,7 @@ const init = () => {
 	initNavOverlayClose();
 	initAnchorScroll();
 	initZohoFormTracking();
+	initCtaFormScroll();
 	initFaqAccordion();
 	initCopyrightYear();
 };
