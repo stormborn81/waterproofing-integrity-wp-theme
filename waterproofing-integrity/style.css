@@ -1320,6 +1320,148 @@ a:focus-visible {
 }
 
 /* ==========================================================================
+   CONTACT BODY SECTION
+   ========================================================================== */
+
+/* Override WP white background preset */
+.wi-contact-body {
+	background: #F2F2F2 !important;
+}
+
+/* Form card */
+.wi-contact-form-card {
+	background: #fff;
+	border-radius: 8px;
+	box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+	padding: 2rem;
+	height: 100%;
+}
+
+.wi-contact-form-card__title {
+	font-family: var(--wp--preset--font-family--raleway);
+	font-weight: 700;
+	font-size: 1.375rem;
+	color: var(--wp--preset--color--navy);
+	margin: 0 0 0.75rem;
+}
+
+.wi-contact-form-card__desc {
+	font-size: 0.9375rem;
+	color: var(--wp--preset--color--muted);
+	line-height: 1.65;
+	margin: 0 0 1.5rem;
+}
+
+/* Offices sidebar heading */
+.wi-offices-sidebar__heading {
+	font-family: var(--wp--preset--font-family--raleway);
+	font-weight: 700;
+	font-size: 1.0625rem;
+	color: var(--wp--preset--color--navy);
+	margin: 0 0 0.75rem;
+}
+
+/* Office card stack */
+.wi-office-cards {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}
+
+.wi-office-card {
+	background: #fff;
+	border-radius: 8px;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+	padding: 14px 16px;
+}
+
+.wi-office-card__header {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	margin-bottom: 8px;
+}
+
+.wi-office-card__city {
+	font-family: var(--wp--preset--font-family--raleway);
+	font-weight: 700;
+	font-size: 0.9375rem;
+	color: var(--wp--preset--color--navy);
+}
+
+.wi-office-card__badge {
+	font-family: var(--wp--preset--font-family--raleway);
+	font-size: 0.625rem;
+	font-weight: 700;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+	color: var(--wp--preset--color--navy);
+	background: var(--wp--preset--color--gold);
+	padding: 2px 7px;
+	border-radius: 4px;
+}
+
+.wi-office-card__row {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	font-size: 0.8125rem;
+	color: var(--wp--preset--color--muted);
+	margin-bottom: 5px;
+}
+
+.wi-office-card__row svg {
+	flex-shrink: 0;
+}
+
+.wi-office-card__coverage {
+	font-size: 0.8125rem;
+	font-weight: 600;
+	color: #2E86AB;
+	margin: 0 0 5px;
+}
+
+.wi-office-card__tel {
+	font-size: 0.8125rem;
+	font-weight: 600;
+	color: var(--wp--preset--color--navy);
+	text-decoration: none;
+}
+
+.wi-office-card__tel:hover {
+	color: var(--wp--preset--color--blue);
+}
+
+/* Offices contact row (email + LinkedIn) */
+.wi-offices-contacts {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	margin-top: 14px;
+	padding-top: 14px;
+	border-top: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.wi-offices-contacts__link {
+	display: flex;
+	align-items: center;
+	gap: 7px;
+	font-size: 0.8125rem;
+	color: var(--wp--preset--color--muted);
+	text-decoration: none;
+	transition: color 0.2s ease;
+	word-break: break-all;
+}
+
+.wi-offices-contacts__link:hover {
+	color: var(--wp--preset--color--navy);
+}
+
+.wi-offices-contacts__link svg {
+	flex-shrink: 0;
+}
+
+/* ==========================================================================
    CONTACT FORM SECTION
    ========================================================================== */
 
