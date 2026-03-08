@@ -1433,8 +1433,6 @@ a:focus-visible {
 	flex-direction: column;
 	gap: 8px;
 	margin-top: 14px;
-	padding-top: 14px;
-	border-top: 1px solid rgba(0, 0, 0, 0.08);
 }
 
 .wi-offices-contacts__link {
@@ -1454,6 +1452,12 @@ a:focus-visible {
 
 .wi-offices-contacts__link svg {
 	flex-shrink: 0;
+	color: #2E86AB;
+}
+
+/* SVG icon colour — all office card icons use currentColor; enforce blue */
+.wi-office-card__row svg {
+	color: #2E86AB;
 }
 
 /* ==========================================================================
