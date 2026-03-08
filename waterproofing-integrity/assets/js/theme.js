@@ -295,6 +295,49 @@ const initNavOverlayClose = () => {
 };
 
 // ---------------------------------------------------------------------------
+// FAQ accordion: mutual exclusivity + GTM event tracking
+// Uses native <details>/<summary> — listens to the 'toggle' event which fires
+// after the open state has changed, so item.open reflects the new state.
+// isProgrammatic flag prevents cascading GTM events when we close siblings.
+// ---------------------------------------------------------------------------
+
+const initFaqAccordion = () => {
+	const lists = document.querySelectorAll('.wi-faq-list');
+	if (!lists.length) return;
+
+	lists.forEach((list) => {
+		const items = list.querySelectorAll('details');
+		let isProgrammatic = false;
+
+		items.forEach((item) => {
+			item.addEventListener('toggle', () => {
+				if (isProgrammatic) return;
+
+				const question = item.querySelector('summary')?.textContent?.trim();
+
+				// Mutual exclusivity: close all siblings when this one opens
+				if (item.open) {
+					isProgrammatic = true;
+					items.forEach((other) => {
+						if (other !== item) {
+							other.removeAttribute('open');
+						}
+					});
+					isProgrammatic = false;
+				}
+
+				pushDataLayer({
+					event: 'accordion_interaction',
+					accordion_action: item.open ? 'open' : 'close',
+					accordion_question: question,
+					accordion_section: 'Common Questions — Contact Page',
+				});
+			});
+		});
+	});
+};
+
+// ---------------------------------------------------------------------------
 // Copyright year: keep footer year current without hardcoding
 // ---------------------------------------------------------------------------
 
@@ -321,6 +364,7 @@ const init = () => {
 	initNavOverlayClose();
 	initAnchorScroll();
 	initZohoFormTracking();
+	initFaqAccordion();
 	initCopyrightYear();
 };
 
