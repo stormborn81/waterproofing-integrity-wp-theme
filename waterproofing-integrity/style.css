@@ -1321,6 +1321,160 @@ a:focus-visible {
 }
 
 /* ==========================================================================
+   ABOUT PAGE HERO
+   ========================================================================== */
+
+.wi-about-hero {
+	position: relative;
+	min-height: 55vh;
+	display: flex;
+	align-items: center;
+	background:
+		linear-gradient(135deg, hsla(218, 47%, 16%, 0.93) 0%, hsla(218, 47%, 24%, 0.87) 100%),
+		url('/wp-content/themes/waterproofing-integrity/assets/images/hero-bg-waterproofing.jpg') center / cover no-repeat;
+	padding: 5rem 1.5rem 3.5rem;
+}
+
+@media (min-width: 768px) {
+	.wi-about-hero {
+		padding: 7rem 2rem 5rem;
+	}
+}
+
+.wi-about-hero__inner {
+	max-width: 1200px;
+	margin: 0 auto;
+	width: 100%;
+}
+
+.wi-about-hero__eyebrow {
+	font-family: var(--wp--preset--font-family--raleway);
+	font-weight: 700;
+	font-size: 0.75rem;
+	letter-spacing: 0.12em;
+	text-transform: uppercase;
+	color: var(--wp--preset--color--gold);
+	margin: 0 0 0.75rem;
+}
+
+.wi-about-hero__heading {
+	font-family: var(--wp--preset--font-family--raleway);
+	font-weight: 800;
+	font-size: clamp(1.75rem, 4vw, 3rem);
+	line-height: 1.15;
+	color: #fff;
+	margin: 0 0 1.25rem;
+}
+
+.wi-about-hero__heading-blue {
+	color: #2E86AB;
+}
+
+.wi-about-hero__desc {
+	font-size: 1rem;
+	color: rgba(255, 255, 255, 0.8);
+	max-width: 560px;
+	line-height: 1.65;
+	margin: 0 0 1.5rem;
+}
+
+@media (min-width: 768px) {
+	.wi-about-hero__desc {
+		font-size: 1.125rem;
+	}
+}
+
+/* Trust-tag pills */
+.wi-about-hero__tags {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.625rem;
+	margin: 0 0 2rem;
+}
+
+.wi-about-hero__tag {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.375rem;
+	background: rgba(255, 255, 255, 0.1);
+	backdrop-filter: blur(4px);
+	-webkit-backdrop-filter: blur(4px);
+	border: 1px solid rgba(255, 255, 255, 0.1);
+	border-radius: 9999px;
+	padding: 0.375rem 0.75rem;
+	font-size: 0.75rem;
+	font-weight: 500;
+	color: rgba(255, 255, 255, 0.9);
+}
+
+.wi-about-hero__tag svg {
+	color: var(--wp--preset--color--gold);
+	flex-shrink: 0;
+}
+
+/* CTA row */
+.wi-about-hero__cta-row {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 1rem;
+	align-items: center;
+}
+
+/* Primary CTA — gold */
+.wi-about-hero__btn-primary {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.5rem;
+	background: var(--wp--preset--color--gold);
+	color: var(--wp--preset--color--navy);
+	font-family: var(--wp--preset--font-family--raleway);
+	font-weight: 700;
+	font-size: 1rem;
+	padding: 14px 28px;
+	border-radius: 4px;
+	text-decoration: none;
+	transition: background 0.2s;
+}
+
+.wi-about-hero__btn-primary:hover {
+	background: var(--wp--preset--color--gold);
+	color: var(--wp--preset--color--navy);
+	text-decoration: none;
+	box-shadow: none;
+}
+
+.wi-about-hero__btn-primary:hover .wi-btn-arrow {
+	transform: translateX(4px);
+}
+
+.wi-btn-arrow {
+	display: inline-block;
+	transition: transform 0.2s ease;
+}
+
+/* Secondary CTA — outline */
+.wi-about-hero__btn-secondary {
+	display: inline-flex;
+	align-items: center;
+	background: transparent;
+	border: 2px solid rgba(255, 255, 255, 0.3);
+	color: #fff;
+	font-family: var(--wp--preset--font-family--raleway);
+	font-weight: 600;
+	font-size: 1rem;
+	padding: 12px 24px;
+	border-radius: 4px;
+	text-decoration: none;
+	transition: background 0.2s;
+}
+
+.wi-about-hero__btn-secondary:hover {
+	background: rgba(255, 255, 255, 0.15);
+	color: #fff;
+	text-decoration: none;
+}
+
+/* ==========================================================================
    CONTACT BODY SECTION
    ========================================================================== */
 
