@@ -1588,66 +1588,89 @@ a:focus-visible {
    CONTACT CTA STRIP
    ========================================================================== */
 
-.wi-cta-strip__layout {
-	display: flex;
-	flex-wrap: wrap;
-	align-items: center;
-	justify-content: space-between;
-	gap: 24px;
+/* Plus-sign SVG texture overlay — same tile as contact hero */
+.wi-contact-cta-strip {
+	position: relative;
+	overflow: hidden;
+}
+
+.wi-contact-cta-strip::before {
+	content: '';
+	position: absolute;
+	inset: 0;
+	background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+	background-repeat: repeat;
+	opacity: 0.03;
+	pointer-events: none;
+	z-index: 0;
+}
+
+.wi-cta-strip__inner {
+	position: relative;
+	z-index: 1;
+	text-align: center;
 }
 
 .wi-cta-strip__title {
 	font-family: var(--wp--preset--font-family--raleway);
 	font-weight: 700;
-	font-size: 1.25rem;
+	font-size: clamp(1.375rem, 3vw, 1.75rem);
 	color: #fff;
-	margin: 0 0 4px;
+	margin: 0 0 0.5rem;
 }
 
 .wi-cta-strip__desc {
 	font-size: 0.9375rem;
-	color: rgba(255, 255, 255, 0.7);
-	margin: 0;
+	color: rgba(255, 255, 255, 0.6);
+	margin: 0 0 1.5rem;
 }
 
-.wi-cta-strip__buttons {
-	display: flex;
-	flex-wrap: wrap;
-	align-items: center;
-	gap: 12px;
-}
-
-/* Gold phone button — extends .cta-button */
-.wi-cta-strip__tel-btn {
-	gap: 8px;
-	padding: 14px 28px;
-	color: var(--wp--preset--color--navy);
-	border-radius: 4px;
-}
-
-.wi-cta-strip__tel-btn:hover {
-	color: var(--wp--preset--color--navy);
-}
-
-/* White outline "Use the Form" button */
-.wi-cta-strip__form-btn {
+/* Large phone tel: link — not a button */
+.wi-cta-strip__tel {
 	display: inline-flex;
 	align-items: center;
+	gap: 10px;
+	color: #fff;
+	font-family: var(--wp--preset--font-family--raleway);
+	font-weight: 800;
+	font-size: clamp(1.5rem, 4vw, 2.25rem);
+	text-decoration: none;
+	transition: color 0.2s ease;
+	margin-bottom: 1.5rem;
+}
+
+.wi-cta-strip__tel:hover {
+	color: var(--wp--preset--color--gold);
+}
+
+.wi-cta-strip__tel svg {
+	flex-shrink: 0;
+}
+
+.wi-cta-strip__actions {
+	margin-top: 0.25rem;
+}
+
+/* White outline "Back to Form" button */
+.wi-cta-strip__back-btn {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
 	background: transparent;
-	border: 2px solid rgba(255, 255, 255, 0.4);
+	border: 2px solid rgba(255, 255, 255, 0.3);
 	color: #fff;
 	font-family: var(--wp--preset--font-family--raleway);
 	font-weight: 600;
 	font-size: 1rem;
-	padding: 12px 28px;
+	padding: 10px 24px;
 	border-radius: 4px;
 	text-decoration: none;
 	transition: background-color 0.2s ease, border-color 0.2s ease;
 }
 
-.wi-cta-strip__form-btn:hover {
+.wi-cta-strip__back-btn:hover {
 	background: rgba(255, 255, 255, 0.1);
-	border-color: rgba(255, 255, 255, 0.65);
+	border-color: rgba(255, 255, 255, 0.6);
 	color: #fff;
 }
 

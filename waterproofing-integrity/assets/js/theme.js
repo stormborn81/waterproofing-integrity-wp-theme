@@ -300,7 +300,7 @@ const initNavOverlayClose = () => {
 // ---------------------------------------------------------------------------
 
 const initCtaFormScroll = () => {
-	const btn = document.querySelector('.wi-cta-strip__form-btn');
+	const btn = document.querySelector('.wi-cta-strip__back-btn');
 	if (!btn) return;
 
 	btn.addEventListener('click', (e) => {
